@@ -1,13 +1,10 @@
 ﻿{
   "name": "ministerio-caminos-de-fe",
-  "version": "2.0.0",
-  "description": "Portal Institucional y Búnker Pastoral del Ministerio Caminos de Fe (SNC 2.0)",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
-  },
+  "version": "1.0.0",
+  "description": "Portal Institucional Ministerio Caminos de Fe",
+  "private": true,
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.1"
+    "@supabase/supabase-js": "^2.112.4",
+    "@travisvn/edge-tts": "^1.0.2"
   }
 }
