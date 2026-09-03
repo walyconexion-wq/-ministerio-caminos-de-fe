@@ -360,7 +360,6 @@
     // 2. Si no hay Supabase o dio error, usar LocalStorage
     if (!items) {
       const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
-    const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
     const localData = localStorage.getItem(STORAGE_KEY);
     if (localData !== null) {
       try {
@@ -471,11 +470,6 @@
           localData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
         } catch (e) {
           localData = [];
-        }
-        const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
-        if (!deleted.includes(id)) {
-          deleted.push(id);
-          localStorage.setItem(DELETED_KEY, JSON.stringify(deleted));
         }
         const updated = localData.filter(i => i.id !== id);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
@@ -678,4 +672,4 @@
   // Carga inicial
   loadGaleriaData();
 
-})();
+}})();

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * COMUNIDAD FARO DE LUZ - MOTOR MAESTRO DE SCROLLYTELLING Y EXPERIENCIA INTERACTIVA
  * Sincronizado con Supabase Cloud, Reloj Digital, Asistente Luz-02 y Galería Multimedia
  */
@@ -458,7 +458,6 @@
 
       if (!fetched) {
         const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
-      const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
       const local = localStorage.getItem(STORAGE_KEY);
       if (local !== null) {
         try {
@@ -687,4 +686,4 @@
     initCommunityForm();
   });
 
-})();
+}})();
