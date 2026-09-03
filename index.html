@@ -71,6 +71,20 @@
     </div>
   </div>
 
+  <!-- PRELOADER EMERGENCY SCRIPT -->
+  <script id="preloader-emergency-script">
+    (function() {
+      setTimeout(function() {
+        var p = document.getElementById('preloader');
+        if (p && p.style.display !== 'none') {
+          p.style.transition = 'opacity 0.4s ease';
+          p.style.opacity = '0';
+          setTimeout(function() { if (p) p.style.display = 'none'; }, 400);
+        }
+      }, 900);
+    })();
+  </script>
+
   <!-- NAVBAR FLOTANTE -->
   <header class="fixed top-4 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-6xl">
     <nav class="backdrop-blur-xl bg-[#0B0F17]/75 border border-white/10 rounded-2xl px-5 py-3.5 flex items-center justify-between shadow-2xl shadow-black/60">

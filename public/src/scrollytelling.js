@@ -1,6 +1,6 @@
-/**
+﻿/**
  * COMUNIDAD FARO DE LUZ - MOTOR MAESTRO DE SCROLLYTELLING Y EXPERIENCIA INTERACTIVA
- * Sincronizado con Supabase Cloud, Reloj Digital, Asistente Luz-02 y Galería Multimedia
+ * Sincronizado con Supabase Cloud, Reloj Digital, Asistente Luz-04 y Galería Multimedia
  */
 
 (function () {
@@ -281,7 +281,7 @@
 
       const indicator = document.createElement('div');
       indicator.className = 'flex gap-2 items-center text-[10px] text-amber-300 font-mono italic p-2';
-      indicator.innerHTML = '<span class="animate-spin text-xs">⚡</span> Luz-02 está procesando respuesta...';
+      indicator.innerHTML = '<span class="animate-spin text-xs">⚡</span> Luz-04 está procesando respuesta...';
       chatBody.appendChild(indicator);
       chatBody.scrollTop = chatBody.scrollHeight;
 
@@ -297,13 +297,13 @@
 
         const reply = data.reply || getLocalFallback(text);
         chatHistory.push({ role: 'assistant', content: reply });
-        appendChatMessage('Luz-02', reply, 'assistant');
+        appendChatMessage('Luz-04', reply, 'assistant');
         reproducirVozHumana(reply);
       } catch (err) {
         indicator.remove();
         const reply = getLocalFallback(text);
         chatHistory.push({ role: 'assistant', content: reply });
-        appendChatMessage('Luz-02', reply, 'assistant');
+        appendChatMessage('Luz-04', reply, 'assistant');
         reproducirVozHumana(reply);
       }
     }
@@ -314,15 +314,15 @@
       div.className = isUser ? 'flex justify-end' : 'flex gap-2.5 items-start';
 
       if (isUser) {
-        div.innerHTML = `<div class="p-3 rounded-2xl rounded-tr-sm bg-purple-600/20 border border-amber-500/30 text-amber-100 max-w-[85%]">${msg}</div>`;
+        div.innerHTML = `<div class="p-3 rounded-2xl rounded-tr-sm bg-amber-500/20 border border-amber-500/30 text-amber-100 max-w-[85%]">${msg}</div>`;
       } else {
         div.innerHTML = `
-          <div class="w-6 h-6 rounded-lg bg-purple-600/20 border border-amber-500/40 text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">L</div>
+          <div class="w-6 h-6 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">L</div>
           <div class="space-y-1.5 max-w-[85%]">
             <div class="p-3 rounded-2xl rounded-tl-sm bg-white/5 border border-white/5 text-slate-200">
               ${msg}
             </div>
-            <button class="btn-play-voice text-[10px] font-mono px-2.5 py-1 rounded-lg bg-purple-600/10 hover:bg-purple-600 hover:text-slate-950 text-amber-300 border border-amber-500/20 flex items-center gap-1.5 transition-all shadow-sm">
+            <button class="btn-play-voice text-[10px] font-mono px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500 hover:text-slate-950 text-amber-300 border border-amber-500/20 flex items-center gap-1.5 transition-all shadow-sm">
               <span>🔊</span>
               <span>Escuchar respuesta</span>
             </button>
@@ -358,7 +358,7 @@
       if (q.includes('shopdigital') || q.includes('sustento') || q.includes('70/20')) {
         return 'Aplicamos la regla 70/20/10: 70% trabajo remoto en ShopDigital (garantiza el fondo común), 20% tareas comunitarias y 10% servicio social y espiritual.';
       }
-      return '¡Hola! Soy Luz-02, ingeniera asistente de la Ministerio Caminos de Fe. Te invito a explorar nuestra web o registrarte en el formulario de contacto para recibir tu Credencial Digital de Miembro.';
+      return '¡Hola! Soy Luz-04, ingeniera asistente de la Ministerio Caminos de Fe. Te invito a explorar nuestra web o registrarte en el formulario de contacto para recibir tu Credencial Digital de Miembro.';
     }
   }
 
@@ -374,7 +374,6 @@
     const lightboxBadge = document.getElementById('lightbox-badge');
 
     const STORAGE_KEY = 'mcf_galeria_live_v1';
-    const DELETED_KEY = 'mcf_galeria_deleted_ids';
 
     const defaultMedia = [
       {
@@ -457,17 +456,17 @@
       }
 
       if (!fetched) {
-        const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
-      const local = localStorage.getItem(STORAGE_KEY);
-      if (local !== null) {
-        try {
-          fetched = JSON.parse(local).filter(i => !deleted.includes(i.id));
-        } catch (e) {
-          fetched = defaultMedia.filter(i => !deleted.includes(i.id));
+        const local = localStorage.getItem(STORAGE_KEY);
+        if (local !== null) {
+          try {
+            fetched = JSON.parse(local);
+          } catch (e) {
+            fetched = defaultMedia;
+          }
+        } else {
+          fetched = defaultMedia;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultMedia));
         }
-      } else {
-        fetched = defaultMedia.filter(i => !deleted.includes(i.id));
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(fetched));
       }
 
       currentList = fetched || defaultMedia;
@@ -508,22 +507,22 @@
               <div class="relative w-full h-48 bg-slate-950 flex items-center justify-center overflow-hidden">
                 <iframe src="${item.url}" class="w-full h-full border-0 pointer-events-none"></iframe>
                 <div class="absolute inset-0 bg-transparent z-10"></div>
-                <div class="w-14 h-14 rounded-full bg-purple-600/20 border border-cyan-400/50 flex items-center justify-center text-purple-300 z-20 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-slate-950 transition-all shadow-lg">▶</div>
-                <span class="absolute top-3 right-3 z-20 px-2 py-0.5 rounded bg-purple-600/80 text-slate-950 font-mono text-[9px] font-bold uppercase">🎬 Video</span>
+                <div class="w-14 h-14 rounded-full bg-cyan-500/20 border border-cyan-400/50 flex items-center justify-center text-cyan-300 z-20 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all shadow-lg">▶</div>
+                <span class="absolute top-3 right-3 z-20 px-2 py-0.5 rounded bg-cyan-500/80 text-slate-950 font-mono text-[9px] font-bold uppercase">🎬 Video</span>
               </div>`;
           } else {
             thumbHtml = `
               <div class="relative w-full h-48 bg-slate-950 flex items-center justify-center overflow-hidden">
                 <video src="${item.url}" class="w-full h-full object-cover"></video>
-                <div class="w-14 h-14 rounded-full bg-purple-600/20 border border-cyan-400/50 flex items-center justify-center text-purple-300 z-20 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-slate-950 transition-all shadow-lg">▶</div>
-                <span class="absolute top-3 right-3 z-20 px-2 py-0.5 rounded bg-purple-600/80 text-slate-950 font-mono text-[9px] font-bold uppercase">🎬 Video</span>
+                <div class="w-14 h-14 rounded-full bg-cyan-500/20 border border-cyan-400/50 flex items-center justify-center text-cyan-300 z-20 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all shadow-lg">▶</div>
+                <span class="absolute top-3 right-3 z-20 px-2 py-0.5 rounded bg-cyan-500/80 text-slate-950 font-mono text-[9px] font-bold uppercase">🎬 Video</span>
               </div>`;
           }
         } else {
           thumbHtml = `
             <div class="relative w-full h-48 bg-slate-950 overflow-hidden">
               <img src="${item.url}" alt="${item.titulo}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://farodeluz.dpdns.org/og-faro.jpg'">
-              <span class="absolute top-3 right-3 px-2 py-0.5 rounded bg-purple-600/80 text-slate-950 font-mono text-[9px] font-bold uppercase">📷 Foto</span>
+              <span class="absolute top-3 right-3 px-2 py-0.5 rounded bg-amber-500/80 text-slate-950 font-mono text-[9px] font-bold uppercase">📷 Foto</span>
             </div>`;
         }
 
@@ -538,7 +537,7 @@
               <h4 class="font-serif text-base font-bold text-white mb-2 line-clamp-1 group-hover:text-amber-300 transition-colors">${item.titulo}</h4>
               <p class="text-xs text-slate-300 line-clamp-2 leading-relaxed text-shadow-faro">${item.descripcion || 'Registro oficial de la Ministerio Caminos de Fe.'}</p>
             </div>
-            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-purple-300">
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-cyan-300">
               <span>Ver en Pantalla Completa</span>
               <span>↗</span>
             </div>
@@ -551,8 +550,8 @@
           lightboxDesc.textContent = item.descripcion || 'Registro oficial de la base de montaña.';
           lightboxBadge.textContent = item.tipo === 'video' ? '🎬 Video' : '📷 Fotografía';
           lightboxBadge.className = item.tipo === 'video'
-            ? 'px-2.5 py-1 rounded bg-purple-600/20 text-purple-300 font-mono text-[10px] uppercase'
-            : 'px-2.5 py-1 rounded bg-purple-600/20 text-amber-300 font-mono text-[10px] uppercase';
+            ? 'px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] uppercase'
+            : 'px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] uppercase';
 
           if (item.tipo === 'video') {
             if (item.url.includes('youtube.com/embed/')) {
@@ -590,10 +589,10 @@
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => {
-          b.classList.remove('bg-purple-600', 'text-slate-950', 'active');
+          b.classList.remove('bg-amber-500', 'text-slate-950', 'active');
           b.classList.add('glass-card-faro', 'text-slate-300');
         });
-        btn.classList.add('bg-purple-600', 'text-slate-950', 'active');
+        btn.classList.add('bg-amber-500', 'text-slate-950', 'active');
         btn.classList.remove('glass-card-faro', 'text-slate-300');
 
         activeCategory = btn.getAttribute('data-category');
@@ -634,7 +633,7 @@
       }
 
       const randomCode = Math.floor(1000 + Math.random() * 9000);
-      const credentialCode = 'FL-2027-' + randomCode;
+      const credentialCode = 'MCF-2027-' + randomCode;
 
       if (supabase) {
         try {
@@ -676,14 +675,21 @@
   window.addEventListener('resize', resizeCanvas);
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  window.addEventListener('DOMContentLoaded', () => {
-    preloadImages();
-    resizeCanvas();
-    requestAnimationFrame(animationLoop);
-    initLiveClock();
-    initLuzAssistant();
-    initGaleriaPublic();
-    initCommunityForm();
-  });
+  function initAll() {
+    try { preloadImages(); } catch(e) { console.warn('Preload:', e); finishLoading(); }
+    try { resizeCanvas(); } catch(e) { console.warn('Canvas:', e); }
+    try { requestAnimationFrame(animationLoop); } catch(e) { console.warn('Loop:', e); }
+    try { initLiveClock(); } catch(e) { console.warn('Clock:', e); }
+    try { initLuzAssistant(); } catch(e) { console.warn('Luz:', e); }
+    try { initGaleriaPublic(); } catch(e) { console.warn('Galeria:', e); }
+    try { initCommunityForm(); } catch(e) { console.warn('Form:', e); }
+    setTimeout(finishLoading, 900);
+  }
 
-}})();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+
+})();
