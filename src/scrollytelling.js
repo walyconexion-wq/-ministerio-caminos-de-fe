@@ -153,7 +153,7 @@
     setInterval(update, 1000);
   }
 
-  // 4. ASISTENTE FLOTANTE LUZ-02 (CONECTADO A /api/chat)
+// 4. ASISTENTE FLOTANTE LUZ-02 (CONECTADO A /api/chat Y /api/tts)
   function initLuzAssistant() {
     const btnToggle = document.getElementById('btn-toggle-luz-chat');
     const btnClose = document.getElementById('btn-close-luz-chat');
@@ -162,9 +162,74 @@
     const chatInput = document.getElementById('luz-chat-input');
     const chatBody = document.getElementById('luz-chat-body');
     const quickChips = document.querySelectorAll('.luz-quick-chip');
+    const btnToggleVoice = document.getElementById('btn-toggle-voice');
 
     let isOpen = false;
     let chatHistory = [];
+    let isVoiceActive = true;
+    let currentAudio = null;
+
+    if (btnToggleVoice) {
+      btnToggleVoice.innerHTML = '<span>🔊</span><span>Voz ON</span>';
+      btnToggleVoice.addEventListener('click', () => {
+        isVoiceActive = !isVoiceActive;
+        if (isVoiceActive) {
+          btnToggleVoice.innerHTML = '<span>🔊</span><span>Voz ON</span>';
+          btnToggleVoice.classList.remove('opacity-50');
+          btnToggleVoice.classList.add('text-amber-300');
+        } else {
+          btnToggleVoice.innerHTML = '<span>🔇</span><span>Voz OFF</span>';
+          btnToggleVoice.classList.add('opacity-50');
+          btnToggleVoice.classList.remove('text-amber-300');
+          if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+          }
+        }
+      });
+    }
+
+    function reproducirVozHumana(texto, triggerBtn) {
+      if (!isVoiceActive && !triggerBtn) return;
+
+      const textoLimpio = texto
+        .replace(/[\u{1F600}-\u{1F64F}|\u{1F300}-\u{1F5FF}|\u{1F680}-\u{1F6FF}|\u{1F1E0}-\u{1F1FF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}]/gu, '')
+        .replace(/[*_#`~<>[\\\]]/g, '')
+        .substring(0, 280)
+        .trim();
+
+      if (!textoLimpio) return;
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+      }
+
+      const audioUrl = `/api/tts?voice=es-AR-ElenaNeural&text=${encodeURIComponent(textoLimpio)}`;
+      const audio = new Audio(audioUrl);
+      currentAudio = audio;
+
+      if (triggerBtn) {
+        const originalHtml = triggerBtn.innerHTML;
+        triggerBtn.innerHTML = '<span class="animate-pulse text-amber-300">⚡ Reproduciendo voz...</span>';
+        triggerBtn.disabled = true;
+
+        audio.onended = () => {
+          triggerBtn.innerHTML = originalHtml;
+          triggerBtn.disabled = false;
+          currentAudio = null;
+        };
+        audio.onerror = () => {
+          triggerBtn.innerHTML = originalHtml;
+          triggerBtn.disabled = false;
+          currentAudio = null;
+        };
+      }
+
+      audio.play().catch(err => {
+        console.log('Reproducción asistida esperando interacción o disponible vía botón:', err);
+      });
+    }
 
     function toggleChat(force) {
       isOpen = typeof force === 'boolean' ? force : !isOpen;
@@ -180,6 +245,10 @@
       } else {
         chatWindow.classList.remove('scale-100', 'opacity-100');
         chatWindow.classList.add('scale-95', 'opacity-0');
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio = null;
+        }
         setTimeout(() => {
           chatWindow.classList.add('hidden');
         }, 300);
@@ -212,7 +281,7 @@
 
       const indicator = document.createElement('div');
       indicator.className = 'flex gap-2 items-center text-[10px] text-amber-300 font-mono italic p-2';
-      indicator.innerHTML = '<span class="animate-spin text-xs">⚡</span> Luz-02 está procesando...';
+      indicator.innerHTML = '<span class="animate-spin text-xs">⚡</span> Luz-02 está procesando respuesta...';
       chatBody.appendChild(indicator);
       chatBody.scrollTop = chatBody.scrollHeight;
 
@@ -229,11 +298,13 @@
         const reply = data.reply || getLocalFallback(text);
         chatHistory.push({ role: 'assistant', content: reply });
         appendChatMessage('Luz-02', reply, 'assistant');
+        reproducirVozHumana(reply);
       } catch (err) {
         indicator.remove();
         const reply = getLocalFallback(text);
         chatHistory.push({ role: 'assistant', content: reply });
         appendChatMessage('Luz-02', reply, 'assistant');
+        reproducirVozHumana(reply);
       }
     }
 
@@ -243,12 +314,27 @@
       div.className = isUser ? 'flex justify-end' : 'flex gap-2.5 items-start';
 
       if (isUser) {
-        div.innerHTML = `<div class="p-3 rounded-2xl rounded-tr-sm bg-amber-500/20 border border-amber-500/30 text-amber-100 max-w-[85%]">${msg}</div>`;
+        div.innerHTML = `<div class="p-3 rounded-2xl rounded-tr-sm bg-purple-600/20 border border-amber-500/30 text-amber-100 max-w-[85%]">${msg}</div>`;
       } else {
         div.innerHTML = `
-          <div class="w-6 h-6 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">L</div>
-          <div class="p-3 rounded-2xl rounded-tl-sm bg-white/5 border border-white/5 text-slate-200 max-w-[85%]">${msg}</div>
+          <div class="w-6 h-6 rounded-lg bg-purple-600/20 border border-amber-500/40 text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">L</div>
+          <div class="space-y-1.5 max-w-[85%]">
+            <div class="p-3 rounded-2xl rounded-tl-sm bg-white/5 border border-white/5 text-slate-200">
+              ${msg}
+            </div>
+            <button class="btn-play-voice text-[10px] font-mono px-2.5 py-1 rounded-lg bg-purple-600/10 hover:bg-purple-600 hover:text-slate-950 text-amber-300 border border-amber-500/20 flex items-center gap-1.5 transition-all shadow-sm">
+              <span>🔊</span>
+              <span>Escuchar respuesta</span>
+            </button>
+          </div>
         `;
+
+        const playBtn = div.querySelector('.btn-play-voice');
+        if (playBtn) {
+          playBtn.addEventListener('click', () => {
+            reproducirVozHumana(msg, playBtn);
+          });
+        }
       }
 
       chatBody.appendChild(div);
@@ -258,10 +344,10 @@
     function getLocalFallback(text) {
       const q = text.toLowerCase();
       if (q.includes('donde') || q.includes('ubicac') || q.includes('mapa') || q.includes('panaholma') || q.includes('brochero')) {
-        return 'La Comunidad Faro de Luz está emplazada en un predio de 1 hectárea con provisión de agua propia en el Valle de Traslasierra, Córdoba, ubicado estratégicamente en el corredor entre Panaholma (a 10 min) y Villa Cura Brochero / Mina Clavero (a 15 min), con acceso consolidado para todo tipo de vehículos y a 2.5 hs de Córdoba Capital.';
+        return 'La Ministerio Caminos de Fe está emplazada en un predio de 1 hectárea con provisión de agua propia en el Valle de Traslasierra, Córdoba, ubicado estratégicamente en el corredor entre Panaholma (a 10 min) y Villa Cura Brochero / Mina Clavero (a 15 min), con acceso consolidado para todo tipo de vehículos y a 2.5 hs de Córdoba Capital.';
       }
       if (q.includes('ecosistema') || q.includes('4 pilares')) {
-        return 'Nuestro Ecosistema está compuesto por 4 pilares: 1) ShopDigital (sustento económico), 2) Comunidad Faro de Luz (base física y Co-Housing), 3) Fundación Valle de Luz (acción social) y 4) Ministerio Caminos de Fe (culto cristiano y formación).';
+        return 'Nuestro Ecosistema está compuesto por 4 pilares: 1) ShopDigital (sustento económico), 2) Ministerio Caminos de Fe (base física y Co-Housing), 3) Fundación Valle de Luz (acción social) y 4) Ministerio Caminos de Fe (culto cristiano y formación).';
       }
       if (q.includes('vision') || q.includes('mision')) {
         return 'Nuestra Visión es ser un modelo pionero de comunidad de montaña autosustentable en Traslasierra. Nuestra Misión es albergar a 6 familias fundadoras que integran fe cristiana, desarrollo en ShopDigital (Regla 70/20/10) y ecotecnología de vanguardia.';
@@ -272,11 +358,11 @@
       if (q.includes('shopdigital') || q.includes('sustento') || q.includes('70/20')) {
         return 'Aplicamos la regla 70/20/10: 70% trabajo remoto en ShopDigital (garantiza el fondo común), 20% tareas comunitarias y 10% servicio social y espiritual.';
       }
-      return '¡Hola! Soy Luz-02, ingeniera asistente de la Comunidad Faro de Luz. Te invito a explorar nuestra web o registrarte en el formulario de contacto para recibir tu Credencial Digital de Miembro.';
+      return '¡Hola! Soy Luz-02, ingeniera asistente de la Ministerio Caminos de Fe. Te invito a explorar nuestra web o registrarte en el formulario de contacto para recibir tu Credencial Digital de Miembro.';
     }
   }
 
-  // 5. GALERÍA PÚBLICA & LIGHTBOX
+// 5. GALERÍA PÚBLICA & LIGHTBOX (SINCRONIZADO CON BÚNKER Y SUPABASE)
   function initGaleriaPublic() {
     const galeriaGrid = document.getElementById('galeria-public-grid');
     const filterBtns = document.querySelectorAll('.galeria-filter-btn');
@@ -287,59 +373,62 @@
     const lightboxDesc = document.getElementById('lightbox-desc');
     const lightboxBadge = document.getElementById('lightbox-badge');
 
+    const STORAGE_KEY = 'mcf_galeria_live_v1';
+    const DELETED_KEY = 'mcf_galeria_deleted_ids';
+
     const defaultMedia = [
       {
-        id: 'm1',
-        titulo: 'Emblema Oficial Faro de Luz 3D',
+        id: 'mcf-item-1',
+        titulo: 'Altar de Adoración en la Montaña',
         tipo: 'foto',
-        url: 'https://farodeluz.dpdns.org/og-faro.jpg',
-        categoria: 'Montaña & Predio',
-        descripcion: 'Insignia dorada en relieve 3D sobre metal oscuro y haces de luz.',
+        url: 'https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&w=1200&q=80',
+        categoria: 'Cultos & Alabanza',
+        descripcion: 'Encuentro de adoración, intercesión y comunión en el Domo Central de Traslasierra.',
         destacado: true
       },
       {
-        id: 'm2',
-        titulo: 'Amanecer en las Altas Cumbres',
+        id: 'mcf-item-2',
+        titulo: 'Culto de Campaña al Aire Libre',
         tipo: 'foto',
-        url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
-        categoria: 'Montaña & Predio',
-        descripcion: 'Vista panorámica de las sierras cordobesas donde se asienta la comunidad.',
+        url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80',
+        categoria: 'Campañas en la Montaña',
+        descripcion: 'Despliegue móvil de sonido en plazas públicas y parajes del valle con la Hilux 4x4.',
         destacado: true
       },
       {
-        id: 'm3',
-        titulo: 'Domo Geodésico y Búnker Central',
+        id: 'mcf-item-3',
+        titulo: 'Generación de Fuego — Discipulado Joven',
         tipo: 'foto',
-        url: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=80',
-        categoria: 'Domo & Obra',
-        descripcion: 'Estructura geodésica central de frecuencia 4/5 para reuniones y telecomunicaciones.',
-        destacado: true
-      },
-      {
-        id: 'm4',
-        titulo: 'Microrred Solar Fotovoltaica 18.4kW',
-        tipo: 'foto',
-        url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
-        categoria: 'Ecotecnología',
-        descripcion: 'Generación solar con banco de baterías de litio 48V para autonomía continua.',
+        url: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80',
+        categoria: 'Discipulado de Jóvenes',
+        descripcion: 'Jóvenes consagrados aprendiendo producción de medios, streaming y música contemporánea.',
         destacado: false
       },
       {
-        id: 'm5',
-        titulo: 'Viviendas Modulares 40ft High Cube',
+        id: 'mcf-item-4',
+        titulo: 'Bautismos y Testimonio en el Río',
         tipo: 'foto',
-        url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80',
-        categoria: 'Domo & Obra',
-        descripcion: 'Montaje sobre pilotes antisísmicos con aislamiento térmico de poliuretano proyectado.',
+        url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+        categoria: 'Testimonios de Fe',
+        descripcion: 'Testimonios vivos de transformación y renovación espiritual en el río Panaholma.',
         destacado: false
       },
       {
-        id: 'm6',
-        titulo: 'Recorrido Panorámico del Valle',
+        id: 'mcf-item-5',
+        titulo: 'Consola Digital 32 CH & Búnker Acústico',
+        tipo: 'foto',
+        url: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80',
+        categoria: 'Música & Sonido',
+        descripcion: 'Procesamiento DSP, monitoreo personal In-Ear y mezcla estéreo para streaming web.',
+        destacado: false
+      },
+      {
+        id: 'mcf-item-6',
+        titulo: 'Transmisión de Culto en Vivo — Altar Central',
         tipo: 'video',
         url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
-        categoria: 'Montaña & Predio',
-        descripcion: 'Registro audiovisual de la geografía y entorno natural de Traslasierra.',
+        categoria: 'Cultos & Alabanza',
+        descripcion: 'Registro audiovisual de cultos dominicales y mensajes del Reino transmitidos al valle.',
         destacado: true
       }
     ];
@@ -349,6 +438,8 @@
 
     async function fetchMedia() {
       if (!galeriaGrid) return;
+      let fetched = null;
+
       if (supabase) {
         try {
           const { data, error } = await supabase
@@ -356,19 +447,48 @@
             .select('*')
             .order('fecha', { ascending: false });
 
-          if (!error && data && data.length > 0) {
-            currentList = data;
+          if (!error && data) {
+            fetched = data;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(fetched));
           }
         } catch (e) {
-          console.warn('Fallback a medios por defecto:', e);
+          console.warn('Fallback a LocalStorage:', e);
         }
       }
+
+      if (!fetched) {
+        const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
+      const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
+      const local = localStorage.getItem(STORAGE_KEY);
+      if (local !== null) {
+        try {
+          fetched = JSON.parse(local).filter(i => !deleted.includes(i.id));
+        } catch (e) {
+          fetched = defaultMedia.filter(i => !deleted.includes(i.id));
+        }
+      } else {
+        fetched = defaultMedia.filter(i => !deleted.includes(i.id));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(fetched));
+      }
+
+      currentList = fetched || defaultMedia;
       render();
     }
 
     function render() {
       if (!galeriaGrid) return;
       galeriaGrid.innerHTML = '';
+
+      if (currentList.length === 0) {
+        galeriaGrid.innerHTML = `
+          <div class="col-span-full text-center p-12 glass-card-faro rounded-3xl space-y-3">
+            <div class="text-3xl">📷</div>
+            <div class="text-white font-serif text-lg font-bold">Galería en Actualización</div>
+            <p class="text-xs text-slate-400">Pronto publicaremos nuevos registros audiovisuales de las obras.</p>
+          </div>
+        `;
+        return;
+      }
 
       const filtered = currentList.filter(item => {
         if (activeCategory === 'todos') return true;
@@ -381,16 +501,32 @@
         card.className = 'glass-card-faro rounded-3xl overflow-hidden shadow-2xl hover:border-amber-500/50 transition-all duration-300 group flex flex-col justify-between transform hover:scale-[1.02] cursor-pointer';
 
         const isVideo = item.tipo === 'video';
-        const thumbHtml = isVideo
-          ? `<div class="relative w-full h-48 bg-slate-950 flex items-center justify-center overflow-hidden">
-               <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-               <div class="w-14 h-14 rounded-full bg-cyan-500/20 border border-cyan-400/50 flex items-center justify-center text-cyan-300 z-20 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all shadow-lg">▶</div>
-               <span class="absolute top-3 right-3 z-20 px-2 py-0.5 rounded bg-cyan-500/80 text-slate-950 font-mono text-[9px] font-bold uppercase">🎬 Video</span>
-             </div>`
-          : `<div class="relative w-full h-48 bg-slate-950 overflow-hidden">
-               <img src="${item.url}" alt="${item.titulo}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://farodeluz.dpdns.org/og-faro.jpg'">
-               <span class="absolute top-3 right-3 px-2 py-0.5 rounded bg-amber-500/80 text-slate-950 font-mono text-[9px] font-bold uppercase">📷 Foto</span>
-             </div>`;
+        let thumbHtml = '';
+
+        if (isVideo) {
+          if (item.url.includes('youtube.com/embed/')) {
+            thumbHtml = `
+              <div class="relative w-full h-48 bg-slate-950 flex items-center justify-center overflow-hidden">
+                <iframe src="${item.url}" class="w-full h-full border-0 pointer-events-none"></iframe>
+                <div class="absolute inset-0 bg-transparent z-10"></div>
+                <div class="w-14 h-14 rounded-full bg-purple-600/20 border border-cyan-400/50 flex items-center justify-center text-purple-300 z-20 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-slate-950 transition-all shadow-lg">▶</div>
+                <span class="absolute top-3 right-3 z-20 px-2 py-0.5 rounded bg-purple-600/80 text-slate-950 font-mono text-[9px] font-bold uppercase">🎬 Video</span>
+              </div>`;
+          } else {
+            thumbHtml = `
+              <div class="relative w-full h-48 bg-slate-950 flex items-center justify-center overflow-hidden">
+                <video src="${item.url}" class="w-full h-full object-cover"></video>
+                <div class="w-14 h-14 rounded-full bg-purple-600/20 border border-cyan-400/50 flex items-center justify-center text-purple-300 z-20 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-slate-950 transition-all shadow-lg">▶</div>
+                <span class="absolute top-3 right-3 z-20 px-2 py-0.5 rounded bg-purple-600/80 text-slate-950 font-mono text-[9px] font-bold uppercase">🎬 Video</span>
+              </div>`;
+          }
+        } else {
+          thumbHtml = `
+            <div class="relative w-full h-48 bg-slate-950 overflow-hidden">
+              <img src="${item.url}" alt="${item.titulo}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://farodeluz.dpdns.org/og-faro.jpg'">
+              <span class="absolute top-3 right-3 px-2 py-0.5 rounded bg-purple-600/80 text-slate-950 font-mono text-[9px] font-bold uppercase">📷 Foto</span>
+            </div>`;
+        }
 
         card.innerHTML = `
           ${thumbHtml}
@@ -398,12 +534,12 @@
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-amber-300 font-mono text-[10px] uppercase">${item.categoria}</span>
-                ${item.destacado ? '<span class="text-amber-400 text-xs">⭐ Destacado</span>' : ''}
+                ${item.destacado ? '<span class="text-amber-400 text-xs font-bold">⭐ Destacado</span>' : ''}
               </div>
               <h4 class="font-serif text-base font-bold text-white mb-2 line-clamp-1 group-hover:text-amber-300 transition-colors">${item.titulo}</h4>
-              <p class="text-xs text-slate-300 line-clamp-2 leading-relaxed text-shadow-faro">${item.descripcion || 'Registro oficial de la Comunidad Faro de Luz.'}</p>
+              <p class="text-xs text-slate-300 line-clamp-2 leading-relaxed text-shadow-faro">${item.descripcion || 'Registro oficial de la Ministerio Caminos de Fe.'}</p>
             </div>
-            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-cyan-300">
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-purple-300">
               <span>Ver en Pantalla Completa</span>
               <span>↗</span>
             </div>
@@ -416,13 +552,15 @@
           lightboxDesc.textContent = item.descripcion || 'Registro oficial de la base de montaña.';
           lightboxBadge.textContent = item.tipo === 'video' ? '🎬 Video' : '📷 Fotografía';
           lightboxBadge.className = item.tipo === 'video'
-            ? 'px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px] uppercase'
-            : 'px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] uppercase';
+            ? 'px-2.5 py-1 rounded bg-purple-600/20 text-purple-300 font-mono text-[10px] uppercase'
+            : 'px-2.5 py-1 rounded bg-purple-600/20 text-amber-300 font-mono text-[10px] uppercase';
 
           if (item.tipo === 'video') {
-            let embedUrl = item.url;
-            if (embedUrl.includes('watch?v=')) embedUrl = embedUrl.replace('watch?v=', 'embed/');
-            lightboxContent.innerHTML = `<iframe src="${embedUrl}?autoplay=1" class="w-full h-[50vh] sm:h-[60vh] border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            if (item.url.includes('youtube.com/embed/')) {
+              lightboxContent.innerHTML = `<iframe src="${item.url}?autoplay=1" class="w-full h-[50vh] sm:h-[60vh] border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+              lightboxContent.innerHTML = `<video src="${item.url}" controls autoplay class="max-h-[65vh] w-full object-contain rounded-xl"></video>`;
+            }
           } else {
             lightboxContent.innerHTML = `<img src="${item.url}" alt="${item.titulo}" class="max-h-[65vh] w-auto object-contain rounded-xl p-2" onerror="this.src='https://farodeluz.dpdns.org/og-faro.jpg'">`;
           }
@@ -453,10 +591,10 @@
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => {
-          b.classList.remove('bg-amber-500', 'text-slate-950', 'active');
+          b.classList.remove('bg-purple-600', 'text-slate-950', 'active');
           b.classList.add('glass-card-faro', 'text-slate-300');
         });
-        btn.classList.add('bg-amber-500', 'text-slate-950', 'active');
+        btn.classList.add('bg-purple-600', 'text-slate-950', 'active');
         btn.classList.remove('glass-card-faro', 'text-slate-300');
 
         activeCategory = btn.getAttribute('data-category');
@@ -521,7 +659,7 @@
 
       if (btnWhatsappDirect) {
         const cleanPhone = telefono.replace(/[^0-9]/g, '');
-        const whatsappMsg = encodeURIComponent('¡Hola Director Waly! Acabo de registrarme en la Comunidad Faro de Luz con la Credencial ' + credentialCode + ' (' + nombre + ' - ' + modalidad + '). Me gustaría recibir más información y estar en contacto.');
+        const whatsappMsg = encodeURIComponent('¡Hola Director Waly! Acabo de registrarme en la Ministerio Caminos de Fe con la Credencial ' + credentialCode + ' (' + nombre + ' - ' + modalidad + '). Me gustaría recibir más información y estar en contacto.');
         btnWhatsappDirect.href = 'https://wa.me/5491100000000?text=' + whatsappMsg;
       }
 

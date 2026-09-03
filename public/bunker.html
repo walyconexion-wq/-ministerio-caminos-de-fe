@@ -6,15 +6,15 @@
   
   <!-- Favicon Pestaña -->
   <link rel="icon" type="image/svg+xml" href="/favicon-mcf.svg" />
-  <link rel="apple-touch-icon" href="/favicon-mcf.svg" />
+  <link rel="apple-touch-icon" href="/og-faro.jpg" />
 
   <!-- Google Brand Card & WhatsApp / Facebook Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://farodeluz.dpdns.org/" />
   <meta property="og:title" content="Ministerio Caminos de Fe — Base Montaña Traslasierra" />
   <meta property="og:description" content="2027 — Unión de fe, ecotecnología y comunidad en el corazón de Traslasierra, Córdoba." />
-  <meta property="og:image" content="https://farodeluz.dpdns.org/favicon-mcf.svg" />
-  <meta property="og:image:secure_url" content="https://farodeluz.dpdns.org/favicon-mcf.svg" />
+  <meta property="og:image" content="https://farodeluz.dpdns.org/og-faro.jpg" />
+  <meta property="og:image:secure_url" content="https://farodeluz.dpdns.org/og-faro.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1024" />
   <meta property="og:image:height" content="1024" />
@@ -25,7 +25,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Ministerio Caminos de Fe — Base Montaña Traslasierra" />
   <meta name="twitter:description" content="2027 — Unión de fe, ecotecnología y comunidad en el corazón de Traslasierra, Córdoba." />
-  <meta name="twitter:image" content="https://farodeluz.dpdns.org/favicon-mcf.svg" />
+  <meta name="twitter:image" content="https://farodeluz.dpdns.org/og-faro.jpg" />
   <title>Búnker Pastoral & Técnico — Ministerio Caminos de Fe</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,11 +44,11 @@
           },
           colors: {
             bunker: {
-              bg: '#070A14',
-              card: '#0D1122',
+              bg: '#06090E',
+              card: '#0D131D',
               border: '#1E293B',
-              accent: '#8B5CF6',
-              gold: '#FBBF24'
+              accent: '#06B6D4',
+              gold: '#E5C07B'
             }
           }
         }
@@ -59,8 +59,8 @@
 <body class="bg-bunker-bg text-slate-100 font-sans min-h-screen selection:bg-purple-600/30 selection:text-cyan-200 overflow-x-hidden">
 
   <!-- 1. PASARELA DE AUTENTICACIÓN (LOGIN MODAL / GATEWAY) -->
-  <div id="auth-gateway" class="fixed inset-0 z-50 bg-[#070A14]/95 backdrop-blur-2xl flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-[#0D1122] border border-purple-500/30 rounded-3xl p-8 shadow-2xl shadow-purple-950/50 text-center relative overflow-hidden">
+  <div id="auth-gateway" class="fixed inset-0 z-50 bg-[#06090E]/95 backdrop-blur-2xl flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-[#0D131D] border border-purple-500/30 rounded-3xl p-8 shadow-2xl shadow-cyan-950/50 text-center relative overflow-hidden">
       
       <!-- Glow superior -->
       <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -69,13 +69,13 @@
         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
       </div>
 
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-600/10 border border-cyan-500/20 text-cyan-300 font-mono text-[10px] uppercase tracking-widest mb-3">
-        🔒 Acceso Privado · Consejo Pastoral
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-600/10 border border-purple-500/20 text-purple-300 font-mono text-[10px] uppercase tracking-widest mb-3">
+        🔒 Acceso Privado · Fundadores
       </div>
 
       <h2 class="font-serif text-2xl font-bold text-white mb-2">Búnker Caminos de Fe</h2>
       <p class="text-xs text-slate-400 mb-6 leading-relaxed">
-        Terminal privada para el Director Waly, el equipo pastoral y los operadores de sonido y streaming.
+        Área restringida para la Dirección General (Director Waly) y los 13 miembros fundadores del Fideicomiso.
       </p>
 
       <div class="space-y-3">
@@ -86,8 +86,8 @@
         </button>
 
         <!-- Modo Simulación de Fundador (Demo Rápida) -->
-        <button id="btn-login-demo" class="w-full py-3 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-white/10 text-cyan-300 font-mono text-xs flex items-center justify-center gap-2 transition-all">
-          <span>✝️ Entrar como Director Waly (Simulación Pastoral)</span>
+        <button id="btn-login-demo" class="w-full py-3 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-white/10 text-purple-300 font-mono text-xs flex items-center justify-center gap-2 transition-all">
+          <span>⚡ Entrar como Director Waly (Simulación)</span>
         </button>
       </div>
 
@@ -106,7 +106,7 @@
     <header class="bg-[#0A0E17] border-b border-bunker-border px-6 py-3.5 flex items-center justify-between sticky top-0 z-30">
       <div class="flex items-center gap-4">
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full overflow-hidden border border-cyan-500/40 flex items-center justify-center bg-black/50 shadow-md">
+          <div class="w-8 h-8 rounded-full overflow-hidden border border-purple-500/40 flex items-center justify-center bg-black/50 shadow-md">
             <img src="/favicon-mcf.svg" alt="Faro de Luz" class="w-full h-full object-cover">
           </div>
           <div>
@@ -170,7 +170,7 @@
               <span class="text-base">👥</span>
               <span>4. Comunidad & Suscripciones</span>
             </div>
-            <span id="badge-postulantes-count" class="px-1.5 py-0.5 rounded-full bg-purple-600/20 text-cyan-300 font-mono text-[10px]">3</span>
+            <span id="badge-postulantes-count" class="px-1.5 py-0.5 rounded-full bg-purple-600/20 text-purple-300 font-mono text-[10px]">3</span>
           </button>
 
           <button <button data-tab="tab-galeria" class="bunker-tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-white/5 transition-all text-left flex justify-between">
@@ -178,7 +178,7 @@
               <span class="text-base">📸</span>
               <span>6. Galería & Multimedia</span>
             </div>
-            <span id="badge-galeria-count" class="px-1.5 py-0.5 rounded-full bg-purple-600/20 text-cyan-300 font-mono text-[10px]">0</span>
+            <span id="badge-galeria-count" class="px-1.5 py-0.5 rounded-full bg-purple-600/20 text-purple-300 font-mono text-[10px]">0</span>
           </button>
 
           <button data-tab="tab-secops" class="bunker-tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-white/5 transition-all text-left">
@@ -205,7 +205,7 @@
               </h3>
               <p class="text-xs text-slate-400">Agente de Triage y Respuestas Inteligentes para la Ministerio Caminos de Fe.</p>
             </div>
-            <span class="px-3 py-1 rounded-full bg-purple-600/10 border border-purple-500/30 text-cyan-300 font-mono text-xs">
+            <span class="px-3 py-1 rounded-full bg-purple-600/10 border border-purple-500/30 text-purple-300 font-mono text-xs">
               Modelo: Gemini 3.7 Flash High
             </span>
           </div>
@@ -215,7 +215,7 @@
             <div class="lg:col-span-2 bg-bunker-card border border-bunker-border rounded-2xl p-4 flex flex-col h-[500px]">
               <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 p-2 font-mono text-xs">
                 <div class="flex gap-3 bg-white/5 p-3 rounded-xl border border-white/5">
-                  <div class="font-bold text-purple-300">[Luz-04]:</div>
+                  <div class="font-bold text-purple-300">[Luz-02]:</div>
                   <div class="text-slate-200">Búnker central sincronizado. Todos los sistemas de telemetría, aspirantes y finanzas del Fideicomiso están activos. ¿Qué orden desea ejecutar, Director?</div>
                 </div>
               </div>
@@ -353,7 +353,7 @@
                   <tr class="hover:bg-white/5">
                     <td class="p-4 font-sans font-semibold text-white">Lucas & Mariana Giménez</td>
                     <td class="p-4">Matrimonio</td>
-                    <td class="p-4 text-cyan-300">💻 Software & Cloud (ShopDigital)</td>
+                    <td class="p-4 text-purple-300">💻 Software & Cloud (ShopDigital)</td>
                     <td class="p-4 text-slate-400">+54 9 351 452-9901</td>
                     <td class="p-4"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px]">En Revisión</span></td>
                     <td class="p-4 text-right"><button class="px-2.5 py-1 rounded bg-slate-800 hover:bg-purple-600 hover:text-slate-950 text-[10px] transition-all">Evaluar</button></td>
@@ -377,59 +377,98 @@
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-white/10">
             <div>
               <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                <span>📸</span> Gestor de Galería Multimedia (Supabase Live)
+                <span>📸</span> Gestor de Galería Multimedia & CMS de la Comunidad
               </h3>
-              <p class="text-xs text-slate-400">Publicá, administrá y actualizá las fotos y videos de la base de montaña en tiempo real.</p>
+              <p class="text-xs text-slate-400">Subí fotos y videos directamente desde tu computadora, o pegá enlaces de YouTube para actualizar la web oficial en vivo.</p>
             </div>
-            <span class="px-3 py-1 rounded-full bg-purple-600/10 border border-purple-500/30 text-cyan-300 font-mono text-xs">
-              ● Storage & DB: Sincronizado
-            </span>
+            <div class="flex items-center gap-2">
+              <span id="galeria-sync-badge" class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs">
+                ● Modo Live: Sincronizado
+              </span>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             <!-- FORMULARIO DE CARGA DE NUEVO MEDIO -->
             <div class="bg-[#0B111A] border border-purple-500/30 rounded-2xl p-5 space-y-4 shadow-xl">
-              <div class="flex items-center gap-2 pb-3 border-b border-white/10">
-                <span class="text-lg">➕</span>
-                <h4 class="font-bold text-white text-sm">Cargar Nuevo Medio</h4>
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">➕</span>
+                  <h4 class="font-bold text-white text-sm">Publicar Foto o Video</h4>
+                </div>
+              </div>
+
+              <!-- SELECTOR DE ORIGEN (ARCHIVO PC VS LINK WEB) -->
+              <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-white/10 text-xs font-semibold">
+                <button type="button" id="btn-tab-file" class="py-2 rounded-lg bg-purple-600 text-slate-950 font-bold transition-all flex items-center justify-center gap-1.5">
+                  <span>📁</span> Desde la PC
+                </button>
+                <button type="button" id="btn-tab-url" class="py-2 rounded-lg text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5">
+                  <span>🔗</span> Enlace Web / YouTube
+                </button>
               </div>
 
               <form id="form-add-media" class="space-y-4 text-xs">
-                <div>
-                  <label class="block text-slate-300 font-semibold mb-1">Título / Avance *</label>
-                  <input type="text" id="media-titulo" required placeholder="Ej: Montaje de módulos 40ft en Traslasierra" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400">
+                
+                <!-- SECCIÓN 1: SUBIR DESDE COMPUTADORA -->
+                <div id="section-upload-file" class="space-y-2">
+                  <label class="block text-slate-300 font-semibold">Seleccionar Foto o Video de tu Equipo *</label>
+                  <div class="relative border-2 border-dashed border-purple-500/40 hover:border-amber-400 rounded-2xl p-4 text-center cursor-pointer bg-slate-900/50 transition-all group" id="drop-zone-media">
+                    <input type="file" id="media-file-input" accept="image/*,video/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <div id="file-placeholder" class="space-y-1">
+                      <div class="text-3xl group-hover:scale-110 transition-transform">📂</div>
+                      <div class="text-slate-200 font-semibold">Hacé clic para elegir archivo</div>
+                      <div class="text-[10px] text-slate-400">JPG, PNG, WebP, MP4 o WebM</div>
+                    </div>
+                    <div id="file-preview-container" class="hidden space-y-2">
+                      <div class="max-h-36 overflow-hidden rounded-xl bg-black/50 border border-white/10 flex items-center justify-center">
+                        <img id="file-preview-img" src="" alt="Preview" class="max-h-36 object-contain hidden">
+                        <video id="file-preview-video" src="" controls class="max-h-36 w-full hidden"></video>
+                      </div>
+                      <div id="file-info-text" class="text-[11px] text-purple-300 font-mono font-semibold truncate"></div>
+                    </div>
+                  </div>
                 </div>
 
+                <!-- SECCIÓN 2: PEGAR ENLACE WEB O YOUTUBE -->
+                <div id="section-upload-url" class="space-y-2 hidden">
+                  <label class="block text-slate-300 font-semibold">URL del Archivo o Video de YouTube *</label>
+                  <input type="url" id="media-url" placeholder="https://... o https://youtube.com/watch?v=..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400">
+                  <p class="text-[10px] text-slate-500">Podés pegar enlaces de fotos web o videos de YouTube (se transforman automáticamente a reproductor).</p>
+                </div>
+
+                <!-- TÍTULO -->
+                <div>
+                  <label class="block text-slate-300 font-semibold mb-1">Título / Avance *</label>
+                  <input type="text" id="media-titulo" required placeholder="Ej: Nueva foto de la base de montaña" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400">
+                </div>
+
+                <!-- TIPO Y CATEGORÍA -->
                 <div class="grid grid-cols-2 gap-2">
                   <div>
-                    <label class="block text-slate-300 font-semibold mb-1">Tipo *</label>
+                    <label class="block text-slate-300 font-semibold mb-1">Tipo de Medio *</label>
                     <select id="media-tipo" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white focus:outline-none focus:border-cyan-400">
                       <option value="foto">📷 Fotografía</option>
-                      <option value="video">🎬 Video (YouTube/MP4)</option>
+                      <option value="video">🎬 Video</option>
                     </select>
                   </div>
                   <div>
                     <label class="block text-slate-300 font-semibold mb-1">Categoría *</label>
-                    <select id="media-categoria" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white focus:outline-none focus:border-cyan-400">
-                      <option value="Montaña & Predio">Montaña & Predio</option>
-                      <option value="Domo & Obra">Domo & Obra</option>
-                      <option value="Ecotecnología">Ecotecnología</option>
-                      <option value="Comunidad">Comunidad</option>
-                      <option value="Dron 4K">Dron 4K</option>
+                    <select id="media-categoria" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white focus:outline-none focus:border-purple-400">
+                      <option value="Cultos & Alabanza">Cultos & Alabanza</option>
+                      <option value="Campañas en la Montaña">Campañas en la Montaña</option>
+                      <option value="Discipulado de Jóvenes">Discipulado de Jóvenes</option>
+                      <option value="Testimonios de Fe">Testimonios de Fe</option>
+                      <option value="Música & Sonido">Música & Sonido</option>
                     </select>
                   </div>
                 </div>
 
-                <div>
-                  <label class="block text-slate-300 font-semibold mb-1">URL del Archivo / Enlace *</label>
-                  <input type="url" id="media-url" required placeholder="https://... o https://youtube.com/watch?v=..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400">
-                  <p class="text-[10px] text-slate-500 mt-1">Podés pegar enlaces directos de imágenes, videos MP4 o enlaces de YouTube.</p>
-                </div>
-
+                <!-- DESCRIPCIÓN -->
                 <div>
                   <label class="block text-slate-300 font-semibold mb-1">Descripción / Bitácora</label>
-                  <textarea id="media-descripcion" rows="2" placeholder="Detalles técnicos, avances de construcción o fecha..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 resize-none"></textarea>
+                  <textarea id="media-descripcion" rows="2" placeholder="Detalles, avances o fecha..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 resize-none"></textarea>
                 </div>
 
                 <div class="flex items-center gap-2">
@@ -437,25 +476,42 @@
                   <label for="media-destacado" class="text-slate-300">Marcar como Destacado ⭐</label>
                 </div>
 
-                <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all">
-                  Guardar y Publicar en la Web 🚀
+                <button type="submit" id="btn-submit-media" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
+                  <span>Guardar y Publicar en la Web</span>
+                  <span>🚀</span>
                 </button>
               </form>
             </div>
 
             <!-- GRILLA DE MEDIOS EN VIVO -->
-            <div class="lg:col-span-2 bg-[#0B111A] border border-white/10 rounded-2xl p-5 space-y-4 shadow-xl">
-              <div class="flex items-center justify-between pb-3 border-b border-white/10">
-                <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                  <span>🖼️</span> Medios Publicados en la Web Oficial
-                </h4>
-                <button id="btn-refresh-galeria" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 font-mono text-[10px] transition-all">
-                  ↻ Refrescar
-                </button>
+            <div class="lg:col-span-2 bg-[#0B111A] border border-white/10 rounded-2xl p-5 space-y-4 shadow-xl flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                      <span>🖼️</span> Medios Publicados en la Web Oficial
+                    </h4>
+                    <span id="badge-galeria-count" class="px-2 py-0.5 rounded-full bg-purple-600/20 text-purple-300 font-mono text-[10px]">6</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button id="btn-reset-default-media" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-mono text-[10px] transition-all" title="Restaurar los 6 medios por defecto">
+                      Restaurar Iniciales
+                    </button>
+                    <button id="btn-refresh-galeria" class="px-3 py-1 rounded-lg bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-slate-950 font-mono text-[10px] font-bold transition-all">
+                      ↻ Refrescar
+                    </button>
+                  </div>
+                </div>
+
+                <!-- CONTENEDOR DE LA GRILLA -->
+                <div id="bunker-galeria-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[560px] overflow-y-auto pr-1 pt-3">
+                  <!-- Renderizado dinámico desde bunker.js -->
+                </div>
               </div>
 
-              <div id="bunker-galeria-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-1">
-                <!-- Inyectado dinámicamente por bunker.js -->
+              <!-- NOTA INFORMATIVA -->
+              <div class="p-3 rounded-xl bg-slate-900/60 border border-white/5 text-[10px] text-slate-400 flex items-center justify-between">
+                <span>💡 Los cambios se sincronizan en tiempo real con la web pública (<a href="https://farodeluz.dpdns.org/#galeria" target="_blank" class="text-purple-300 underline">farodeluz.dpdns.org</a>).</span>
               </div>
             </div>
 
