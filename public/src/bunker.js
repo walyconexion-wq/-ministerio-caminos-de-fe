@@ -432,10 +432,16 @@
         </div>
         <div class="flex items-center justify-between pt-2.5 border-t border-white/10 text-[10px] font-mono">
           <span class="text-slate-500">${new Date(item.fecha || Date.now()).toLocaleDateString('es-AR')}</span>
-          <button class="btn-delete-item px-3 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white transition-all flex items-center gap-1 font-bold" data-id="${item.id}">
-            <span>🗑️</span>
-            <span>Eliminar</span>
-          </button>
+          <div class="flex items-center gap-2">
+            <button class="btn-edit-item px-2.5 py-1.5 rounded-lg bg-purple-500/20 hover:bg-purple-500 text-purple-300 hover:text-slate-950 transition-all flex items-center gap-1 font-bold" data-id="${item.id}" title="Editar foto y texto">
+              <span>✏️</span>
+              <span>Editar</span>
+            </button>
+            <button class="btn-delete-item px-2.5 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white transition-all flex items-center gap-1 font-bold" data-id="${item.id}" title="Eliminar medio">
+              <span>🗑️</span>
+              <span>Eliminar</span>
+            </button>
+          </div>
         </div>
       `;
 
