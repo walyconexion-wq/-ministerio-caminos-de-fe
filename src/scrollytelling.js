@@ -1,6 +1,6 @@
 ﻿/**
  * COMUNIDAD FARO DE LUZ - MOTOR MAESTRO DE SCROLLYTELLING Y EXPERIENCIA INTERACTIVA
- * Sincronizado con Supabase Cloud, Reloj Digital, Asistente Luz-04 y Galería Multimedia
+ * Sincronizado con Supabase Cloud, Reloj Digital, Asistente Asistente Luz y Galería Multimedia
  */
 
 (function () {
@@ -281,7 +281,7 @@
 
       const indicator = document.createElement('div');
       indicator.className = 'flex gap-2 items-center text-[10px] text-amber-300 font-mono italic p-2';
-      indicator.innerHTML = '<span class="animate-spin text-xs">⚡</span> Luz-04 está procesando respuesta...';
+      indicator.innerHTML = '<span class="animate-spin text-xs">⚡</span> Asistente Luz está procesando respuesta...';
       chatBody.appendChild(indicator);
       chatBody.scrollTop = chatBody.scrollHeight;
 
@@ -297,13 +297,13 @@
 
         const reply = data.reply || getLocalFallback(text);
         chatHistory.push({ role: 'assistant', content: reply });
-        appendChatMessage('Luz-04', reply, 'assistant');
+        appendChatMessage('Asistente Luz', reply, 'assistant');
         reproducirVozHumana(reply);
       } catch (err) {
         indicator.remove();
         const reply = getLocalFallback(text);
         chatHistory.push({ role: 'assistant', content: reply });
-        appendChatMessage('Luz-04', reply, 'assistant');
+        appendChatMessage('Asistente Luz', reply, 'assistant');
         reproducirVozHumana(reply);
       }
     }
@@ -317,7 +317,7 @@
         div.innerHTML = `<div class="p-3 rounded-2xl rounded-tr-sm bg-amber-500/20 border border-amber-500/30 text-amber-100 max-w-[85%]">${msg}</div>`;
       } else {
         div.innerHTML = `
-          <div class="w-6 h-6 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">L</div>
+          <div class="w-7 h-7 rounded-lg overflow-hidden border border-amber-500/40 p-1 bg-black/50 shadow-sm flex items-center justify-center shrink-0 mt-0.5"><img src="/favicon-mcf.svg" alt="Cruz" class="w-full h-full object-contain"></div>
           <div class="space-y-1.5 max-w-[85%]">
             <div class="p-3 rounded-2xl rounded-tl-sm bg-white/5 border border-white/5 text-slate-200">
               ${msg}
@@ -358,7 +358,7 @@
       if (q.includes('shopdigital') || q.includes('sustento') || q.includes('70/20')) {
         return 'Aplicamos la regla 70/20/10: 70% trabajo remoto en ShopDigital (garantiza el fondo común), 20% tareas comunitarias y 10% servicio social y espiritual.';
       }
-      return '¡Hola! Soy Luz-04, ingeniera asistente de la Ministerio Caminos de Fe. Te invito a explorar nuestra web o registrarte en el formulario de contacto para recibir tu Credencial Digital de Miembro.';
+      return '¡Hola! Soy el Asistente Luz, de sistemas de culto y sonido del Ministerio Caminos de Fe. Te invito a explorar nuestra web o registrarte en el formulario de contacto para recibir tu Credencial Digital de Miembro.';
     }
   }
 
@@ -675,7 +675,64 @@
   window.addEventListener('resize', resizeCanvas);
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  
+  // 7. SCROLLSPY Y EFECTO ACTIVO EN MENÚ DE NAVEGACIÓN
+  function initScrollSpy() {
+    const navLinks = document.querySelectorAll('#navbar-links .nav-link');
+    if (!navLinks || navLinks.length === 0) return;
+
+    const sections = [];
+    navLinks.forEach(link => {
+      const hash = link.getAttribute('href');
+      if (hash && hash.startsWith('#')) {
+        const sec = document.querySelector(hash);
+        if (sec) {
+          sections.push({ hash, element: sec, link });
+        }
+      }
+    });
+
+    if (sections.length === 0) return;
+
+    function onScrollSpy() {
+      const scrollPos = window.scrollY + window.innerHeight * 0.35;
+      let activeIndex = -1;
+
+      for (let i = 0; i < sections.length; i++) {
+        const top = sections[i].element.offsetTop;
+        const height = sections[i].element.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          activeIndex = i;
+          break;
+        }
+      }
+
+      if (window.scrollY < window.innerHeight * 0.35) {
+        activeIndex = -1;
+      } else if (activeIndex === -1) {
+        for (let i = sections.length - 1; i >= 0; i--) {
+          if (scrollPos >= sections[i].element.offsetTop) {
+            activeIndex = i;
+            break;
+          }
+        }
+      }
+
+      navLinks.forEach((l, idx) => {
+        if (idx === activeIndex) {
+          l.classList.add('nav-link-active');
+        } else {
+          l.classList.remove('nav-link-active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', onScrollSpy, { passive: true });
+    setTimeout(onScrollSpy, 250);
+  }
+
   function initAll() {
+    try { initScrollSpy(); } catch(e) { console.warn("ScrollSpy:", e); }
     try { preloadImages(); } catch(e) { console.warn('Preload:', e); finishLoading(); }
     try { resizeCanvas(); } catch(e) { console.warn('Canvas:', e); }
     try { requestAnimationFrame(animationLoop); } catch(e) { console.warn('Loop:', e); }

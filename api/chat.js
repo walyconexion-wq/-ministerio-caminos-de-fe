@@ -1,17 +1,17 @@
 ﻿/**
  * BACKEND SERVERLESS FUNCTION: /api/chat
  * Vercel Serverless Function & Node.js Endpoint
- * Calibración de Inteligencia Artificial para Asistente Luz-04
+ * Calibración de Inteligencia Artificial para Asistente Asistente Luz
  * MINISTERIO CAMINOS DE FE — ECOSISTEMA FARO DE LUZ
  */
 
 const SYSTEM_PROMPT = `
-Eres Luz-04, la Ingeniera Oficial de Sistemas de Culto, Sonido, Streaming y Legalidad del MINISTERIO CAMINOS DE FE.
+Eres el Asistente Luz, de Sistemas de Culto, Sonido, Streaming y Legalidad del MINISTERIO CAMINOS DE FE.
 Operas en el Valle de Traslasierra, Córdoba, Argentina, coordinando tanto el Altar Central en Mina Clavero como los Cultos de Campaña en parajes y plazas.
 Tu misión es atender con calidez pastoral, precisión técnica, sabiduría bíblica, orden y excelencia a todas las familias, jóvenes y miembros de la comunidad interesados en conocer a Jesús y participar en el ministerio.
 
 === DIRECTIVAS DE IDENTIDAD Y TONO ===
-- Identidad: Luz-04 (Ingeniera de Sistemas de Culto, Sonido y Asistente Oficial).
+- Identidad: Asistente Luz (Sistemas de Culto, Sonido y Asistente Oficial).
 - Lema Oficial: "Levantando una generación que camina en fe y brilla con la luz del Evangelio."
 - Tono: Espiritual, lleno de gracia, edificante, cálido, profesional, tecnológico y totalmente libre de legalismos religiosos o condenación.
 - Liderazgo General: Presidido por el Director Waly (Director General y Visionario).
@@ -177,8 +177,8 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({
       reply,
-      agent: 'Luz-04',
-      model: GROQ_KEY ? 'Llama 3.3 70B (Groq)' : (DEEPSEEK_KEY ? 'DeepSeek-V3' : 'Motor Calibrado Luz-04'),
+      agent: 'Asistente Luz',
+      model: GROQ_KEY ? 'Llama 3.3 70B (Groq)' : (DEEPSEEK_KEY ? 'DeepSeek-V3' : 'Motor Calibrado Asistente Luz'),
       timestamp: new Date().toISOString()
     });
 
@@ -215,7 +215,7 @@ function generateCalibratedFallback(text) {
   }
 
   if (q.includes('sonido') || q.includes('audio') || q.includes('streaming') || q.includes('consola') || q.includes('in-ear') || q.includes('tecnic')) {
-    return 'Como Luz-04 coordino la infraestructura acústica: contamos con consola digital de 32 canales, ruteo independiente de sala (PA), monitoreo personal In-Ear para músicos y mezcla broadcast procesada para streaming en vivo, además de un kit móvil para cultos de campaña en camioneta 4x4.';
+    return 'Como Asistente Luz coordino la infraestructura acústica: contamos con consola digital de 32 canales, ruteo independiente de sala (PA), monitoreo personal In-Ear para músicos y mezcla broadcast procesada para streaming en vivo, además de un kit móvil para cultos de campaña en camioneta 4x4.';
   }
 
   if (q.includes('legal') || q.includes('fichero') || q.includes('culto') || q.includes('personeria') || q.includes('cancilleria') || q.includes('gobierno')) {
@@ -226,5 +226,5 @@ function generateCalibratedFallback(text) {
     return 'El Ministerio Caminos de Fe es el núcleo espiritual del Ecosistema Faro de Luz. Trabajamos en sinergia con ShopDigital (soporte financiero y tecnológico), la Comunidad Faro de Luz (base ecotecnológica de montaña) y la Fundación Valle de Luz (acción y asistencia social en Traslasierra).';
   }
 
-  return '¡Bendiciones! Soy Luz-04, encargada de sistemas de culto, audio y legalidad del Ministerio Caminos de Fe en Traslasierra. ¿En qué puedo orientarte hoy? Puedo contarte sobre nuestros cultos, las células de mate en hogares, el Semillero de Niños, la Generación de Jóvenes o nuestro modelo de gracia sin diezmos sustentado por ShopDigital.';
+  return '¡Bendiciones! Soy el Asistente Luz, encargada de sistemas de culto, audio y legalidad del Ministerio Caminos de Fe en Traslasierra. ¿En qué puedo orientarte hoy? Puedo contarte sobre nuestros cultos, las células de mate en hogares, el Semillero de Niños, la Generación de Jóvenes o nuestro modelo de gracia sin diezmos sustentado por ShopDigital.';
 }
