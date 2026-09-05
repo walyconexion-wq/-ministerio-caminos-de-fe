@@ -244,6 +244,7 @@
     }
 
     function toggleChat(force) {
+      window.toggleLuzChat = toggleChat;
       isOpen = typeof force === 'boolean' ? force : !isOpen;
       if (!chatWindow) return;
 
