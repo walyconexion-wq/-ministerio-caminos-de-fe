@@ -189,12 +189,23 @@
       });
     }
 
-    function reproducirVozHumana(texto, triggerBtn) {
-      if (!isVoiceActive && !triggerBtn) return;
+    // REPRODUCCIÓN AUTOMÁTICA DE VOZ HUMANA (ARGENTINA)
+    let preloadedAudio = null;
+
+    function desbloquearAudioContext() {
+      try {
+        if (!preloadedAudio) {
+          preloadedAudio = new Audio();
+        }
+      } catch (e) {}
+    }
+
+    function reproducirVozHumana(texto) {
+      if (!isVoiceActive) return;
 
       const textoLimpio = texto
         .replace(/[\u{1F600}-\u{1F64F}|\u{1F300}-\u{1F5FF}|\u{1F680}-\u{1F6FF}|\u{1F1E0}-\u{1F1FF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}]/gu, '')
-        .replace(/[*_#`~<>[\\\]]/g, '')
+        .replace(/[*_#`~<>\[\]]/g, '')
         .substring(0, 280)
         .trim();
 
@@ -205,29 +216,28 @@
         currentAudio = null;
       }
 
-      const audioUrl = `/api/tts?voice=es-AR-ElenaNeural&text=${encodeURIComponent(textoLimpio)}`;
+      const audioUrl = '/api/tts?voice=es-AR-ElenaNeural&text=' + encodeURIComponent(textoLimpio);
       const audio = new Audio(audioUrl);
       currentAudio = audio;
 
-      if (triggerBtn) {
-        const originalHtml = triggerBtn.innerHTML;
-        triggerBtn.innerHTML = '<span class="animate-pulse text-amber-300">⚡ Reproduciendo voz...</span>';
-        triggerBtn.disabled = true;
-
-        audio.onended = () => {
-          triggerBtn.innerHTML = originalHtml;
-          triggerBtn.disabled = false;
-          currentAudio = null;
-        };
-        audio.onerror = () => {
-          triggerBtn.innerHTML = originalHtml;
-          triggerBtn.disabled = false;
-          currentAudio = null;
-        };
-      }
-
       audio.play().catch(err => {
-        console.log('Reproducción asistida esperando interacción o disponible vía botón:', err);
+        console.warn('Autoplay Audio bloqueado por navegador, usando SpeechSynthesis nativo:', err);
+        // Fallback nativo automático con voz argentina
+        try {
+          if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(textoLimpio);
+            utterance.lang = 'es-AR';
+            utterance.rate = 1.05;
+            utterance.pitch = 1.0;
+            const voices = window.speechSynthesis.getVoices();
+            const esVoice = voices.find(v => v.lang === 'es-AR') || voices.find(v => v.lang.startsWith('es'));
+            if (esVoice) utterance.voice = esVoice;
+            window.speechSynthesis.speak(utterance);
+          }
+        } catch (speechErr) {
+          console.error('Error en síntesis:', speechErr);
+        }
       });
     }
 
@@ -322,19 +332,9 @@
             <div class="p-3 rounded-2xl rounded-tl-sm bg-white/5 border border-white/5 text-slate-200">
               ${msg}
             </div>
-            <button class="btn-play-voice text-[10px] font-mono px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500 hover:text-slate-950 text-amber-300 border border-amber-500/20 flex items-center gap-1.5 transition-all shadow-sm">
-              <span>🔊</span>
-              <span>Escuchar respuesta</span>
-            </button>
+            
           </div>
         `;
-
-        const playBtn = div.querySelector('.btn-play-voice');
-        if (playBtn) {
-          playBtn.addEventListener('click', () => {
-            reproducirVozHumana(msg, playBtn);
-          });
-        }
       }
 
       chatBody.appendChild(div);
