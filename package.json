@@ -4,6 +4,7 @@
   "description": "Portal Institucional Ministerio Caminos de Fe",
   "private": true,
   "dependencies": {
+    "@andresaya/edge-tts": "^1.8.0",
     "@supabase/supabase-js": "^2.112.4",
     "@travisvn/edge-tts": "^1.0.2"
   }

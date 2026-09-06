@@ -212,7 +212,7 @@
       const textoLimpio = texto
         .replace(/[\u{1F600}-\u{1F64F}|\u{1F300}-\u{1F5FF}|\u{1F680}-\u{1F6FF}|\u{1F1E0}-\u{1F1FF}|\u{2600}-\u{26FF}|\u{2700}-\u{27BF}]/gu, '')
         .replace(/[*_#`~<>\[\]]/g, '')
-        .substring(0, 280)
+        .substring(0, 300)
         .trim();
 
       if (!textoLimpio) return;
@@ -221,25 +221,12 @@
         audioPlayer = new Audio();
       }
 
+      // Endpoint neural con voz humana argentina auténtica (es-AR-ElenaNeural)
       const audioUrl = '/api/tts?voice=es-AR-ElenaNeural&text=' + encodeURIComponent(textoLimpio);
       audioPlayer.src = audioUrl;
 
       audioPlayer.play().catch(err => {
-        console.warn('Autoplay audio falló, activando SpeechSynthesis nativo:', err);
-        try {
-          if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(textoLimpio);
-            utterance.lang = 'es-AR';
-            utterance.rate = 1.05;
-            const voices = window.speechSynthesis.getVoices();
-            const esVoice = voices.find(v => v.lang === 'es-AR') || voices.find(v => v.lang.startsWith('es'));
-            if (esVoice) utterance.voice = esVoice;
-            window.speechSynthesis.speak(utterance);
-          }
-        } catch (speechErr) {
-          console.error('Error en síntesis:', speechErr);
-        }
+        console.warn('Autoplay audio falló:', err);
       });
     }
 
