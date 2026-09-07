@@ -92,39 +92,41 @@
   </script>
 
   <!-- NAVBAR FLOTANTE -->
-  <header class="fixed top-4 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-6xl">
-    <nav class="backdrop-blur-xl bg-[#0B0F17]/75 border border-white/10 rounded-2xl px-5 py-3.5 flex items-center justify-between shadow-2xl shadow-black/60">
-      <a href="#hero" id="header-logo-cross" title="Ministerio Caminos de Fe" class="flex items-center gap-3 group select-none cursor-pointer">
-        <div class="w-10 h-10 rounded-full overflow-hidden border border-amber-400/40 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform flex items-center justify-center bg-black/50">
+  <header class="fixed top-2.5 sm:top-3 left-1/2 -translate-x-1/2 z-40 w-[96%] max-w-6xl">
+    <nav class="backdrop-blur-xl bg-[#0B0F17]/85 border border-white/10 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between shadow-2xl shadow-black/60">
+      <a href="#hero" id="header-logo-cross" title="Ministerio Caminos de Fe" class="flex items-center gap-2.5 group select-none cursor-pointer flex-shrink-0">
+        <div class="w-8 h-8 rounded-full overflow-hidden border border-amber-400/40 shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform flex items-center justify-center bg-black/50">
           <img src="/favicon-mcf.svg" alt="Faro de Luz" class="w-full h-full object-cover">
         </div>
         <div>
-          <span class="font-serif text-sm tracking-wider font-bold text-white block">CAMINOS DE FE</span>
-          <span id="header-live-clock" class="text-[10px] text-amber-300 tracking-wider block font-mono flex items-center gap-1">
+          <span class="font-serif text-xs sm:text-sm tracking-wider font-bold text-white block leading-tight">CAMINOS DE FE</span>
+          <span id="header-live-clock" class="text-[9px] text-amber-300 tracking-wider block font-mono flex items-center gap-1 leading-tight">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             <span id="clock-display">--/--/---- --:--:--</span>
           </span>
         </div>
       </a>
 
-      <div class="hidden lg:flex items-center gap-2.5 xl:gap-4 text-xs font-medium text-slate-300" id="navbar-links">
-        <a href="#mision-vision" class="nav-link hover:text-amber-300">Visión & Misión</a>
-        <a href="#ecosistema" class="nav-link hover:text-cyan-300">Ecosistema</a>
-        <a href="#cultos-campana" class="nav-link hover:text-amber-300">Cultos & Campañas</a>
-        <a href="#gobernanza" class="nav-link hover:text-amber-300">Fichero Legal</a>
-        <a href="#regla-tiempo" class="nav-link hover:text-amber-300">Sustento & Gracia</a>
-        <a href="#ubicacion" class="nav-link hover:text-amber-300">Ubicación</a>
-        <a href="#galeria" class="nav-link hover:text-amber-300">Galería</a>
-        <a href="departamentos.html" class="nav-link hover:text-purple-300">Departamentos</a>
-        <a href="#formacion" class="nav-link hover:text-amber-300">Formación</a>
+      <div class="hidden lg:flex items-center gap-2 xl:gap-3 text-[11px] font-medium text-slate-300 whitespace-nowrap flex-nowrap" id="navbar-links">
+        <a href="#mision-vision" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Visión & Misión</a>
+        <a href="#ecosistema" class="nav-link hover:text-cyan-300 whitespace-nowrap py-1">Ecosistema</a>
+        <a href="#cultos-campana" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Cultos</a>
+        <a href="#gobernanza" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Fichero Legal</a>
+        <a href="#regla-tiempo" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Sustento & Gracia</a>
+        <a href="#ubicacion" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Ubicación</a>
+        <a href="#galeria" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Galería</a>
+        <a href="departamentos.html" class="nav-link text-purple-300 hover:text-purple-200 font-semibold whitespace-nowrap py-1 flex items-center gap-1">
+          <span>Departamentos</span>
+          <span class="text-[9px] bg-purple-500/30 text-purple-200 px-1 rounded">5</span>
+        </a>
       </div>
 
-      <div class="flex items-center gap-2.5">
-        <a href="streaming.html" class="px-3.5 py-2 text-xs font-mono font-semibold rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 hover:bg-rose-500/20 shadow-md transition-all flex items-center gap-1.5">
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <a href="streaming.html" class="px-2.5 sm:px-3 py-1 sm:py-1.5 text-[11px] font-mono font-semibold rounded-lg sm:rounded-xl bg-rose-500/15 border border-rose-500/35 text-rose-300 hover:bg-rose-500/25 shadow-sm transition-all flex items-center gap-1.5 whitespace-nowrap">
           <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
-          🔴 Streaming en Vivo
+          <span>🔴 Streaming en Vivo</span>
         </a>
-        <a href="donaciones.html" class="px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-md shadow-amber-500/20 transition-all flex items-center gap-1.5 transform hover:scale-[1.02] active:scale-[0.98]">
+        <a href="donaciones.html" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-[11px] font-semibold rounded-lg sm:rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-md shadow-amber-500/20 transition-all flex items-center gap-1.5 whitespace-nowrap transform hover:scale-[1.02] active:scale-[0.98]">
           <span>Contacto & Donación</span>
           <span>💝</span>
         </a>
@@ -147,84 +149,110 @@
     <div class="relative z-10 -mt-[100vh]">
 
       <!-- ESCENA 1: HERO (0vh - 120vh) -->
-      <section id="hero" class="min-h-[120vh] flex flex-col items-center justify-center px-4 text-center">
-        <div class="max-w-4xl glass-card-ministerio rounded-3xl p-6 sm:p-10 md:p-12 shadow-2xl transition-all duration-500 transform hover:border-amber-500/30">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono tracking-widest uppercase mb-6">
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+      <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-3 sm:px-4 pt-20 sm:pt-24 pb-6 text-center relative">
+        <div class="max-w-4xl w-full glass-card-ministerio rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-7 shadow-2xl transition-all duration-500 transform hover:border-amber-500/30 backdrop-blur-md">
+          
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] sm:text-xs font-mono tracking-widest uppercase mb-2.5 sm:mb-3">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
             ✝️ Altar de Adoración & Cultos · Valle de Traslasierra, Córdoba
           </div>
-          <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white uppercase drop-shadow-xl mb-6">
-            Ministerio<br><span class="bg-gradient-to-r from-purple-300 via-amber-300 to-amber-100 bg-clip-text text-transparent">Caminos de Fe</span>
+
+          <h1 class="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white uppercase drop-shadow-xl mb-1.5 sm:mb-2 leading-tight">
+            Ministerio <span class="bg-gradient-to-r from-purple-300 via-amber-300 to-amber-100 bg-clip-text text-transparent">Caminos de Fe</span>
           </h1>
-          <p class="text-base sm:text-xl text-slate-200 font-light max-w-2xl mx-auto leading-relaxed drop-shadow">
+
+          <p class="text-xs sm:text-sm md:text-base text-slate-200 font-light max-w-xl mx-auto leading-snug drop-shadow mb-2.5 sm:mb-3">
             "Levantando una generación que camina en fe y brilla con la luz del Evangelio."
           </p>
-          <div class="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs font-medium text-slate-300">
-            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 backdrop-blur">🏔️ Altar Central Mina Clavero</span>
-            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 backdrop-blur">⛺ Cultos de Campaña en Plazas</span>
-            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 backdrop-blur">💻 100% Sustento ShopDigital</span>
+
+          <div class="flex flex-wrap items-center justify-center gap-2 text-[10px] sm:text-xs font-medium text-slate-300 mb-3 sm:mb-3.5">
+            <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 backdrop-blur shadow-sm">🏔️ Altar Central Mina Clavero</span>
+            <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 backdrop-blur shadow-sm">⛺ Cultos de Campaña en Plazas</span>
+            <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 backdrop-blur shadow-sm">💻 100% Sustento ShopDigital</span>
           </div>
-          <!-- SUBMENÚ INTERACTIVO: ESTRUCTURA MINISTERIAL & DEPARTAMENTOS -->
-          <div class="mt-8 pt-6 border-t border-white/10">
-            <div class="text-[11px] font-mono uppercase tracking-widest text-purple-300 mb-3 flex items-center justify-center gap-2">
+
+          <!-- SUBMENÚ INTERACTIVO: BOTONERA DE DEPARTAMENTOS -->
+          <div class="pt-2.5 sm:pt-3 border-t border-white/10">
+            <div class="text-[10px] font-mono uppercase tracking-widest text-purple-300 mb-2 sm:mb-2.5 flex items-center justify-center gap-2">
               <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
               Estructura Departamental & Administración Interna
               <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 max-w-3xl mx-auto text-left">
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-2.5 max-w-3xl mx-auto text-left">
               
-              <a href="departamentos.html#icdd" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-purple-500/20 border border-white/10 hover:border-purple-400/40 transition-all group flex flex-col justify-between shadow-lg">
+              <!-- 1. ICDD -->
+              <a href="departamentos.html#icdd" role="button" title="Instituto de Capacitación y Dirección Divina" class="relative group p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] hover:bg-purple-950/40 border border-purple-500/30 hover:border-purple-400 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_6px_16px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_25px_rgba(168,85,247,0.3)] transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] flex flex-col justify-between cursor-pointer">
                 <div class="flex items-center justify-between mb-1.5">
                   <span class="text-xl group-hover:scale-110 transition-transform">🎓</span>
-                  <span class="text-[9px] font-mono text-purple-300 bg-purple-500/20 px-1.5 py-0.5 rounded">ICDD</span>
+                  <span class="text-[9px] font-mono font-bold text-purple-300 bg-purple-500/20 border border-purple-500/30 px-1.5 py-0.5 rounded shadow-sm">ICDD</span>
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-white group-hover:text-purple-200 transition-colors">Formación</div>
-                  <div class="text-[10px] text-slate-400 leading-tight">Enseñanza & Liderazgo</div>
+                  <div class="text-xs font-bold text-white group-hover:text-purple-200 transition-colors flex items-center justify-between">
+                    <span>Formación</span>
+                    <span class="text-[10px] text-purple-400/50 group-hover:text-purple-300 group-hover:translate-x-0.5 transition-all">→</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400 group-hover:text-slate-300 leading-tight truncate">Enseñanza & Liderazgo</div>
                 </div>
               </a>
 
-              <a href="departamentos.html#dolc" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-400/40 transition-all group flex flex-col justify-between shadow-lg">
+              <!-- 2. DOLC -->
+              <a href="departamentos.html#dolc" role="button" title="Dirección Operativa, Legal y Corporativa" class="relative group p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] hover:bg-cyan-950/40 border border-cyan-500/30 hover:border-cyan-400 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_6px_16px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_25px_rgba(6,182,212,0.3)] transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] flex flex-col justify-between cursor-pointer">
                 <div class="flex items-center justify-between mb-1.5">
                   <span class="text-xl group-hover:scale-110 transition-transform">⚖️</span>
-                  <span class="text-[9px] font-mono text-cyan-300 bg-cyan-500/20 px-1.5 py-0.5 rounded">DOLC</span>
+                  <span class="text-[9px] font-mono font-bold text-cyan-300 bg-cyan-500/20 border border-cyan-500/30 px-1.5 py-0.5 rounded shadow-sm">DOLC</span>
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-white group-hover:text-cyan-200 transition-colors">Administración</div>
-                  <div class="text-[10px] text-slate-400 leading-tight">Legales & Cero Diezmo</div>
+                  <div class="text-xs font-bold text-white group-hover:text-cyan-200 transition-colors flex items-center justify-between">
+                    <span>Administración</span>
+                    <span class="text-[10px] text-cyan-400/50 group-hover:text-cyan-300 group-hover:translate-x-0.5 transition-all">→</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400 group-hover:text-slate-300 leading-tight truncate">Legales & Cero Diezmo</div>
                 </div>
               </a>
 
-              <a href="departamentos.html#dodc" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-amber-500/20 border border-white/10 hover:border-amber-400/40 transition-all group flex flex-col justify-between shadow-lg">
+              <!-- 3. DODC -->
+              <a href="departamentos.html#dodc" role="button" title="Dirección de Orquestación y Desarrollo de Culto" class="relative group p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] hover:bg-amber-950/40 border border-amber-500/30 hover:border-amber-400 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_6px_16px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_25px_rgba(245,158,11,0.3)] transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] flex flex-col justify-between cursor-pointer">
                 <div class="flex items-center justify-between mb-1.5">
                   <span class="text-xl group-hover:scale-110 transition-transform">🕊️</span>
-                  <span class="text-[9px] font-mono text-amber-300 bg-amber-500/20 px-1.5 py-0.5 rounded">DODC</span>
+                  <span class="text-[9px] font-mono font-bold text-amber-300 bg-amber-500/20 border border-amber-500/30 px-1.5 py-0.5 rounded shadow-sm">DODC</span>
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-white group-hover:text-amber-200 transition-colors">Cultos</div>
-                  <div class="text-[10px] text-slate-400 leading-tight">Orquestación & Gracia</div>
+                  <div class="text-xs font-bold text-white group-hover:text-amber-200 transition-colors flex items-center justify-between">
+                    <span>Cultos</span>
+                    <span class="text-[10px] text-amber-400/50 group-hover:text-amber-300 group-hover:translate-x-0.5 transition-all">→</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400 group-hover:text-slate-300 leading-tight truncate">Orquestación & Gracia</div>
                 </div>
               </a>
 
-              <a href="departamentos.html#edd" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-emerald-500/20 border border-white/10 hover:border-emerald-400/40 transition-all group flex flex-col justify-between shadow-lg">
+              <!-- 4. EDD -->
+              <a href="departamentos.html#edd" role="button" title="Evangelismo Dinámico y Difusión" class="relative group p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] hover:bg-emerald-950/40 border border-emerald-500/30 hover:border-emerald-400 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_6px_16px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_25px_rgba(16,185,129,0.3)] transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] flex flex-col justify-between cursor-pointer">
                 <div class="flex items-center justify-between mb-1.5">
                   <span class="text-xl group-hover:scale-110 transition-transform">📢</span>
-                  <span class="text-[9px] font-mono text-emerald-300 bg-emerald-500/20 px-1.5 py-0.5 rounded">EDD</span>
+                  <span class="text-[9px] font-mono font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-500/30 px-1.5 py-0.5 rounded shadow-sm">EDD</span>
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-white group-hover:text-emerald-200 transition-colors">Evangelismo</div>
-                  <div class="text-[10px] text-slate-400 leading-tight">Plazas & Difusión</div>
+                  <div class="text-xs font-bold text-white group-hover:text-emerald-200 transition-colors flex items-center justify-between">
+                    <span>Evangelismo</span>
+                    <span class="text-[10px] text-emerald-400/50 group-hover:text-emerald-300 group-hover:translate-x-0.5 transition-all">→</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400 group-hover:text-slate-300 leading-tight truncate">Plazas & Difusión</div>
                 </div>
               </a>
 
-              <a href="departamentos.html#itmd" class="col-span-2 sm:col-span-1 p-3 rounded-2xl bg-white/[0.04] hover:bg-rose-500/20 border border-white/10 hover:border-rose-400/40 transition-all group flex flex-col justify-between shadow-lg">
+              <!-- 5. ITMD -->
+              <a href="departamentos.html#itmd" role="button" title="Ingeniería de Transmisión y Medios Digitales" class="col-span-2 sm:col-span-1 relative group p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] hover:bg-rose-950/40 border border-rose-500/30 hover:border-rose-400 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_6px_16px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_25px_rgba(244,63,94,0.3)] transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] flex flex-col justify-between cursor-pointer">
                 <div class="flex items-center justify-between mb-1.5">
                   <span class="text-xl group-hover:scale-110 transition-transform">📡</span>
-                  <span class="text-[9px] font-mono text-rose-300 bg-rose-500/20 px-1.5 py-0.5 rounded">ITMD</span>
+                  <span class="text-[9px] font-mono font-bold text-rose-300 bg-rose-500/20 border border-rose-500/30 px-1.5 py-0.5 rounded shadow-sm">ITMD</span>
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-white group-hover:text-rose-200 transition-colors">Streaming</div>
-                  <div class="text-[10px] text-slate-400 leading-tight">Medios & Transmisión</div>
+                  <div class="text-xs font-bold text-white group-hover:text-rose-200 transition-colors flex items-center justify-between">
+                    <span>Streaming</span>
+                    <span class="text-[10px] text-rose-400/50 group-hover:text-rose-300 group-hover:translate-x-0.5 transition-all">→</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400 group-hover:text-slate-300 leading-tight truncate">Medios & Transmisión</div>
                 </div>
               </a>
 
@@ -232,9 +260,9 @@
           </div>
         </div>
 
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-400 animate-bounce pointer-events-none">
-          <span class="text-[11px] font-mono tracking-widest uppercase">Deslizá para conocer la visión del Reino</span>
-          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+        <div class="mt-3 sm:mt-4 flex flex-col items-center gap-1 text-slate-400 animate-bounce pointer-events-none">
+          <span class="text-[9px] sm:text-[10px] font-mono tracking-widest uppercase text-slate-400">Deslizá para conocer la visión del Reino</span>
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
         </div>
       </section>
 
