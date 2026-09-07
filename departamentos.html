@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Departamentos Ministeriales & Protocolos Internos | Ministerio Caminos de Fe</title>
+  <meta name="description" content="Estructura operativa, departamentos internos, protocolos de culto y formación del Ministerio Caminos de Fe en Traslasierra, Córdoba.">
+  <link rel="icon" type="image/svg+xml" href="favicon-mcf.svg">
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            ministerio: {
+              gold: '#FBBF24',
+              purple: '#8B5CF6',
+              deep: '#070A0F',
+              accent: '#C084FC'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- ESTILOS GLOBALES -->
+  <link rel="stylesheet" href="styles/style.css">
+  <style>
+    body {
+      background-color: #070A0F;
+      color: #F8FAFC;
+    }
+    .dept-tab-active {
+      background: rgba(139, 92, 246, 0.25) !important;
+      border-color: #FBBF24 !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 0 25px rgba(251, 191, 36, 0.2) !important;
+    }
+    .badge-gold {
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      color: #FDE68A;
+    }
+    .badge-purple {
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      color: #DDD6FE;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col bg-[#070A0F] text-slate-200">
+
+  <!-- HEADER FIJO -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#070A0F]/85 backdrop-blur-xl border-b border-purple-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3.5 group">
+        <div class="w-10 h-10 rounded-2xl bg-black/60 border border-purple-500/40 p-1 flex items-center justify-center shadow-lg shadow-purple-950/50 group-hover:scale-105 transition-transform">
+          <img src="favicon-mcf.svg" alt="Caminos de Fe" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <span class="font-serif text-sm tracking-wider font-bold text-white block">CAMINOS DE FE</span>
+          <span class="text-[10px] text-amber-300 tracking-wider block font-mono">ESTRUCTURA MINISTERIAL 2027</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-3.5 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all flex items-center gap-2">
+          <span>← Volver al Altar Central</span>
+        </a>
+        <a href="bunker.html" class="hidden sm:flex px-3.5 py-2 text-xs font-mono font-semibold rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 transition-all items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          Búnker Live
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 pt-28 pb-20 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+    
+    <!-- HERO DE LA SECCIÓN -->
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono tracking-widest uppercase mb-4">
+        🏛️ Arquitectura Operativa del Reino · Traslasierra, Córdoba
+      </div>
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-white uppercase drop-shadow-xl mb-4">
+        Departamentos & Protocolos
+      </h1>
+      <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-light">
+        "El que quiera ser el mayor, que sirva a todos." — Estructura ministerial de flujo circular y orden divino, diseñada con la excelencia de una organización moderna y el espíritu puro de gracia.
+      </p>
+    </div>
+
+    <!-- BOTONERA SELECTORA DE DEPARTAMENTOS (TABS) -->
+    <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10">
+      <button onclick="switchDept('icdd')" id="tab-icdd" class="dept-tab dept-tab-active px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold transition-all flex items-center gap-2 hover:border-purple-400/50">
+        <span>🎓</span>
+        <span>1. Formación (ICDD)</span>
+      </button>
+      <button onclick="switchDept('dolc')" id="tab-dolc" class="dept-tab px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold transition-all flex items-center gap-2 hover:border-purple-400/50">
+        <span>⚖️</span>
+        <span>2. Administración (DOLC)</span>
+      </button>
+      <button onclick="switchDept('dodc')" id="tab-dodc" class="dept-tab px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold transition-all flex items-center gap-2 hover:border-purple-400/50">
+        <span>🕊️</span>
+        <span>3. Cultos & Protocolo (DODC)</span>
+      </button>
+      <button onclick="switchDept('edd')" id="tab-edd" class="dept-tab px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold transition-all flex items-center gap-2 hover:border-purple-400/50">
+        <span>📢</span>
+        <span>4. Evangelismo (EDD)</span>
+      </button>
+      <button onclick="switchDept('itmd')" id="tab-itmd" class="dept-tab px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold transition-all flex items-center gap-2 hover:border-purple-400/50">
+        <span>📡</span>
+        <span>5. Streaming (ITMD)</span>
+      </button>
+      <button onclick="switchDept('cohesion')" id="tab-cohesion" class="dept-tab px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold transition-all flex items-center gap-2 hover:border-purple-400/50">
+        <span>🤝</span>
+        <span>Koinonía & Planificación</span>
+      </button>
+    </div>
+
+    <!-- SECCIONES DE CADA DEPARTAMENTO -->
+
+    <!-- 1. ICDD -->
+    <section id="panel-icdd" class="dept-panel space-y-6">
+      <div class="glass-card-ministerio rounded-3xl p-6 sm:p-8 border border-purple-500/30">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-white/10 pb-5">
+          <div>
+            <span class="badge-purple px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-widest block w-fit mb-2">Departamento 1 · Enseñanza</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">Instituto de Capacitación y Dirección Divina (ICDD)</h2>
+          </div>
+          <span class="badge-gold px-3 py-1 rounded-xl text-xs font-mono">"Mi pueblo perece por falta de conocimiento"</span>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed mb-8">
+          El <strong>ICDD</strong> es el motor de crecimiento del ministerio. Nadie opera por ocurrencia o improvisación: cada creyente y colaborador primero se forma, crece y perfecciona sus talentos para alinearse a la visión de gracia antes de servir en el territorio.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="text-2xl mb-3">🌱</div>
+              <h3 class="text-base font-bold text-white mb-2">Escuela "Creciendo con Jesús"</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Taller dinámico de fundamentos de fe, gracia y comunión. Destinado a abrazar, instruir y contener a las personas que recién confiesan a Jesús como Señor.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-purple-300">
+              ✓ Discipulado inicial de gracia
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="text-2xl mb-3">🏔️</div>
+              <h3 class="text-base font-bold text-white mb-2">Liderazgo & Casas de Oración</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Formación pastoral y comunitaria para los líderes de células familiares en los parajes de Traslasierra (El Nono, Panaholma, Villa de Las Rosas, Mina Clavero).
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-purple-300">
+              ✓ Pastoreo horizontal y fraternal
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="text-2xl mb-3">🎵</div>
+              <h3 class="text-base font-bold text-white mb-2">Academia de Artes & Liturgia</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Preparación técnica y espiritual para ministros de alabanza, ujieres de plataforma y directores de culto. Armonía musical y espiritual constante.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-purple-300">
+              ✓ Cero exhibicionismo · Servicio puro
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="text-2xl mb-3">🎬</div>
+              <h3 class="text-base font-bold text-white mb-2">Media Lab & Jóvenes Digitales</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Capacitación práctica para la juventud en manejo de cámaras, consolas digitales, iluminación escénica, streaming en vivo y creación de contenido para redes.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-purple-300">
+              ✓ Generación de Fuego multimedia
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="text-2xl mb-3">🧭</div>
+              <h3 class="text-base font-bold text-white mb-2">Misiones & Conquista Regional</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Entrenamiento estratégico para evangelistas y misioneros comisionados para viajar por el valle y establecer nuevas bases de oración.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-purple-300">
+              ✓ Expansión territorial en montaña
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="text-2xl mb-3">👶</div>
+              <h3 class="text-base font-bold text-white mb-2">Aulas Generacionales & Familia</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Metodologías para maestras de la Escuelita Dominical (Semillero de Fe), talleres de consejería matrimonial y edificación integral del hogar.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-purple-300">
+              ✓ Protección de la niñez y la familia
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. DOLC -->
+    <section id="panel-dolc" class="dept-panel hidden space-y-6">
+      <div class="glass-card-ministerio rounded-3xl p-6 sm:p-8 border border-cyan-500/30">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-white/10 pb-5">
+          <div>
+            <span class="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-widest bg-cyan-500/20 text-cyan-300 block w-fit mb-2">Departamento 2 · Gobernanza</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">Dirección Operativa, Legal y Corporativa (DOLC)</h2>
+          </div>
+          <span class="badge-gold px-3 py-1 rounded-xl text-xs font-mono">"De gracia recibisteis, dad de gracia"</span>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed mb-8">
+          El <strong>DOLC</strong> custodia la pureza financiera y el blindaje jurídico del ministerio. Elimina de raíz cualquier vestigio de codicia o legalismo monetario: la obra de Dios en Traslasierra no cobra diezmos al pueblo porque está financiada por la ingeniería de <strong>ShopDigital</strong>.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          <div class="p-6 rounded-2xl bg-black/40 border border-white/10 hover:border-cyan-500/40 transition-all">
+            <div class="text-2xl mb-3">💻</div>
+            <h3 class="text-base font-bold text-white mb-2">Sustento 100% ShopDigital</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Aplicación estricta de la regla 70/20/10. La empresa de software cubre alquileres, sonido, logística y suministros para que el Evangelio llegue totalmente gratis a cada habitante.
+            </p>
+            <div class="p-2.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-[11px] font-mono text-cyan-200">
+              🚫 Prohibido pedir diezmos en cultos
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-black/40 border border-white/10 hover:border-cyan-500/40 transition-all">
+            <div class="text-2xl mb-3">📜</div>
+            <h3 class="text-base font-bold text-white mb-2">Marco Legal & Fichero de Culto</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Cumplimiento normativo ante la Dirección Nacional de Culto. Contratación obligatoria de seguros de responsabilidad civil para cultos en auditorio y campañas masivas en plazas.
+            </p>
+            <div class="p-2.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-[11px] font-mono text-cyan-200">
+              ⚖️ Cobertura jurídica institucional
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-black/40 border border-white/10 hover:border-cyan-500/40 transition-all">
+            <div class="text-2xl mb-3">🤝</div>
+            <h3 class="text-base font-bold text-white mb-2">Donaciones 100% Auditadas</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Las donaciones voluntarias recibidas a través de la web se derivan de forma pública y auditable hacia el brazo social de la <strong>Fundación Valle de Luz</strong> para merenderos y escuelas de montaña.
+            </p>
+            <div class="p-2.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-[11px] font-mono text-cyan-200">
+              🍲 Destino directo al territorio
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DODC -->
+    <section id="panel-dodc" class="dept-panel hidden space-y-6">
+      <div class="glass-card-ministerio rounded-3xl p-6 sm:p-8 border border-amber-500/30">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-white/10 pb-5">
+          <div>
+            <span class="badge-gold px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-widest block w-fit mb-2">Departamento 3 · Liturgia & Protocolo</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">Dirección de Orquestación y Desarrollo de Culto (DODC)</h2>
+          </div>
+          <span class="badge-purple px-3 py-1 rounded-xl text-xs font-mono">"Dios es Dios de orden y armonía"</span>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed mb-8">
+          El <strong>DODC</strong> garantiza que el servicio sea fluido, armónico y libre de tiempos muertos o desórdenes. La tecnología, el sonido de 32 canales, la iluminación escénica y la ministración operan coordinados para que la persona que viene por primera vez sea recibida con calidez y dignidad.
+        </p>
+
+        <!-- GRID PROTOCOLAR -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10">
+            <span class="text-amber-400 font-mono text-xs font-bold block mb-1">Paso 1 · 20 min</span>
+            <h4 class="text-sm font-bold text-white mb-2">Climatización & Alabanza</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Música de fondo constante. Luces tenues durante la adoración para propiciar intimidad personal con Dios. Cero distracción visual.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10">
+            <span class="text-amber-400 font-mono text-xs font-bold block mb-1">Paso 2 · 25 min</span>
+            <h4 class="text-sm font-bold text-white mb-2">Mensaje de Gracia</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Luces nítidas en el orador. Palabra bíblica clara, concisa, enfocada en la redención y esperanza. Sin pedidos de plata.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10">
+            <span class="text-amber-400 font-mono text-xs font-bold block mb-1">Paso 3 · 20 min</span>
+            <h4 class="text-sm font-bold text-white mb-2">Ministración & Ujieres</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Llamamiento al altar. Los ujieres contienen con mantas y cuidado físico cualquier manifestación, resguardando a las familias.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10">
+            <span class="text-amber-400 font-mono text-xs font-bold block mb-1">Paso 4 · Continuo</span>
+            <h4 class="text-sm font-bold text-white mb-2">Consolidación en el Acto</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Toma de datos digital (nombre, teléfono, necesidad de oración) para iniciar de inmediato el acompañamiento pastoral en amor.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- PROTOCOLOS SAGRADOS -->
+        <div class="p-6 rounded-2xl bg-purple-950/20 border border-purple-500/20">
+          <h3 class="font-serif text-lg font-bold text-amber-300 mb-3">Protocolos Sagrados Especiales</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-300">
+            <div class="p-3 rounded-xl bg-black/30 border border-white/5">
+              <span class="font-bold text-white block mb-1">🍞 Santa Cena:</span>
+              Celebración mensual en reverencia, pan y jugo de uva repartidos por ujieres ordenados en koinonía comunal.
+            </div>
+            <div class="p-3 rounded-xl bg-black/30 border border-white/5">
+              <span class="font-bold text-white block mb-1">🌊 Bautismos en el Río:</span>
+              Inmersión pública en las aguas de Traslasierra como testimonio de muerte al pecado y nueva vida en Cristo.
+            </div>
+            <div class="p-3 rounded-xl bg-black/30 border border-white/5">
+              <span class="font-bold text-white block mb-1">👶 Presentación de Niños:</span>
+              Acto solemne de entrega y bendición de los bebés al cuidado del Señor, orando por los padres.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. EDD -->
+    <section id="panel-edd" class="dept-panel hidden space-y-6">
+      <div class="glass-card-ministerio rounded-3xl p-6 sm:p-8 border border-emerald-500/30">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-white/10 pb-5">
+          <div>
+            <span class="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-widest bg-emerald-500/20 text-emerald-300 block w-fit mb-2">Departamento 4 · Territorio</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">Evangelismo Dinámico y Difusión (EDD)</h2>
+          </div>
+          <span class="badge-gold px-3 py-1 rounded-xl text-xs font-mono">"Por todo el mundo y predicad el Evangelio"</span>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed mb-8">
+          El <strong>EDD</strong> es el brazo de alcance activo. Opera como la comunicación abierta de la iglesia: no busca convencer con debates religiosos, sino demostrar el amor práctico de Cristo en las plazas, las sierras y el entorno digital.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div class="p-6 rounded-2xl bg-black/40 border border-white/10 hover:border-emerald-500/40 transition-all">
+            <div class="text-3xl mb-3">⛺</div>
+            <h3 class="text-lg font-bold text-white mb-2">Cultos de Campaña & Plazas</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Despliegue móvil de sonido, generadores y tarimas en plazas de parajes rurales. Músicos y evangelistas llevando alegría, música viva y oración por los enfermos en la vía pública.
+            </p>
+            <ul class="text-[11px] font-mono text-emerald-300 space-y-1">
+              <li>✓ Misiones en hospitales y centros de salud</li>
+              <li>✓ Ayuda al desamparado en conjunto con la Fundación</li>
+            </ul>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-black/40 border border-white/10 hover:border-emerald-500/40 transition-all">
+            <div class="text-3xl mb-3">📱</div>
+            <h3 class="text-lg font-bold text-white mb-2">Marketing del Reino & Convocatoria</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Campañas de difusión en redes sociales con estética de alta gama. Invitaciones abiertas y empáticas orientadas a familias, adolescentes y jóvenes sin lenguaje condenatorio.
+            </p>
+            <ul class="text-[11px] font-mono text-emerald-300 space-y-1">
+              <li>✓ Segmentación por localidades de Traslasierra</li>
+              <li>✓ Testimonios reales y cápsulas audiovisuales</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ITMD -->
+    <section id="panel-itmd" class="dept-panel hidden space-y-6">
+      <div class="glass-card-ministerio rounded-3xl p-6 sm:p-8 border border-rose-500/30">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-white/10 pb-5">
+          <div>
+            <span class="px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-widest bg-rose-500/20 text-rose-300 block w-fit mb-2">Departamento 5 · Tecnología</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">Ingeniería de Transmisión y Medios Digitales (ITMD)</h2>
+          </div>
+          <span class="badge-gold px-3 py-1 rounded-xl text-xs font-mono">"Señal nítida a todas las naciones"</span>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed mb-8">
+          El <strong>ITMD</strong> une la infraestructura satelital Starlink con equipamiento broadcast profesional (consola de 32 canales, monitoreo in-ear, cámaras HD y conmutación en vivo) para emitir la comunión dominical sin cortes ni interferencias.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div class="p-6 rounded-2xl bg-black/40 border border-white/10 hover:border-rose-500/40 transition-all">
+            <div class="text-3xl mb-3">🎙️</div>
+            <h3 class="text-lg font-bold text-white mb-2">Streaming Web en Directo</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Transmisión simultánea de los cultos dominicales en la plataforma web oficial y canales comunitarios. Acceso para personas imposibilitadas de viajar por salud o distancia.
+            </p>
+            <div class="text-[11px] font-mono text-rose-300">
+              ⚡ Rider: Consola digital 32ch · In-Ears · Video Switcher
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-black/40 border border-white/10 hover:border-rose-500/40 transition-all">
+            <div class="text-3xl mb-3">📺</div>
+            <h3 class="text-lg font-bold text-white mb-2">Producción de Programas Saludables</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Creación de contenidos juveniles, entrevistas de fe, programas de humor sano y música para entretener a la familia con valores constructivos.
+            </p>
+            <div class="text-[11px] font-mono text-rose-300">
+              ⚡ Contenidos libres de toxicidad digital
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. COHESIÓN ESTRATÉGICA -->
+    <section id="panel-cohesion" class="dept-panel hidden space-y-6">
+      <div class="glass-card-ministerio rounded-3xl p-6 sm:p-8 border border-purple-500/30">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-white/10 pb-5">
+          <div>
+            <span class="badge-purple px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-widest block w-fit mb-2">Pilares Transversales</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">Cohesión Estratégica & Integración del Ecosistema</h2>
+          </div>
+          <span class="badge-gold px-3 py-1 rounded-xl text-xs font-mono">"Mirad cuán bueno y cuán delicioso es habitar juntos"</span>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed mb-8">
+          Para garantizar la salud de los servidores y evitar el desgaste pastoral o las disputas de poder, el ministerio cuenta con dos asambleas orgánicas permanentes:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div class="p-6 rounded-3xl bg-black/40 border border-purple-500/30 hover:border-amber-400/40 transition-all">
+            <div class="text-3xl mb-3">🔥</div>
+            <h3 class="text-lg font-bold text-white mb-2">Búnker de Consolidación Ministerial (Koinonía)</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Cultos periódicos exclusivos para los fundadores y colaboradores del ministerio. Espacio de adoración sin protocolo de servicio, ministración personal para sanar el cansancio, comidas compartidas (asados, mateadas) y fortalecimiento de los vínculos fraternales.
+            </p>
+            <div class="text-[11px] font-mono text-purple-300">
+              🛡️ Cuidado pastoral para los que cuidan a otros
+            </div>
+          </div>
+
+          <div class="p-6 rounded-3xl bg-black/40 border border-purple-500/30 hover:border-amber-400/40 transition-all">
+            <div class="text-3xl mb-3">📊</div>
+            <h3 class="text-lg font-bold text-white mb-2">Mesa de Planificación Semanal (Toma Territorial)</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Junta directiva de estilo empresarial donde se analizan las métricas reales que ingresan de las Casas de Oración. Si los datos indican que una localidad crece aceleradamente y otra requiere refuerzo, se toman decisiones de reubicación de talentos y recursos en tiempo real.
+            </p>
+            <div class="text-[11px] font-mono text-amber-300">
+              🎯 Gestión ágil basada en datos y dirección divina
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#05070A] border-t border-white/10 py-10 px-4 text-center">
+    <div class="max-w-4xl mx-auto space-y-4">
+      <div class="font-serif text-sm font-bold text-white">MINISTERIO CAMINOS DE FE</div>
+      <p class="text-xs text-slate-400">
+        Ecosistema Faro de Luz · Traslasierra, Córdoba, Argentina. 100% Sustentado por ShopDigital.
+      </p>
+      <div class="flex items-center justify-center gap-4 text-xs font-mono text-purple-300 pt-2">
+        <a href="index.html" class="hover:underline">Altar Central</a>
+        <span>·</span>
+        <a href="bunker.html" class="hover:underline">Búnker Live</a>
+        <span>·</span>
+        <a href="https://fundacion-valle-de-luz.vercel.app" target="_blank" class="hover:underline">Fundación</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT DE NAVEGACIÓN ENTRE DEPARTAMENTOS -->
+  <script>
+    function switchDept(deptId) {
+      document.querySelectorAll('.dept-panel').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.dept-tab').forEach(t => t.classList.remove('dept-tab-active'));
+      
+      const panel = document.getElementById('panel-' + deptId);
+      const tab = document.getElementById('tab-' + deptId);
+
+      if (panel) panel.classList.remove('hidden');
+      if (tab) tab.classList.add('dept-tab-active');
+
+      // Actualizar hash de URL sin scroll agresivo
+      if (history.replaceState) {
+        history.replaceState(null, null, '#' + deptId);
+      }
+    }
+
+    // Soporte para apertura directa vía ancla (#icdd, #dolc, etc.)
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && document.getElementById('panel-' + hash)) {
+        switchDept(hash);
+      }
+    });
+  </script>
+
+
+  <!-- WIDGET FLOTANTE DE ATENCIÓN: ASISTENTE LUZ-02 -->
+  <div id="luz-assistant-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    
+    <!-- VENTANA DE CHAT DEL ASISTENTE -->
+    <div id="luz-chat-window" class="hidden mb-3 w-[92vw] max-w-[380px] sm:w-[380px] bg-[#0B101A]/95 backdrop-blur-2xl border border-amber-500/30 rounded-3xl shadow-2xl shadow-black/90 flex flex-col overflow-hidden transition-all duration-300 transform scale-95 opacity-0 origin-bottom-right">
+      
+      <!-- HEADER DEL CHAT -->
+      <div class="bg-gradient-to-r from-[#0F172A] to-[#1E1B18] p-4 border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-10 h-10 rounded-2xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1.5">
+              <img src="/favicon-mcf.svg" alt="Cruz Ministerio" class="w-full h-full object-contain">
+            </div>
+            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#0B101A] animate-pulse"></span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h4 class="font-serif text-sm font-bold text-white">Asistente Luz</h4>
+              <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[9px]">EN LÍNEA</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Ingeniería & Departamentos Ministeriales</p>
+          </div>
+        </div>
+        <button type="button" id="btn-close-luz-chat" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- CUERPO DE MENSAJES -->
+      <div id="luz-chat-body" class="p-4 overflow-y-auto h-[380px] max-h-[420px] space-y-3 text-xs leading-relaxed">
+        <div class="flex gap-2.5 items-start">
+          <div class="w-7 h-7 rounded-lg overflow-hidden border border-amber-500/40 p-1 bg-black/50 shadow-sm flex items-center justify-center shrink-0 mt-0.5">
+            <img src="/favicon-mcf.svg" alt="Cruz" class="w-full h-full object-contain">
+          </div>
+          <div class="p-3 rounded-2xl rounded-tl-sm bg-white/5 border border-white/5 text-slate-200">
+            ¡Hola! Soy <strong>Asistente Luz</strong>. ¿Tenés alguna consulta sobre la estructura de los departamentos, el ICDD o el sustento de ShopDigital?
+          </div>
+        </div>
+      </div>
+
+      <!-- INPUT Y ENVIAR -->
+      <form id="luz-chat-form" class="p-3 bg-[#080C14] border-t border-white/10 flex items-center gap-2">
+        <input type="text" id="luz-chat-input" placeholder="Escribí tu consulta sobre los departamentos..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition-all">
+        <button type="submit" class="w-9 h-9 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 flex items-center justify-center shadow-md shadow-amber-500/20 transition-all transform hover:scale-105 active:scale-95 shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+      </form>
+
+    </div>
+
+    <!-- BOTÓN DISPARADOR FLOTANTE -->
+    <button type="button" id="btn-toggle-luz-chat" class="group flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-[#0F172A] to-[#1E1B18] hover:from-[#1E293B] hover:to-[#2A241F] border border-amber-500/40 shadow-2xl shadow-black/80 transition-all transform hover:scale-105 active:scale-95">
+      <div class="relative">
+        <div class="w-9 h-9 rounded-xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1">
+          <img src="/favicon-mcf.svg" alt="Cruz Ministerio" class="w-full h-full object-contain">
+        </div>
+        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+      </div>
+      <div class="text-left hidden sm:block">
+        <div class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors">Asistente Luz</div>
+        <div class="text-[10px] text-slate-400">Consultar Departamentos</div>
+      </div>
+    </button>
+
+  </div>
+
+  <script src="soundFX.js"></script>
+  <script src="src/scrollytelling.js?v=9.0"></script>
+
+</body>
+</html>
