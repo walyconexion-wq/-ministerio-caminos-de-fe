@@ -645,36 +645,68 @@
               </div>
             </div>
 
-            <!-- TARJETA 2: MAPA INTERACTIVO GLASSMORPHIC (7 Columnas) -->
-            <div class="lg:col-span-7 glass-card-ministerio rounded-3xl p-3 sm:p-4 shadow-2xl flex flex-col justify-between relative overflow-hidden min-h-[420px]">
+                        <!-- TARJETA 2: MAPA SATELITAL DE ALTO RENDIMIENTO (7 Columnas) -->
+            <div class="lg:col-span-7 glass-card-ministerio rounded-3xl p-3 sm:p-5 shadow-2xl flex flex-col justify-between relative overflow-hidden min-h-[420px]">
               
-              <!-- Badge Flotante de Ubicación -->
-              <div class="absolute top-6 left-6 z-20 px-3.5 py-2 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-amber-500/40 text-white font-mono text-xs shadow-2xl flex items-center gap-2.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-                <span>📍 <strong>Ministerio Caminos de Fe</strong> (Traslasierra)</span>
+              <!-- Contenedor del Mapa Satelital Optimizado -->
+              <div id="map-display-container" class="w-full h-full min-h-[360px] rounded-2xl overflow-hidden border border-white/15 relative group bg-slate-950 shadow-inner">
+                
+                <!-- Imagen Satelital Ultra-Rápida (0ms de carga) -->
+                <img 
+                  src="mapa-traslasierra-satelital.jpg" 
+                  alt="Mapa Satelital Traslasierra Panaholma Córdoba" 
+                  class="w-full h-[360px] sm:h-[400px] object-cover object-center filter contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-700" 
+                  loading="lazy">
+                
+                <!-- Viñeta degradada cinemática -->
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/50 pointer-events-none"></div>
+
+                <!-- HUD Superior: Coordenadas & Altitud -->
+                <div class="absolute top-4 left-4 z-20 px-3 py-1.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-white/15 text-white font-mono text-[10px] sm:text-xs shadow-xl flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>GPS: 31°39'S 65°02'W · 980 msnm</span>
+                </div>
+
+                <!-- Pin Radar Pulsante sobre Panaholma (Base Ministerial) -->
+                <div class="absolute top-[17%] left-[39%] transform -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center pointer-events-none">
+                  <span class="relative flex h-7 w-7">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-80"></span>
+                    <span class="relative inline-flex rounded-full h-7 w-7 bg-gradient-to-r from-amber-500 to-amber-600 border-2 border-white shadow-xl shadow-amber-500/60 items-center justify-center text-xs">✝️</span>
+                  </span>
+                  <div class="mt-1 px-2.5 py-0.5 rounded-full bg-slate-950/90 border border-amber-400/50 backdrop-blur-md text-[10px] font-mono font-bold text-amber-300 shadow-2xl whitespace-nowrap">
+                    Base Panaholma
+                  </div>
+                </div>
+
+                <!-- Indicador de Vía Altas Cumbres -->
+                <div class="absolute bottom-4 right-4 z-20 hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-950/80 backdrop-blur-md border border-white/10 text-[10px] font-mono text-slate-300 shadow-md">
+                  <span>🏔️ Corredor Altas Cumbres → Córdoba Capital</span>
+                </div>
+
+                <!-- Botón Flotante para Activar Iframe en Vivo On-Demand -->
+                <button 
+                  type="button" 
+                  onclick="loadLiveMap()" 
+                  id="btn-live-map-toggle" 
+                  title="Cargar Google Maps dinámico interactivo"
+                  class="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-xl bg-slate-900/85 hover:bg-slate-800 border border-white/20 text-cyan-300 hover:text-white text-[10px] font-mono transition-all flex items-center gap-1.5 shadow-lg backdrop-blur-md">
+                  <span>🛰️ Ver Mapa en Vivo</span>
+                </button>
               </div>
 
-              <!-- Iframe de Google Maps -->
-              <div class="w-full h-full min-h-[360px] rounded-2xl overflow-hidden border border-white/10 relative">
-                <iframe 
-                  src="https://maps.google.com/maps?q=Panaholma,+Cordoba,+Argentina&t=k&z=12&ie=UTF8&iwloc=&output=embed" 
-                  class="w-full h-full min-h-[360px] border-0 filter contrast-125 opacity-90 hover:opacity-100 transition-opacity" 
-                  allowfullscreen="" 
-                  loading="lazy" 
-                  referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-              </div>
-
-              <!-- Barra Inferior de Navegación Externa -->
-              <div class="pt-3 px-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-                <span class="text-slate-400 text-[11px] font-mono">Vista Satelital / Topográfica de Traslasierra</span>
+              <!-- Barra Inferior de Navegación Externa con Botón 3D -->
+              <div class="pt-3.5 px-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                <span class="text-slate-400 text-[11px] font-mono flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                  Fotografía Satelital Oficial de Traslasierra
+                </span>
                 <a 
                   href="https://maps.google.com/?q=Panaholma,+Cordoba,+Argentina" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  class="px-4 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500 border border-amber-500/30 text-amber-300 hover:text-slate-950 font-mono font-semibold text-xs transition-all flex items-center gap-1.5 shadow-md">
-                  <span>Abrir en Google Maps</span>
-                  <span>↗</span>
+                  class="group/btn relative py-2.5 px-4 rounded-xl bg-gradient-to-b from-amber-300 via-amber-400 to-amber-500 hover:from-amber-200 hover:to-amber-400 text-slate-950 font-bold text-xs font-mono tracking-wide transition-all duration-150 flex items-center justify-center gap-2 shadow-[0_3px_0_#b45309,0_8px_16px_rgba(245,158,11,0.35),inset_0_1px_0_rgba(255,255,255,0.7)] active:translate-y-0.5 active:shadow-[0_0_0_#b45309] hover:scale-[1.02] cursor-pointer">
+                  <span>Abrir en Google Maps GPS</span>
+                  <span class="text-sm font-black transition-transform duration-200 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5">↗</span>
                 </a>
               </div>
 
@@ -1070,5 +1102,13 @@
     })();
   </script>
   <script src="soundFX.js"></script>
+
+  <script>
+    function loadLiveMap() {
+      const container = document.getElementById('map-display-container');
+      if (!container) return;
+      container.innerHTML = '<iframe src="https://maps.google.com/maps?q=Panaholma,+Cordoba,+Argentina&t=k&z=12&ie=UTF8&iwloc=&output=embed" class="w-full h-full min-h-[360px] sm:min-h-[400px] border-0 filter contrast-125" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+    }
+  </script>
 </body>
 </html>
