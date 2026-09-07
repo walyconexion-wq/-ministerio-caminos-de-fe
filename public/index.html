@@ -464,73 +464,114 @@
         </div>
       </section>
 
-      <!-- ESCENA: REGLA 70/20/10 Y BLINDAJE LEGAL -->
+            <!-- ESCENA: REGLA 70/20/10 Y BLINDAJE LEGAL -->
       <section id="regla-tiempo" class="min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16">
-        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
           
-          <!-- Tarjeta: Regla de Oro 70/20/10 -->
-          <div class="glass-card-ministerio border-amber-500/35 rounded-3xl p-6 sm:p-7 shadow-2xl flex flex-col justify-between">
+          <!-- Tarjeta 1: Regla de Oro 70/20/10 & Sustento de Gracia -->
+          <div class="glass-card-ministerio border-amber-500/35 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col justify-between h-full hover:border-amber-400/50 transition-all">
             <div>
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-[11px] font-mono uppercase tracking-widest mb-4">
-                ⏱️ Sustento & Principio de Gracia
+              <div class="flex items-center justify-between mb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] font-mono uppercase tracking-widest">
+                  ⏱️ Sustento & Principio de Gracia
+                </div>
+                <span class="text-xs font-mono font-bold text-amber-400/80 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">70 / 20 / 10</span>
               </div>
-              <h3 class="font-serif text-2xl font-bold text-white mb-4">Sustento 100% ShopDigital & Cero Diezmos Obligatorios</h3>
+
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4 leading-snug">
+                Sustento 100% ShopDigital & Cero Diezmos
+              </h3>
               
               <div class="space-y-3 text-xs">
-                <div class="p-3.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30">
+                <!-- 70% ShopDigital -->
+                <div class="p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-500/30">
                   <div class="flex justify-between font-bold text-cyan-300 mb-1">
-                    <span>⚡ 70% — Desarrollo Digital</span>
-                    <span class="font-mono">ShopDigital</span>
+                    <span>⚡ 70% — Desarrollo Tecnológico</span>
+                    <span class="font-mono text-[10px] bg-cyan-500/20 px-1.5 py-0.5 rounded">ShopDigital</span>
                   </div>
-                  <p class="text-slate-300">Software, IA, Cloud y soporte que provee el 100% del sustento económico.</p>
+                  <p class="text-slate-300 leading-relaxed">Software, automatizaciones e IA que generan el 100% del sustento económico del ministerio.</p>
                 </div>
 
-                <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30">
+                <!-- 20% Faro de Luz -->
+                <div class="p-3.5 rounded-2xl bg-amber-950/40 border border-amber-500/30">
                   <div class="flex justify-between font-bold text-amber-300 mb-1">
                     <span>🏡 20% — Mantenimiento Comunal</span>
-                    <span class="font-mono">Faro de Luz</span>
+                    <span class="font-mono text-[10px] bg-amber-500/20 px-1.5 py-0.5 rounded">Faro de Luz</span>
                   </div>
-                  <p class="text-slate-300">Energía, red hídrica, logística, despensa y tareas del búnker.</p>
+                  <p class="text-slate-300 leading-relaxed">Energía solar, red hídrica, logística de montaña, despensa y tareas del búnker central.</p>
                 </div>
 
-                <div class="p-3.5 rounded-xl bg-purple-950/30 border border-purple-500/30">
-        <div class="flex justify-between font-bold text-purple-300 mb-1">
-          <span>🚫 Cero Diezmos Obligatorios</span>
-          <span class="font-mono">Gracia Plena</span>
-        </div>
-        <p class="text-slate-300">"De gracia recibisteis, dad de gracia." Queda prohibida la coacción monetaria. Las ofrendas voluntarias van 100% a la Fundación Valle de Luz.</p>
-      </div>
-                  <p class="text-slate-300">Apoyo a parajes vulnerables de Traslasierra y cultos de campaña.</p>
+                <!-- Cero Diezmos Obligatorios -->
+                <div class="p-3.5 rounded-2xl bg-purple-950/40 border border-purple-500/30">
+                  <div class="flex justify-between font-bold text-purple-300 mb-1">
+                    <span>🚫 Cero Diezmos Obligatorios</span>
+                    <span class="font-mono text-[10px] bg-purple-500/20 px-1.5 py-0.5 rounded">Gracia Plena</span>
+                  </div>
+                  <p class="text-slate-300 leading-relaxed">"De gracia recibisteis, dad de gracia." Queda prohibida la coacción monetaria. Las ofrendas voluntarias van 100% a la Fundación Valle de Luz.</p>
                 </div>
               </div>
             </div>
+
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <span class="flex items-center gap-1.5 text-amber-300">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                Autonomía Financiera
+              </span>
+              <span>100% Gracia de Dios</span>
+            </div>
           </div>
 
-          <!-- Tarjeta: Fideicomiso Co-Housing & Legalidad -->
-          <div id="legalidad" class="glass-card-ministerio rounded-3xl p-6 sm:p-7 shadow-2xl flex flex-col justify-between">
+          <!-- Tarjeta 2: Fideicomiso Co-Housing & Legalidad -->
+          <div id="legalidad" class="glass-card-ministerio border-emerald-500/35 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col justify-between h-full hover:border-emerald-400/50 transition-all">
             <div>
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-[11px] font-mono uppercase tracking-widest mb-4">
-                📜 Blindaje Territorial
+              <div class="flex items-center justify-between mb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] font-mono uppercase tracking-widest">
+                  📜 Blindaje Territorial & Jurídico
+                </div>
+                <span class="text-xs font-mono font-bold text-emerald-400/80 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Ley 21.745</span>
               </div>
-              <h3 class="font-serif text-2xl font-bold text-white mb-3">Registro Nacional de Cultos (Secretaría de Culto)</h3>
-              <p class="text-xs text-slate-300 leading-relaxed mb-4">
-                Estructuración jurídica en la <strong>Provincia de Córdoba ante la IPJ</strong> (Código Civil y Comercial de la Nación, Arts. 193-224) para proteger la hectárea y las viviendas de forma colectiva y transparente.
+
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4 leading-snug">
+                Registro Nacional de Cultos (Secretaría de Culto)
+              </h3>
+
+              <p class="text-xs text-slate-300 leading-relaxed mb-5">
+                Estructuración jurídica en la <strong>Provincia de Córdoba ante la IPJ</strong> (Código Civil y Comercial de la Nación, Arts. 193-224) para proteger la hectárea y las instalaciones de forma colectiva, transparente y blindada.
               </p>
 
-              <div class="space-y-2 text-xs text-slate-400 border-t border-white/10 pt-4">
-                <div class="flex items-start gap-2">
-                  <span class="text-emerald-400 font-bold">✓</span>
-                  <span><strong>Fichero de Cultos: Inscripto bajo Ley 21.745 para culto público y personería oficial.</span>
+              <div class="space-y-3 text-xs">
+                <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/20 flex items-start gap-3">
+                  <span class="text-emerald-400 font-bold text-base leading-none">✓</span>
+                  <div>
+                    <span class="font-bold text-white block mb-0.5">Fichero Nacional de Cultos</span>
+                    <span class="text-slate-300">Inscripto bajo Ley 21.745 para culto público, ministración sagrada y personería oficial.</span>
+                  </div>
                 </div>
-                <div class="flex items-start gap-2">
-                  <span class="text-emerald-400 font-bold">✓</span>
-                  <span><strong>Comisión Directiva Fundacional: Presidida por el Director Waly (12-13 fundadores).</span>
+
+                <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/20 flex items-start gap-3">
+                  <span class="text-emerald-400 font-bold text-base leading-none">✓</span>
+                  <div>
+                    <span class="font-bold text-white block mb-0.5">Comisión Directiva Fundacional</span>
+                    <span class="text-slate-300">Presidida por el Director General (Director Waly) con consejo de ancianos y líderes.</span>
+                  </div>
                 </div>
-                <div class="flex items-start gap-2">
-                  <span class="text-emerald-400 font-bold">✓</span>
-                  <span><strong>Plan de Acción Trienal:</strong> Certificado por Contador Público ante Cancillería Argentina.</span>
+
+                <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/20 flex items-start gap-3">
+                  <span class="text-emerald-400 font-bold text-base leading-none">✓</span>
+                  <div>
+                    <span class="font-bold text-white block mb-0.5">Plan de Acción Trienal Auditado</span>
+                    <span class="text-slate-300">Certificado por Contador Público matriculado y presentado ante Cancillería Argentina.</span>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <span class="flex items-center gap-1.5 text-emerald-300">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Transparencia Absoluta
+              </span>
+              <span>Personería Oficial</span>
             </div>
           </div>
 
