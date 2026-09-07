@@ -269,7 +269,7 @@
       </section>
 
       <!-- ESCENA NUEVA: VISIÓN Y MISIÓN DE LA COMUNIDAD (120vh - 250vh) -->
-      <section id="mision-vision" class="min-h-[140vh] flex flex-col items-center justify-center px-4 py-16">
+      <section id="mision-vision" class="min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16">
         <div class="max-w-5xl w-full space-y-6">
           
           <!-- Encabezado de Sección -->
@@ -329,33 +329,6 @@
             </div>
 
           </div>
-
-          <!-- Banner Inferior de los 4 Pilares -->
-          <div class="glass-card-ministerio rounded-3xl p-5 sm:p-6 shadow-2xl">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div class="p-3.5 rounded-2xl bg-black/25 border border-white/5 hover:border-purple-500/20 transition-all">
-                <div class="text-2xl mb-1.5">✝️</div>
-                <div class="font-bold text-white text-xs mb-0.5">Fe & Convivencia</div>
-                <div class="text-[10px] text-slate-400">Valores cristianos y fraternidad</div>
-              </div>
-              <div class="p-3.5 rounded-2xl bg-black/25 border border-white/5 hover:border-purple-500/20 transition-all">
-                <div class="text-2xl mb-1.5">⚡</div>
-                <div class="font-bold text-amber-300 text-xs mb-0.5">Ecotecnología</div>
-                <div class="text-[10px] text-slate-400">Solar 18.4kW, Litio & Agua</div>
-              </div>
-              <div class="p-3.5 rounded-2xl bg-black/25 border border-white/5 hover:border-cyan-500/20 transition-all">
-                <div class="text-2xl mb-1.5">💻</div>
-                <div class="font-bold text-cyan-300 text-xs mb-0.5">ShopDigital</div>
-                <div class="text-[10px] text-slate-400">Motor de financiamiento 100%</div>
-              </div>
-              <div class="p-3.5 rounded-2xl bg-black/25 border border-white/5 hover:border-purple-500/20 transition-all">
-                <div class="text-2xl mb-1.5">🤝</div>
-                <div class="font-bold text-purple-300 text-xs mb-0.5">Acción Social</div>
-                <div class="text-[10px] text-slate-400">Fundación & Ministerio</div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </section>
 
@@ -1062,7 +1035,7 @@
               <h4 class="font-serif text-sm font-bold text-white">Asistente Luz</h4>
               <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[9px]">EN LÍNEA</span>
             </div>
-            <p class="text-[10px] text-slate-400">Ingeniería & Sistemas de Culto, Audio & Legal</p>
+            <p class="text-[10px] text-emerald-400 font-mono">Asistencia 24/7 · Ministerio Caminos de Fe</p>
           </div>
         </div>
         <button type="button" id="btn-close-luz-chat" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all">
@@ -1093,17 +1066,19 @@
 
     </div>
 
-    <!-- BOTÓN DISPARADOR FLOTANTE -->
-    <button type="button" id="btn-toggle-luz-chat" class="group flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-[#0F172A] to-[#1E1B18] hover:from-[#1E293B] hover:to-[#2A241F] border border-amber-500/40 shadow-2xl shadow-black/80 transition-all transform hover:scale-105 active:scale-95">
+    <!-- BOTÓN DISPARADOR FLOTANTE COMPACTO -->
+    <button type="button" id="btn-toggle-luz-chat" class="group flex items-center gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#0F172A]/90 to-[#1E1B18]/90 hover:from-[#1E293B] hover:to-[#2A241F] border border-amber-500/40 shadow-xl shadow-black/80 backdrop-blur-md transition-all transform hover:scale-105 active:scale-95">
       <div class="relative">
-        <div class="w-9 h-9 rounded-xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1">
+        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1">
           <img src="/favicon-mcf.svg" alt="Cruz Ministerio" class="w-full h-full object-contain">
         </div>
-        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
       </div>
       <div class="text-left hidden sm:block">
-        <div class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors">Asistente Luz</div>
-        <div class="text-[10px] text-slate-400">Sistemas de Culto, Audio & Legal</div>
+        <div class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors leading-tight">Asistente Luz</div>
+        <div class="text-[9px] text-emerald-400 font-mono leading-tight flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Asistencia 24/7
+        </div>
       </div>
     </button>
 

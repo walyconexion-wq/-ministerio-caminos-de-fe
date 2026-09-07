@@ -593,17 +593,19 @@
 
     </div>
 
-    <!-- BOTÓN DISPARADOR FLOTANTE -->
-    <button type="button" id="btn-toggle-luz-chat" class="group flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-[#0F172A] to-[#1E1B18] hover:from-[#1E293B] hover:to-[#2A241F] border border-amber-500/40 shadow-2xl shadow-black/80 transition-all transform hover:scale-105 active:scale-95">
+    <!-- BOTÓN DISPARADOR FLOTANTE COMPACTO -->
+    <button type="button" id="btn-toggle-luz-chat" class="group flex items-center gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#0F172A]/90 to-[#1E1B18]/90 hover:from-[#1E293B] hover:to-[#2A241F] border border-amber-500/40 shadow-xl shadow-black/80 backdrop-blur-md transition-all transform hover:scale-105 active:scale-95">
       <div class="relative">
-        <div class="w-9 h-9 rounded-xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1">
+        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1">
           <img src="/favicon-mcf.svg" alt="Cruz Ministerio" class="w-full h-full object-contain">
         </div>
-        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
       </div>
       <div class="text-left hidden sm:block">
-        <div class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors">Asistente Luz</div>
-        <div class="text-[10px] text-slate-400">Consultar Departamentos</div>
+        <div class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors leading-tight">Asistente Luz</div>
+        <div class="text-[9px] text-emerald-400 font-mono leading-tight flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Asistencia 24/7
+        </div>
       </div>
     </button>
 
