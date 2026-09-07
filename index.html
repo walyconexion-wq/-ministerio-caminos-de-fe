@@ -781,7 +781,7 @@
 
           <!-- GRILLA DINÁMICA DE LA GALERÍA -->
           <div id="galeria-public-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Renderizado dinámicamente desde Supabase por scrollytelling.js?v=9.0 -->
+            <!-- Renderizado dinámicamente desde Supabase por scrollytelling.js?v=10.0 -->
           </div>
 
           <!-- Pie informativo -->
@@ -1079,6 +1079,27 @@
   </div>
 
   <!-- SCRIPT DE SCROLLYTELLING Y CONTROL -->
-  <script src="src/scrollytelling.js?v=9.0"></script>
+  <script src="src/scrollytelling.js?v=10.0"></script>
+
+  <script>
+    // Detector de 3 clics en la cruz del header para acceso confidencial al Búnker
+    (function() {
+      let clicks = 0;
+      let timer = null;
+      const logo = document.getElementById('header-logo-cross');
+      if (!logo) return;
+      logo.addEventListener('click', function(e) {
+        clicks++;
+        if (timer) clearTimeout(timer);
+        if (clicks >= 3) {
+          e.preventDefault();
+          clicks = 0;
+          window.location.href = 'bunker.html';
+          return;
+        }
+        timer = setTimeout(() => { clicks = 0; }, 1200);
+      });
+    })();
+  </script>
 </body>
 </html>

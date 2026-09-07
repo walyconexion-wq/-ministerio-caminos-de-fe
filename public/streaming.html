@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streaming en Vivo & Sala de Transmisión | Ministerio Caminos de Fe</title>
+  <meta name="description" content="Sala de transmisión en directo de los cultos, alabanza y campañas de fe del Ministerio Caminos de Fe desde Traslasierra, Córdoba.">
+  <link rel="icon" type="image/svg+xml" href="favicon-mcf.svg">
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- ESTILOS GLOBALES -->
+  <link rel="stylesheet" href="styles/style.css">
+  <style>
+    body { background-color: #070A0F; color: #F8FAFC; }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col bg-[#070A0F] text-slate-200">
+
+  <!-- HEADER FIJO -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#070A0F]/85 backdrop-blur-xl border-b border-purple-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      <a href="index.html" id="header-logo-cross" title="Toca 3 veces para acceso directivo" class="flex items-center gap-3.5 group cursor-pointer select-none">
+        <div class="w-10 h-10 rounded-2xl bg-black/60 border border-purple-500/40 p-1 flex items-center justify-center shadow-lg shadow-purple-950/50 group-hover:scale-105 transition-transform">
+          <img src="favicon-mcf.svg" alt="Caminos de Fe" class="w-full h-full object-contain pointer-events-none">
+        </div>
+        <div>
+          <span class="font-serif text-sm tracking-wider font-bold text-white block">CAMINOS DE FE</span>
+          <span class="text-[10px] text-rose-400 tracking-wider block font-mono flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            SALA DE STREAMING EN VIVO
+          </span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-3.5 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all flex items-center gap-2">
+          <span>← Volver al Altar Central</span>
+        </a>
+        <a href="donaciones.html" class="px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-md shadow-amber-500/20 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1.5">
+          <span>Contacto & Donación</span>
+          <span>💝</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 pt-28 pb-20 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+    
+    <!-- TITULO DE SALA -->
+    <div class="text-center max-w-3xl mx-auto mb-8">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-mono tracking-widest uppercase mb-3">
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+        Transmisión Oficial Satelital · Altar Mina Clavero & Plazas
+      </div>
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-white uppercase drop-shadow-xl mb-3">
+        Culto en Vivo & Comunión
+      </h1>
+      <p class="text-sm text-slate-300 leading-relaxed font-light">
+        Conectate desde cualquier lugar de las sierras y del mundo. Transmitimos alabanza pura, la Palabra de Gracia y ministración de sanidad con fidelidad de audio digital.
+      </p>
+    </div>
+
+    <!-- REPRODUCTOR PRINCIPAL DE BROADCAST -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+      
+      <!-- PANTALLA DE VIDEO (2 COLUMNAS) -->
+      <div class="lg:col-span-2 glass-card-ministerio rounded-3xl p-4 sm:p-6 border border-rose-500/30 shadow-2xl flex flex-col justify-between">
+        
+        <!-- Header del Reproductor -->
+        <div class="flex items-center justify-between pb-4 border-b border-white/10 text-xs font-mono">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+              SEÑAL DIRECTA
+            </span>
+            <span class="text-slate-400 hidden sm:inline">1080p60 · Audio 48kHz Digital</span>
+          </div>
+          <div class="text-slate-400 flex items-center gap-1.5">
+            <span>📡 Enlace Starlink Activo</span>
+          </div>
+        </div>
+
+        <!-- Pantalla de Video / Simulador de Broadcast -->
+        <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black/80 border border-white/10 my-4 flex flex-col items-center justify-center p-6 text-center group">
+          
+          <!-- Fondo visual dinámico -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-purple-950/20 to-black pointer-events-none"></div>
+          
+          <div class="relative z-10 space-y-4 max-w-md">
+            <div class="w-16 h-16 rounded-full bg-rose-500/20 border border-rose-500/40 flex items-center justify-center mx-auto text-rose-400 text-3xl shadow-lg shadow-rose-500/20 group-hover:scale-110 transition-transform">
+              ▶️
+            </div>
+            <div>
+              <h3 class="font-serif text-xl sm:text-2xl font-bold text-white mb-1">Próxima Transmisión Dominical</h3>
+              <p class="text-xs text-amber-300 font-mono">Domingo 10:30 hs (Arg) · Miércoles 19:30 hs</p>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              La señal se activa automáticamente durante los cultos en Mina Clavero y las campañas en plazas de Traslasierra.
+            </p>
+            <div class="pt-2 flex items-center justify-center gap-3 text-[11px] font-mono text-slate-300">
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10">🎙️ Consola 32 Canales</span>
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10">🎸 Alabanza en Vivo</span>
+            </div>
+          </div>
+
+          <!-- Barra inferior del reproductor -->
+          <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 to-transparent flex items-center justify-between text-xs text-slate-400 font-mono px-4">
+            <span class="flex items-center gap-1.5 text-emerald-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Servidor de Emisión Listo
+            </span>
+            <span class="text-[11px]">Transmisión Libre y Gratuita</span>
+          </div>
+        </div>
+
+        <!-- Info bajo el reproductor -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs text-slate-300">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-white">Altar Central Mina Clavero</span>
+            <span class="text-slate-500">·</span>
+            <span>Mensaje: "La Gracia que Rompe Ataduras"</span>
+          </div>
+          <a href="donaciones.html" class="text-amber-300 hover:text-amber-200 underline font-mono text-[11px]">
+            Conocé el sustento de la obra →
+          </a>
+        </div>
+
+      </div>
+
+      <!-- CHAT DE COMUNIÓN & PETICIONES EN VIVO (1 COLUMNA) -->
+      <div class="glass-card-ministerio rounded-3xl p-5 border border-purple-500/30 shadow-2xl flex flex-col justify-between h-full min-h-[480px]">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">💬</span>
+              <h3 class="font-serif font-bold text-white text-sm">Comunión & Peticiones</h3>
+            </div>
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">EN DIRECTO</span>
+          </div>
+
+          <!-- Mensajes de bienvenida y peticiones -->
+          <div class="space-y-3 text-xs overflow-y-auto max-h-[320px] pr-1">
+            <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+              <span class="font-bold text-amber-300 text-[11px]">Equipo Pastoral MCF:</span>
+              <p class="text-slate-300 mt-1">¡Bienvenidos hermanos y amigos de Traslasierra y de todo el país! Dejen sus peticiones de oración para ser ministradas al finalizar el culto.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+              <span class="font-bold text-purple-300 text-[11px]">Familia de Panaholma:</span>
+              <p class="text-slate-300 mt-1">Conectados desde las sierras en comunión. Oramos por la salud de nuestra abuela y por los chicos de la escuelita.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+              <span class="font-bold text-cyan-300 text-[11px]">Hermana Marta (El Nono):</span>
+              <p class="text-slate-300 mt-1">Damos gracias a Dios por la obra del ministerio y por la visita a los parajes de montaña con la Sprinter.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario para enviar petición en vivo -->
+        <form onsubmit="event.preventDefault(); alert('¡Tu petición de oración fue recibida por el equipo pastoral!'); this.reset();" class="mt-4 pt-4 border-t border-white/10 space-y-2">
+          <input type="text" placeholder="Tu nombre y pueblo..." required class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-purple-400">
+          <div class="flex gap-2">
+            <input type="text" placeholder="Escribí tu petición de oración..." required class="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-purple-400">
+            <button type="submit" class="px-3 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-md transition-all shrink-0">
+              Enviar
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+
+    <!-- RIDER TÉCNICO Y EQUIPO BROADCAST (ITMD) -->
+    <div class="glass-card-ministerio rounded-3xl p-6 sm:p-8 border border-white/10 mb-12">
+      <div class="max-w-3xl mb-6">
+        <span class="text-rose-400 font-mono text-[10px] uppercase tracking-widest block mb-1">Tecnología al Servicio del Reino</span>
+        <h2 class="font-serif text-2xl font-bold text-white">Infraestructura Digital de Transmisión</h2>
+        <p class="text-xs text-slate-300 leading-relaxed mt-2">
+          El Departamento de Medios e Ingeniería (ITMD) opera con equipamiento digital de nivel televisivo y satelital, garantizando que el mensaje de Dios llegue sin interferencias ni ruidos:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+        <div class="p-4 rounded-2xl bg-black/40 border border-white/5">
+          <div class="text-2xl mb-2">🎛️</div>
+          <div class="font-bold text-white mb-1">Consola 32 Canales</div>
+          <p class="text-slate-400 text-[11px]">Mezcla digital dedicada para streaming independiente de la sala.</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-black/40 border border-white/5">
+          <div class="text-2xl mb-2">🎧</div>
+          <div class="font-bold text-white mb-1">Monitoreo In-Ear</div>
+          <p class="text-slate-400 text-[11px]">Cero acoples en el altar, sonido limpio para la audiencia online.</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-black/40 border border-white/5">
+          <div class="text-2xl mb-2">🛰️</div>
+          <div class="font-bold text-white mb-1">Enlace Satelital Starlink</div>
+          <p class="text-slate-400 text-[11px]">Baja latencia constante incluso en tormentas de montaña.</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-black/40 border border-white/5">
+          <div class="text-2xl mb-2">📹</div>
+          <div class="font-bold text-white mb-1">Cámaras HD Broadcast</div>
+          <p class="text-slate-400 text-[11px]">Conmutación multicámara en vivo operada por jóvenes del Media Lab.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#05070A] border-t border-white/10 py-10 px-4 text-center">
+    <div class="max-w-4xl mx-auto space-y-3">
+      <div class="font-serif text-sm font-bold text-white">MINISTERIO CAMINOS DE FE</div>
+      <p class="text-xs text-slate-400">
+        Ecosistema Faro de Luz · Traslasierra, Córdoba, Argentina. 100% Sustentado por ShopDigital.
+      </p>
+      <div class="flex items-center justify-center gap-4 text-xs font-mono text-purple-300 pt-2">
+        <a href="index.html" class="hover:underline">Altar Central</a>
+        <span>·</span>
+        <a href="departamentos.html" class="hover:underline">Departamentos</a>
+        <span>·</span>
+        <a href="donaciones.html" class="hover:underline">Contacto & Donación</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT DE TRIPLE CLIC PARA BÚNKER & SONIDO -->
+  <script src="soundFX.js"></script>
+  <script src="src/scrollytelling.js?v=9.0"></script>
+  <script>
+    // Detector de 3 clics en el logo para acceso secreto a Búnker
+    (function() {
+      let clicks = 0;
+      let timer = null;
+      const logo = document.getElementById('header-logo-cross');
+      if (!logo) return;
+      logo.addEventListener('click', function(e) {
+        clicks++;
+        if (timer) clearTimeout(timer);
+        if (clicks >= 3) {
+          e.preventDefault();
+          clicks = 0;
+          window.location.href = 'bunker.html';
+          return;
+        }
+        timer = setTimeout(() => { clicks = 0; }, 1200);
+      });
+    })();
+  </script>
+
+</body>
+</html>
