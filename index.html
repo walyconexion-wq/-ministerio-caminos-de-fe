@@ -1093,26 +1093,7 @@
   <!-- SCRIPT DE SCROLLYTELLING Y CONTROL -->
   <script src="src/scrollytelling.js?v=10.0"></script>
 
-  <script>
-    // Detector de 3 clics en la cruz del header para acceso confidencial al Búnker
-    (function() {
-      let clicks = 0;
-      let timer = null;
-      const logo = document.getElementById('header-logo-cross');
-      if (!logo) return;
-      logo.addEventListener('click', function(e) {
-        clicks++;
-        if (timer) clearTimeout(timer);
-        if (clicks >= 3) {
-          e.preventDefault();
-          clicks = 0;
-          window.location.href = 'bunker.html';
-    </button>
 
-  </div>
-
-  <!-- SCRIPT DE SCROLLYTELLING Y CONTROL -->
-  <script src="src/scrollytelling.js?v=10.0"></script>
 
   <script>
     // Detector de 3 clics en la cruz del header para acceso confidencial al Búnker
@@ -1135,6 +1116,7 @@
     })();
   </script>
   <script src="soundFX.js"></script>
+  <script src="luzVoiceGuide.js?v=1.0"></script>
 
   <script>
     function loadLiveMap() {
