@@ -113,7 +113,7 @@
         <a href="#regla-tiempo" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Sustento & Gracia</a>
         <a href="#legalidad" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Fichero Legal</a>
         <a href="#ubicacion" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Ubicación</a>
-        <a href="#galeria" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Galería</a>
+        <a href="galeria.html" class="nav-link hover:text-amber-300 whitespace-nowrap py-1">Galería</a>
         <a href="departamentos.html" class="nav-link text-purple-300 hover:text-purple-200 font-semibold whitespace-nowrap py-1 flex items-center gap-1">
           <span>Departamentos</span>
           <span class="text-[9px] bg-purple-500/30 text-purple-200 px-1 rounded">5</span>
@@ -717,78 +717,101 @@
         </div>
       </section>
 
-      <!-- ESCENA NUEVA: GALERÍA MULTIMEDIA Y TESTIMONIOS DE FE (#galeria) -->
+            <!-- ESCENA: PORTAL A LA MEDIATECA & GALERÍA HISTÓRICA (#galeria) -->
       <section id="galeria" class="min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16">
         <div class="max-w-6xl w-full space-y-8">
           
           <!-- Encabezado de Galería -->
           <div class="text-center max-w-3xl mx-auto">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono tracking-widest uppercase mb-3">
-              📸 Testimonios Audiovisuales · Altar de Fe 2027
+              🎬 Archivo Audiovisual & Mediateca Oficial
             </div>
             <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white uppercase drop-shadow-xl mb-3">
-              Galería de Adoración & Cultos
+              Galería, Música & Películas de Fe
             </h2>
             <p class="text-xs sm:text-sm text-slate-200 font-light max-w-2xl mx-auto text-shadow-ministerio leading-relaxed">
-              Explorá los testimonios en video y fotografías del altar en la montaña, las campañas al aire libre en Traslasierra y la Generación de Fuego. Se administra y actualiza en tiempo real desde el Búnker Pastoral.
+              Te invitamos a explorar nuestra mediateca completa: cultos en vivo, música de adoración, cine y series con valores, discipulado de jóvenes y el archivo histórico con fotografías de los inicios en Traslasierra.
             </p>
           </div>
 
-          <!-- BOTONES DE FILTRO -->
-          <div class="flex flex-wrap items-center justify-center gap-2.5">
-            <button class="galeria-filter-btn active px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-purple-600 text-white shadow-md transition-all border border-purple-400" data-category="todos">
-              Todos los Testimonios
-            </button>
-            <button class="galeria-filter-btn px-4 py-2 rounded-xl text-xs font-mono text-slate-300 glass-card-ministerio hover:border-purple-400/50 hover:text-white transition-all" data-category="Cultos & Alabanza">
-              ✝️ Cultos & Alabanza
-            </button>
-            <button class="galeria-filter-btn px-4 py-2 rounded-xl text-xs font-mono text-slate-300 glass-card-ministerio hover:border-purple-400/50 hover:text-white transition-all" data-category="Campañas en la Montaña">
-              ⛺ Campañas en la Montaña
-            </button>
-            <button class="galeria-filter-btn px-4 py-2 rounded-xl text-xs font-mono text-slate-300 glass-card-ministerio hover:border-purple-400/50 hover:text-white transition-all" data-category="Discipulado de Jóvenes">
-              ⚡ Discipulado de Jóvenes
-            </button>
-            <button class="galeria-filter-btn px-4 py-2 rounded-xl text-xs font-mono text-slate-300 glass-card-ministerio hover:border-purple-400/50 hover:text-white transition-all" data-category="Testimonios de Fe">
-              🕊️ Testimonios de Fe
-            </button>
-            <button class="galeria-filter-btn px-4 py-2 rounded-xl text-xs font-mono text-slate-300 glass-card-ministerio hover:border-purple-400/50 hover:text-white transition-all" data-category="Música & Sonido">
-              🔊 Música & Sonido
-            </button>
+          <!-- 3 TARJETAS DE PRESENTACIÓN DESTACADAS -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- 1. Películas & Cine -->
+            <a href="galeria.html?cat=peliculas" class="glass-card-ministerio rounded-3xl p-6 sm:p-7 shadow-2xl hover:border-purple-400/50 transition-all group flex flex-col justify-between transform hover:scale-[1.02] cursor-pointer">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                  🎬
+                </div>
+                <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px] font-mono uppercase tracking-widest block w-fit mb-2">
+                  Cine & Series
+                </span>
+                <h3 class="font-serif text-xl font-bold text-white mb-2 group-hover:text-purple-200 transition-colors">Películas Cristianas</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Producciones con mensajes de redención, fe y valores de vida para disfrutar en familia y en células hogareñas.
+                </p>
+              </div>
+              <div class="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-purple-300 font-mono">
+                <span>Ver Catálogo</span>
+                <span class="group-hover:translate-x-1 transition-transform">→</span>
+              </div>
+            </a>
+
+            <!-- 2. Música & Alabanza -->
+            <a href="galeria.html?cat=musica" class="glass-card-ministerio rounded-3xl p-6 sm:p-7 shadow-2xl hover:border-amber-400/50 transition-all group flex flex-col justify-between transform hover:scale-[1.02] cursor-pointer">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                  🎵
+                </div>
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-mono uppercase tracking-widest block w-fit mb-2">
+                  Adoración & Cultos
+                </span>
+                <h3 class="font-serif text-xl font-bold text-white mb-2 group-hover:text-amber-200 transition-colors">Música de Altar & Ensayos</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Grabaciones en vivo desde el Domo Central, acústicos de montaña, pistas y mezclas maestras de la consola 32 canales.
+                </p>
+              </div>
+              <div class="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-amber-300 font-mono">
+                <span>Escuchar & Ver</span>
+                <span class="group-hover:translate-x-1 transition-transform">→</span>
+              </div>
+            </a>
+
+            <!-- 3. Archivo Histórico & Fotos Antiguas -->
+            <a href="galeria.html?cat=historico" class="glass-card-ministerio rounded-3xl p-6 sm:p-7 shadow-2xl hover:border-cyan-400/50 transition-all group flex flex-col justify-between transform hover:scale-[1.02] cursor-pointer">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                  📜
+                </div>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-mono uppercase tracking-widest block w-fit mb-2">
+                  Historia & Testimonios
+                </span>
+                <h3 class="font-serif text-xl font-bold text-white mb-2 group-hover:text-cyan-200 transition-colors">Archivo de Fotos & Campañas</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Los primeros pasos en Traslasierra, armado del domo, bautismos en el río y testimonios milagrosos en parajes rurales.
+                </p>
+              </div>
+              <div class="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-cyan-300 font-mono">
+                <span>Explorar Archivo</span>
+                <span class="group-hover:translate-x-1 transition-transform">→</span>
+              </div>
+            </a>
+
           </div>
 
-          <!-- GRILLA DINÁMICA DE LA GALERÍA -->
-          <div id="galeria-public-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Renderizado dinámicamente desde Supabase por scrollytelling.js?v=10.0 -->
-          </div>
-
-          <!-- Pie informativo -->
-          <div class="text-center pt-2 text-xs text-slate-400 font-mono">
-            <span>Sincronización en vivo con Supabase Cloud y Búnker Pastoral</span>
+          <!-- BOTÓN TÁCTIL 3D PRINCIPAL DE ENTRADA -->
+          <div class="text-center pt-2 flex flex-col items-center justify-center gap-3">
+            <a href="galeria.html" class="group/btn relative py-4 px-6 sm:px-10 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm font-mono tracking-wider transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_4px_0_#3b0764,0_12px_28px_rgba(168,85,247,0.4),inset_0_1px_0_rgba(255,255,255,0.4)] active:translate-y-1 active:shadow-[0_0_0_#3b0764] hover:scale-[1.02] cursor-pointer">
+              <span>ENTRAR A LA MEDIATECA (VIDEOS, MÚSICA & PELÍCULAS)</span>
+              <span class="text-base font-black transition-transform duration-200 group-hover/btn:translate-x-1.5">🎬 ↗</span>
+            </a>
+            <p class="text-[11px] font-mono text-slate-400">
+              ⚡ Acceso libre y gratuito · Catálogo categorizado con buscador y reproductor en pantalla completa
+            </p>
           </div>
 
         </div>
       </section>
-
-      <!-- MODAL LIGHTBOX PARA FOTOS Y VIDEOS -->
-      <div id="galeria-lightbox" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 hidden">
-        <div class="relative max-w-4xl w-full bg-[#080C14] border border-amber-500/40 rounded-3xl overflow-hidden shadow-2xl">
-          <button id="btn-close-lightbox" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-red-500 text-white flex items-center justify-center transition-all border border-white/20">
-            ✕
-          </button>
-          <div id="lightbox-content" class="w-full flex flex-col items-center justify-center min-h-[300px] max-h-[80vh]">
-            <!-- Contenido dinámico (Img o Iframe de video) -->
-          </div>
-          <div class="p-5 bg-slate-950/90 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <div>
-              <h4 id="lightbox-title" class="font-bold text-white text-base">Título del medio</h4>
-              <p id="lightbox-desc" class="text-xs text-slate-400">Descripción</p>
-            </div>
-            <span id="lightbox-badge" class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] uppercase">
-              Foto
-            </span>
-          </div>
-        </div>
-      </div>
 
       <!-- ESCENA: EMBUDO DE SUSCRIPCIÓN, CONTACTO Y COMUNIDAD (#comunidad) -->
       <section id="formacion" class="min-h-screen flex flex-col items-center justify-center px-4 py-12 sm:py-16">

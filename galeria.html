@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mediateca, Música & Películas de Fe | Ministerio Caminos de Fe</title>
+  <meta name="description" content="Catálogo audiovisual completo del Ministerio Caminos de Fe: películas cristianas, música de adoración, cultos grabados, discipulado juvenil y archivo histórico en Traslasierra.">
+  <link rel="icon" type="image/svg+xml" href="favicon-mcf.svg">
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- TAILWIND CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- ESTILOS GLOBALES -->
+  <link rel="stylesheet" href="styles/style.css">
+  <style>
+    body { background-color: #070A0F; color: #F8FAFC; }
+    .filter-btn-active {
+      background: linear-gradient(135deg, #9333ea, #6366f1) !important;
+      color: #ffffff !important;
+      border-color: #c084fc !important;
+      box-shadow: 0 4px 15px rgba(147, 51, 234, 0.4) !important;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col bg-[#070A0F] text-slate-200">
+
+  <!-- HEADER FIJO -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#070A0F]/85 backdrop-blur-xl border-b border-purple-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      <a href="index.html" id="header-logo-cross" title="Toca 3 veces para acceso directivo al Búnker" class="flex items-center gap-3.5 group cursor-pointer select-none">
+        <div class="w-10 h-10 rounded-2xl bg-black/60 border border-purple-500/40 p-1 flex items-center justify-center shadow-lg shadow-purple-950/50 group-hover:scale-105 transition-transform">
+          <img src="favicon-mcf.svg" alt="Caminos de Fe" class="w-full h-full object-contain pointer-events-none">
+        </div>
+        <div>
+          <span class="font-serif text-sm tracking-wider font-bold text-white block">CAMINOS DE FE</span>
+          <span class="text-[10px] text-purple-300 tracking-wider block font-mono flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+            MEDIATECA & ARCHIVO HISTÓRICO
+          </span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="index.html" class="px-3 sm:px-3.5 py-1.5 sm:py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all flex items-center gap-1.5">
+          <span>← Volver al Altar</span>
+        </a>
+        <a href="streaming.html" class="hidden sm:flex px-3 py-1.5 text-xs font-mono font-semibold rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 hover:bg-rose-500/20 transition-all items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+          Streaming
+        </a>
+        <a href="donaciones.html" class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-md shadow-amber-500/20 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1.5">
+          <span class="hidden sm:inline">Contacto & Donación</span>
+          <span class="sm:hidden">Donar</span>
+          <span>💝</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 pt-28 pb-20 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+    
+    <!-- HERO DE LA MEDIATECA -->
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono tracking-widest uppercase mb-3">
+        🎬 Producciones, Alabanzas & Archivo de Fe · Traslasierra 2027
+      </div>
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-white uppercase drop-shadow-xl mb-3">
+        Mediateca, Música & Películas
+      </h1>
+      <p class="text-xs sm:text-base text-slate-300 leading-relaxed font-light">
+        Un espacio consagrado para edificar tu vida: cultos completos en audio y video, canciones de adoración, películas y series cristianas, discipulado de jóvenes y el archivo fotográfico histórico de las obras.
+      </p>
+    </div>
+
+    <!-- BARRA DE BÚSQUEDA Y FILTRADO RÁPIDO -->
+    <div class="max-w-4xl mx-auto mb-8 space-y-4">
+      
+      <!-- Buscador -->
+      <div class="relative w-full">
+        <input 
+          type="text" 
+          id="media-search-input" 
+          placeholder="🔍 Buscar por título, tema, canción o película..." 
+          class="w-full px-5 py-3.5 pl-12 rounded-2xl bg-slate-900/90 border border-purple-500/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/30 shadow-xl transition-all">
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-purple-400">⚡</span>
+        <button 
+          id="btn-clear-search" 
+          class="hidden absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded-md bg-white/10 text-xs text-slate-400 hover:text-white">
+          Limpiar
+        </button>
+      </div>
+
+      <!-- BOTONES DE CATEGORÍA -->
+      <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5" id="category-filter-bar">
+        <button class="cat-filter-btn filter-btn-active px-3.5 py-2 rounded-xl text-xs font-mono font-semibold transition-all border border-purple-500/40 bg-white/5 text-slate-300 hover:text-white" data-cat="todos">
+          🌟 Todos los Medios
+        </button>
+        <button class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono transition-all border border-white/10 bg-white/5 text-slate-300 hover:border-purple-400/50 hover:text-white" data-cat="peliculas">
+          🎬 Películas & Cine
+        </button>
+        <button class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono transition-all border border-white/10 bg-white/5 text-slate-300 hover:border-purple-400/50 hover:text-white" data-cat="cultos">
+          ✝️ Cultos & Alabanzas
+        </button>
+        <button class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono transition-all border border-white/10 bg-white/5 text-slate-300 hover:border-purple-400/50 hover:text-white" data-cat="musica">
+          🎵 Música & Sonido
+        </button>
+        <button class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono transition-all border border-white/10 bg-white/5 text-slate-300 hover:border-purple-400/50 hover:text-white" data-cat="jovenes">
+          ⚡ Discipulado de Jóvenes
+        </button>
+        <button class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono transition-all border border-white/10 bg-white/5 text-slate-300 hover:border-purple-400/50 hover:text-white" data-cat="campanas">
+          ⛺ Campañas en la Montaña
+        </button>
+        <button class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono transition-all border border-white/10 bg-white/5 text-slate-300 hover:border-purple-400/50 hover:text-white" data-cat="testimonios">
+          🕊️ Testimonios de Fe
+        </button>
+        <button class="cat-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono transition-all border border-white/10 bg-white/5 text-slate-300 hover:border-purple-400/50 hover:text-white" data-cat="historico">
+          📜 Archivo Histórico & Fotos
+        </button>
+      </div>
+
+    </div>
+
+    <!-- CONTADOR DE RESULTADOS -->
+    <div class="flex items-center justify-between max-w-7xl mx-auto mb-6 text-xs font-mono text-slate-400 px-2">
+      <span id="results-count">Cargando mediateca...</span>
+      <span class="text-purple-400 font-semibold">Calidad Full HD & Audio 320kbps</span>
+    </div>
+
+    <!-- GRID DINÁMICO DE MEDIOS -->
+    <div id="media-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Inyectado vía JavaScript -->
+    </div>
+
+    <!-- MENSAJE SIN RESULTADOS -->
+    <div id="no-results-msg" class="hidden text-center py-16 space-y-3 glass-card-ministerio rounded-3xl max-w-xl mx-auto p-8">
+      <div class="text-4xl">🔍</div>
+      <h3 class="font-serif text-lg font-bold text-white">No se encontraron resultados</h3>
+      <p class="text-xs text-slate-400">Probá buscando con otras palabras o seleccioná "Todos los Medios".</p>
+      <button onclick="resetFilters()" class="px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-mono font-semibold hover:bg-purple-500 transition-all">
+        Restablecer Filtros
+      </button>
+    </div>
+
+  </main>
+
+  <!-- MODAL LIGHTBOX REPRODUCTOR -->
+  <div id="media-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-3 sm:p-6 hidden">
+    <div class="relative max-w-5xl w-full bg-[#090E17] border border-purple-500/40 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+      
+      <!-- Botón de Cerrar -->
+      <button 
+        id="btn-close-modal" 
+        class="absolute top-4 right-4 z-30 w-10 h-10 rounded-full bg-black/70 hover:bg-rose-600 text-white flex items-center justify-center transition-all border border-white/20 shadow-lg">
+        ✕
+      </button>
+
+      <!-- Visor de Medios (Video o Foto) -->
+      <div id="modal-viewer" class="w-full bg-black flex items-center justify-center min-h-[260px] sm:min-h-[440px] max-h-[65vh] overflow-hidden">
+        <!-- Iframe o Img dinámico -->
+      </div>
+
+      <!-- Pie del Modal con Detalles -->
+      <div class="p-5 sm:p-6 bg-slate-950/95 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 overflow-y-auto">
+        <div class="space-y-1 max-w-2xl">
+          <div class="flex items-center gap-2">
+            <span id="modal-badge" class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono text-[10px] uppercase font-bold">
+              CATEGORÍA
+            </span>
+            <span id="modal-duration" class="text-[11px] font-mono text-slate-400">--:--</span>
+          </div>
+          <h3 id="modal-title" class="font-serif text-lg sm:text-xl font-bold text-white">Título de la Obra</h3>
+          <p id="modal-desc" class="text-xs text-slate-300 leading-relaxed">Descripción completa de la obra.</p>
+        </div>
+
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <button onclick="shareMedia()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-mono text-slate-200 transition-all flex items-center gap-1.5">
+            <span>Compartir</span> ↗
+          </button>
+          <a href="donaciones.html" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-semibold font-mono transition-all">
+            Apoyar Obra 💝
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="relative z-20 bg-[#05070A] border-t border-white/10 py-12 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-400">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full overflow-hidden border border-purple-400/40 flex items-center justify-center bg-black/50 shadow-md">
+          <img src="favicon-mcf.svg" alt="Caminos de Fe" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <div class="text-white font-semibold font-serif">MINISTERIO CAMINOS DE FE</div>
+          <div class="text-[10px] text-slate-500">Mediateca Oficial · Traslasierra, Córdoba</div>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-4 text-center">
+        <span>Sustentado por <strong class="text-white">ShopDigital</strong></span>
+        <span>·</span>
+        <span>Cero Diezmos Obligatorios</span>
+        <span>·</span>
+        <span>De gracia recibisteis, dad de gracia</span>
+      </div>
+      <div class="text-[11px] text-slate-500">
+        © 2026-2027 Ministerio Caminos de Fe.
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT DE DATOS Y GESTIÓN DE LA MEDIATECA -->
+  <script>
+    const MEDIA_CATALOG = [
+      // 1. PELÍCULAS & CINE
+      {
+        id: 'pel-1',
+        titulo: 'Corazón Redimido: El Camino de la Gracia',
+        cat: 'peliculas',
+        catLabel: 'Película Cristiana',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '1h 42m',
+        desc: 'Una conmovedora historia de reconciliación familiar, perdón incondicional y fe en los valles de montaña. Cine de valores para toda la familia.',
+        destacado: true
+      },
+      {
+        id: 'pel-2',
+        titulo: 'Fuego en las Cumbres: Despertar Espiritual',
+        cat: 'peliculas',
+        catLabel: 'Película Testimonial',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '1h 15m',
+        desc: 'Largometraje que relata el avivamiento en parajes rurales de Traslasierra y la transformación comunitaria a través del Evangelio de Gracia.',
+        destacado: true
+      },
+      {
+        id: 'pel-3',
+        titulo: 'La Promesa del Valle (Serie Documental)',
+        cat: 'peliculas',
+        catLabel: 'Documental',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: 'Capítulo 1 · 45m',
+        desc: 'Serie que documenta la gesta de la base de montaña: ecotecnología, domo central, microrred solar y el altar consagrado a Dios.',
+        destacado: false
+      },
+
+      // 2. CULTOS & ALABANZAS
+      {
+        id: 'cul-1',
+        titulo: 'Altar de Adoración en la Montaña (Culto Central)',
+        cat: 'cultos',
+        catLabel: 'Cultos & Alabanzas',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '1h 10m',
+        desc: 'Encuentro dominical completo con ministración en el Domo Central: alabanza fluida, mensaje de gracia y comunión fraterna.',
+        destacado: true
+      },
+      {
+        id: 'cul-2',
+        titulo: 'Vigilia de Intercesión & Clamor por las Familias',
+        cat: 'cultos',
+        catLabel: 'Cultos & Alabanzas',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1445445290350-18a3b86e0b5b?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '58m',
+        desc: 'Tiempo de oración profunda y clamor de medianoche por los enfermos y familias del valle de Traslasierra.',
+        destacado: false
+      },
+
+      // 3. MÚSICA & SONIDO
+      {
+        id: 'mus-1',
+        titulo: 'Sesión Acústica de Adoración — Río Panaholma',
+        cat: 'musica',
+        catLabel: 'Música & Sonido',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '32m',
+        desc: 'Grabación acústica con guitarras y voces al aire libre, orquestada por el equipo de alabanza del ministerio.',
+        destacado: true
+      },
+      {
+        id: 'mus-2',
+        titulo: 'Rider Digital ITMD: Mezcla & Ensayos en Vivo',
+        cat: 'musica',
+        catLabel: 'Música & Sonido',
+        tipo: 'foto',
+        thumb: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: null,
+        duracion: 'Foto HD',
+        desc: 'Configuración técnica de consola Behringer X32 de 32 canales, in-ears y producción estéreo de streaming.',
+        destacado: false
+      },
+      {
+        id: 'mus-3',
+        titulo: 'Alabanzas del Amanecer en las Altas Cumbres',
+        cat: 'musica',
+        catLabel: 'Música & Sonido',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '44m',
+        desc: 'Pistas instrumentales de adoración meditativa y alabanza para tiempos de devoción personal y oración matutina.',
+        destacado: false
+      },
+
+      // 4. DISCIPULADO DE JÓVENES
+      {
+        id: 'jov-1',
+        titulo: 'Generación de Fuego — Taller de Medios & Fe',
+        cat: 'jovenes',
+        catLabel: 'Discipulado de Jóvenes',
+        tipo: 'foto',
+        thumb: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: null,
+        duracion: 'Foto HD',
+        desc: 'Jóvenes aprendiendo operación de cámaras, consolas de sonido, streaming y consagración de sus talentos al Señor.',
+        destacado: true
+      },
+      {
+        id: 'jov-2',
+        titulo: 'Campamento de Liderazgo Joven en la Montaña',
+        cat: 'jovenes',
+        catLabel: 'Discipulado de Jóvenes',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '28m',
+        desc: 'Fogón de adoración, dinámicas de grupo, estudio bíblico y compromiso con la Gran Comisión.',
+        destacado: false
+      },
+
+      // 5. CAMPAÑAS EN LA MONTAÑA
+      {
+        id: 'cam-1',
+        titulo: 'Campaña de Evangelismo Móvil con Flota Hilux 4x4',
+        cat: 'campanas',
+        catLabel: 'Campañas en la Montaña',
+        tipo: 'foto',
+        thumb: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: null,
+        duracion: 'Foto HD',
+        desc: 'Llegada con generadores y columnas de sonido a parajes rurales de Traslasierra sin templos ni electricidad formal.',
+        destacado: true
+      },
+      {
+        id: 'cam-2',
+        titulo: 'Culto de Campaña en la Plaza de Panaholma',
+        cat: 'campanas',
+        catLabel: 'Campañas en la Montaña',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '52m',
+        desc: 'Predicación al aire libre, entrega de viandas comunitarias y bendición de familias de la zona.',
+        destacado: false
+      },
+
+      // 6. TESTIMONIOS DE FE
+      {
+        id: 'tes-1',
+        titulo: 'Bautismos Sagrados en las Aguas de Panaholma',
+        cat: 'testimonios',
+        catLabel: 'Testimonios de Fe',
+        tipo: 'foto',
+        thumb: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: null,
+        duracion: 'Foto HD',
+        desc: 'Fiesta espiritual de inmersión y testimonio público de nueva vida en Cristo Jesús.',
+        destacado: true
+      },
+      {
+        id: 'tes-2',
+        titulo: 'Testimonio de Sanidad & Provisión Milagrosa',
+        cat: 'testimonios',
+        catLabel: 'Testimonios de Fe',
+        tipo: 'video',
+        thumb: 'https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        duracion: '18m',
+        desc: 'Relato en primera persona del poder de Dios manifestado en una familia de Traslasierra.',
+        destacado: false
+      },
+
+      // 7. ARCHIVO HISTÓRICO & FOTOS ANTIGUAS
+      {
+        id: 'his-1',
+        titulo: 'Los Primeros Pasos: Llegada a la Hectárea (2020)',
+        cat: 'historico',
+        catLabel: 'Archivo Histórico',
+        tipo: 'foto',
+        thumb: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: null,
+        duracion: 'Foto Histórica',
+        desc: 'El terreno original antes de la nivelación, perforación de agua y montaje del domo. Un testimonio de fe viva.',
+        destacado: true
+      },
+      {
+        id: 'his-2',
+        titulo: 'Montaje del Domo Geodésico & Contenedores 40ft',
+        cat: 'historico',
+        catLabel: 'Archivo Histórico',
+        tipo: 'foto',
+        thumb: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: null,
+        duracion: 'Foto Histórica',
+        desc: 'Las jornadas de trabajo voluntario y armado estructural del Domo Central de comando y servidores.',
+        destacado: false
+      },
+      {
+        id: 'his-3',
+        titulo: 'Pacto Fundacional con el Director Waly & Pioneros',
+        cat: 'historico',
+        catLabel: 'Archivo Histórico',
+        tipo: 'foto',
+        thumb: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
+        videoUrl: null,
+        duracion: 'Foto Histórica',
+        desc: 'Primera oración comunitaria de consagración de la tierra a Dios y al sustento 100% de gracia.',
+        destacado: true
+      }
+    ];
+
+    let currentCategory = 'todos';
+    let searchQuery = '';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCat = urlParams.get('cat');
+    if (initialCat) {
+      currentCategory = initialCat;
+    }
+
+    function renderMedia() {
+      const grid = document.getElementById('media-grid');
+      const noResults = document.getElementById('no-results-msg');
+      const countEl = document.getElementById('results-count');
+
+      const filtered = MEDIA_CATALOG.filter(item => {
+        const matchesCategory = currentCategory === 'todos' || item.cat === currentCategory;
+        const matchesSearch = !searchQuery || 
+          item.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.catLabel.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      countEl.textContent = `Mostrando ${filtered.length} de ${MEDIA_CATALOG.length} obras disponibles`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+
+      noResults.classList.add('hidden');
+      grid.innerHTML = filtered.map(item => {
+        const isVideo = item.tipo === 'video';
+        return `
+          <div onclick="openModal('${item.id}')" class="glass-card-ministerio rounded-3xl overflow-hidden shadow-2xl hover:border-purple-400/50 transition-all duration-300 group flex flex-col justify-between transform hover:scale-[1.02] cursor-pointer">
+            
+            <div class="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-950">
+              <img src="${item.thumb}" alt="${item.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-100" loading="lazy">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/40"></div>
+              
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/20 text-white font-mono text-[10px] uppercase font-bold flex items-center gap-1.5">
+                ${isVideo ? '🎬 VIDEO' : '📷 FOTO'}
+              </span>
+
+              ${item.destacado ? `
+                <span class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-mono font-bold">
+                  ★ Destacado
+                </span>
+              ` : ''}
+
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-12 h-12 rounded-full bg-purple-600/90 text-white flex items-center justify-center text-lg shadow-xl group-hover:scale-110 group-hover:bg-purple-500 transition-all border border-white/30">
+                  ${isVideo ? '▶' : '🔍'}
+                </div>
+              </div>
+
+              <span class="absolute bottom-3 right-3 px-2 py-0.5 rounded-md bg-black/80 font-mono text-[10px] text-slate-300">
+                ${item.duracion}
+              </span>
+            </div>
+
+            <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-bold block mb-1">
+                  ${item.catLabel}
+                </span>
+                <h3 class="font-serif text-base sm:text-lg font-bold text-white group-hover:text-purple-200 transition-colors leading-snug">
+                  ${item.titulo}
+                </h3>
+                <p class="text-xs text-slate-300 font-light mt-2 line-clamp-2 leading-relaxed">
+                  ${item.desc}
+                </p>
+              </div>
+
+              <div class="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-purple-300 font-mono">
+                <span class="flex items-center gap-1">
+                  ${isVideo ? 'Reproducir Obra' : 'Ampliar Fotografía'}
+                </span>
+                <span class="group-hover:translate-x-1 transition-transform">↗</span>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openModal(id) {
+      const item = MEDIA_CATALOG.find(m => m.id === id);
+      if (!item) return;
+
+      const modal = document.getElementById('media-modal');
+      const viewer = document.getElementById('modal-viewer');
+      const badge = document.getElementById('modal-badge');
+      const duration = document.getElementById('modal-duration');
+      const title = document.getElementById('modal-title');
+      const desc = document.getElementById('modal-desc');
+
+      badge.textContent = item.catLabel;
+      duration.textContent = item.duracion;
+      title.textContent = item.titulo;
+      desc.textContent = item.desc;
+
+      if (item.tipo === 'video' && item.videoUrl) {
+        viewer.innerHTML = `
+          <iframe 
+            src="${item.videoUrl}?autoplay=1&rel=0" 
+            class="w-full h-full min-h-[300px] sm:min-h-[440px] border-0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>`;
+      } else {
+        viewer.innerHTML = `
+          <img src="${item.thumb}" alt="${item.titulo}" class="max-h-[60vh] max-w-full object-contain rounded-xl shadow-2xl">
+        `;
+      }
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('media-modal');
+      const viewer = document.getElementById('modal-viewer');
+      viewer.innerHTML = '';
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+    document.getElementById('media-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'media-modal') closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    const filterButtons = document.querySelectorAll('.cat-filter-btn');
+    filterButtons.forEach(btn => {
+      if (btn.dataset.cat === currentCategory) {
+        filterButtons.forEach(b => b.classList.remove('filter-btn-active'));
+        btn.classList.add('filter-btn-active');
+      }
+
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('filter-btn-active'));
+        btn.classList.add('filter-btn-active');
+        currentCategory = btn.dataset.cat;
+        renderMedia();
+      });
+    });
+
+    const searchInput = document.getElementById('media-search-input');
+    const clearBtn = document.getElementById('btn-clear-search');
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      if (searchQuery) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderMedia();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      clearBtn.classList.add('hidden');
+      renderMedia();
+    });
+
+    function resetFilters() {
+      currentCategory = 'todos';
+      searchQuery = '';
+      searchInput.value = '';
+      clearBtn.classList.add('hidden');
+      filterButtons.forEach(b => {
+        if (b.dataset.cat === 'todos') b.classList.add('filter-btn-active');
+        else b.classList.remove('filter-btn-active');
+      });
+      renderMedia();
+    }
+
+    function shareMedia() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Mediateca Ministerio Caminos de Fe',
+          text: 'Mirá este contenido de fe en la mediateca oficial:',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Enlace copiado al portapapeles.');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMedia();
+
+      let clicks = 0;
+      let timer = null;
+      const logo = document.getElementById('header-logo-cross');
+      if (logo) {
+        logo.addEventListener('click', function(e) {
+          clicks++;
+          if (timer) clearTimeout(timer);
+          if (clicks >= 3) {
+            e.preventDefault();
+            clicks = 0;
+            window.location.href = 'bunker.html';
+            return;
+          }
+          timer = setTimeout(() => { clicks = 0; }, 1200);
+        });
+      }
+    });
+  </script>
+  <script src="soundFX.js"></script>
+  <!-- WIDGET FLOTANTE DE ATENCIÓN: ASISTENTE LUZ -->
+  <div id="luz-assistant-widget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    
+    <!-- VENTANA DE CHAT DEL ASISTENTE -->
+    <div id="luz-chat-window" class="hidden mb-3 w-[92vw] max-w-[380px] sm:w-[380px] bg-[#0B101A]/95 backdrop-blur-2xl border border-amber-500/30 rounded-3xl shadow-2xl shadow-black/90 flex flex-col overflow-hidden transition-all duration-300 transform scale-95 opacity-0 origin-bottom-right">
+      
+      <!-- HEADER DEL CHAT -->
+      <div class="bg-gradient-to-r from-[#0F172A] to-[#1E1B18] p-4 border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-10 h-10 rounded-2xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1.5">
+              <img src="/favicon-mcf.svg" alt="Cruz Ministerio" class="w-full h-full object-contain">
+            </div>
+            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#0B101A] animate-pulse"></span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h4 class="font-serif text-sm font-bold text-white">Asistente Luz</h4>
+              <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[9px]">EN LÍNEA</span>
+            </div>
+            <p class="text-[10px] text-emerald-400 font-mono">Asistencia 24/7 · Ministerio Caminos de Fe</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <button type="button" id="btn-toggle-luz-voice" title="Activar/Desactivar Voz Neural Argentina" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-amber-500/20 border border-white/10 text-amber-300 flex items-center justify-center text-xs transition-all">
+            🔊
+          </button>
+          <button type="button" id="btn-close-luz-chat" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center text-xs transition-all">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- MENSAJES -->
+      <div id="luz-chat-messages" class="p-4 space-y-3 overflow-y-auto max-h-[340px] text-xs leading-relaxed">
+        <div class="flex items-start gap-2.5">
+          <div class="w-6 h-6 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xs text-amber-300 shrink-0 mt-0.5">
+            ✝️
+          </div>
+          <div class="p-3 rounded-2xl rounded-tl-sm bg-white/5 border border-white/5 text-slate-200">
+            ¡Bendiciones! Soy <strong>Asistente Luz</strong>. ¿Buscás alguna película cristiana, culto específico, alabanza o foto del archivo histórico? Te guío al instante.
+          </div>
+        </div>
+      </div>
+
+      <!-- INPUT Y ENVIAR -->
+      <form id="luz-chat-form" class="p-3 bg-[#080C14] border-t border-white/10 flex items-center gap-2">
+        <input type="text" id="luz-chat-input" placeholder="Preguntale a Luz sobre la mediateca..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition-all">
+        <button type="submit" class="w-9 h-9 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 flex items-center justify-center shadow-md shadow-amber-500/20 transition-all transform hover:scale-105 active:scale-95 shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+      </form>
+
+    </div>
+
+    <!-- BOTÓN DISPARADOR FLOTANTE COMPACTO -->
+    <button type="button" id="btn-toggle-luz-chat" class="group flex items-center gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#0F172A]/90 to-[#1E1B18]/90 hover:from-[#1E293B] hover:to-[#2A241F] border border-amber-500/40 shadow-xl shadow-black/80 backdrop-blur-md transition-all transform hover:scale-105 active:scale-95">
+      <div class="relative">
+        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1">
+          <img src="/favicon-mcf.svg" alt="Cruz Ministerio" class="w-full h-full object-contain">
+        </div>
+        <span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      </div>
+      <div class="text-left hidden sm:block">
+        <div class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors leading-tight">Asistente Luz</div>
+        <div class="text-[9px] text-emerald-400 font-mono leading-tight flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Asistencia 24/7
+        </div>
+      </div>
+    </button>
+
+  </div>
+
+  <script src="src/scrollytelling.js?v=10.0"></script>
+</body>
+</html>
