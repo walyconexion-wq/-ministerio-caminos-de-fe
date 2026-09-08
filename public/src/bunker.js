@@ -105,6 +105,12 @@
         if (view.id === targetTab) {
           view.classList.remove('hidden');
           if (targetTab === 'tab-postulantes') loadSupabaseData();
+          if (targetTab === 'tab-arquitectura') {
+            const iframe = document.getElementById('iframe-archify-blueprint');
+            if (iframe && (!iframe.getAttribute('src') || iframe.getAttribute('src') === '')) {
+              iframe.src = 'arquitectura.html';
+            }
+          }
         } else {
           view.classList.add('hidden');
         }
