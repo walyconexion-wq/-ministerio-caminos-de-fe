@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Ministerio Caminos de Fe — Arquitectura & Ecosistema Digital",
+    "output": "arquitectura.html",
+    "quality_profile": "standard",
+    "views": [
+      {
+        "id": "public-flow",
+        "label": "Flujo de Navegación Pública",
+        "focus": ["visitors", "cdn", "portal", "subpages", "ai_luz"],
+        "note": "Navegación del usuario desde celular o PC hacia el portal, subpáginas y Asistente Luz."
+      },
+      {
+        "id": "bunker-core",
+        "label": "Búnker Pastoral & Datos",
+        "focus": ["portal", "bunker", "auth_db", "iot_hardware"],
+        "note": "Acceso secreto al búnker, autenticación Supabase RLS y telemetría de Panaholma."
+      },
+      {
+        "id": "sustento-ecosistema",
+        "label": "Ecosistema & Sustento ShopDigital",
+        "focus": ["portal", "shopdigital", "github_cicd", "cdn"],
+        "note": "Sustento 100% de gracia por ShopDigital y despliegue continuo vía GitHub."
+      }
+    ]
+  },
+  "components": [
+    { "id": "visitors", "type": "external", "label": "Usuarios & Comunidad", "sublabel": "Móviles Motorola, TCL & Desktop", "pos": [40, 300], "size": [140, 60] },
+    { "id": "cdn", "type": "cloud", "label": "Vercel Edge Network", "sublabel": "Global CDN / SSL / Edge Functions", "brand": "vercel", "pos": [240, 300], "size": [140, 60] },
+    { "id": "github_cicd", "type": "cloud", "label": "GitHub Repositories", "sublabel": "CI/CD & Version Control", "brand": "github", "pos": [240, 150], "size": [140, 60] },
+    { "id": "portal", "type": "frontend", "label": "Portal Web Oficial", "sublabel": "index.html · 60 FPS Scrollytelling", "pos": [450, 300], "size": [150, 60], "tag": "Hero 3D + Mapa 0ms" },
+    { "id": "subpages", "type": "frontend", "label": "Subpáginas y Mediateca", "sublabel": "Departamentos · Galería · Live", "pos": [450, 450], "size": [150, 60] },
+    { "id": "ai_luz", "type": "backend", "label": "Asistente Luz 24/7", "sublabel": "Gemini 2.5 Flash + Voz Neural", "brand": "google-gemini", "pos": [670, 150], "size": [150, 60], "tag": "api/chat.js" },
+    { "id": "bunker", "type": "security", "label": "Búnker Pastoral", "sublabel": "bunker.html · 9 Módulos Tácticos", "pos": [670, 300], "size": [150, 60], "tag": "Triple Clic Cruz" },
+    { "id": "auth_db", "type": "database", "label": "Supabase PostgreSQL", "sublabel": "Auth OAuth + RLS Security", "brand": "supabase", "pos": [890, 300], "size": [150, 60] },
+    { "id": "iot_hardware", "type": "external", "label": "Base Panaholma", "sublabel": "Starlink 185M · Litio 94%", "pos": [670, 450], "size": [150, 60], "tag": "IoT Telemetría" },
+    { "id": "shopdigital", "type": "cloud", "label": "ShopDigital Sustento", "sublabel": "100% Gracia / Cero Diezmos", "pos": [890, 450], "size": [150, 60], "tag": "E-Commerce Cloud" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Capa Pública Web (Frontends)", "wraps": ["cdn", "portal", "subpages"] },
+    { "kind": "region", "label": "Núcleo Privado & Swarm de IA", "wraps": ["ai_luz", "bunker", "auth_db", "iot_hardware"] },
+    { "kind": "security-group", "label": "Sustento & Infraestructura", "wraps": ["shopdigital"] }
+  ],
+  "connections": [
+    { "id": "visitors-cdn", "from": "visitors", "to": "cdn", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "cdn-portal", "from": "cdn", "to": "portal" },
+    { "id": "github-cdn", "from": "github_cicd", "to": "cdn", "fromSide": "bottom", "toSide": "top" },
+    { "id": "portal-subpages", "from": "portal", "to": "subpages", "fromSide": "bottom", "toSide": "top" },
+    { "id": "portal-ai", "from": "portal", "to": "ai_luz", "label": "chat / voz", "fromSide": "top", "toSide": "left" },
+    { "id": "portal-bunker", "from": "portal", "to": "bunker", "variant": "security" },
+    { "id": "bunker-auth", "from": "bunker", "to": "auth_db", "label": "RLS queries" },
+    { "id": "bunker-iot", "from": "bunker", "to": "iot_hardware", "fromSide": "bottom", "toSide": "top" },
+    { "id": "portal-shopdigital", "from": "portal", "to": "shopdigital", "variant": "dashed", "fromSide": "bottom", "toSide": "left" },
+    { "id": "shopdigital-auth", "from": "shopdigital", "to": "auth_db", "fromSide": "top", "toSide": "bottom" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Experiencia Web & Celulares",
+      "items": [
+        "Home con video scrollytelling a 60 FPS y 240 cuadros en canvas",
+        "Botonera 3D táctil para los 5 departamentos en portada",
+        "Mapa satelital topográfico de Traslasierra a 0ms sin iframe pesado"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Inteligencia Artificial & Búnker",
+      "items": [
+        "Asistente Luz 24/7 con Google Gemini y síntesis vocal argentina",
+        "Búnker confidencial protegido por triple clic y Supabase Auth RLS",
+        "Módulos tácticos: Scanner OBD-II y Device Lab Motorola/TCL"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Soberanía, Gracia & Hardware",
+      "items": [
+        "100% de sustento por ShopDigital: Cero Diezmo y plena transparencia",
+        "Base física en Panaholma con enlace Starlink de 185 Mbps y litio 94%",
+        "Federación con Fundación Valle de Luz y Comunidad Faro de Luz"
+      ]
+    }
+  ]
+}
