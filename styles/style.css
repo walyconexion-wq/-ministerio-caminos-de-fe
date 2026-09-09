@@ -107,39 +107,60 @@ section {
 }
 
 /* ============================================================
-   NAVEGACIÓN VERTICAL LATERAL (PUNTOS Y LÍNEA SCROLLSPY)
+   NAVEGACIÓN VERTICAL LATERAL (PUNTOS Y TÍTULOS SCROLLSPY)
    ============================================================ */
 .vnav-item {
   position: relative;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0.5rem;
 }
 
 .vnav-dot {
   display: block;
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 9999px;
-  background-color: rgba(30, 41, 59, 0.9);
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  background-color: rgba(30, 41, 59, 0.95);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vnav-text {
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
 }
 
 .vnav-item:hover .vnav-dot {
   transform: scale(1.35);
   border-color: #FBBF24;
-  background-color: rgba(251, 191, 36, 0.6);
-  box-shadow: 0 0 12px rgba(251, 191, 36, 0.7);
+  background-color: rgba(251, 191, 36, 0.65);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.8);
+}
+
+.vnav-item:hover .vnav-text {
+  color: #FEF08A;
+  transform: translateX(2px);
+}
+
+/* ESTADO ACTIVO ILUMINADO (PUNTO DORADO RADIANTE Y LETRAS ILUMINADAS) */
+.vnav-item.vnav-active {
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.04) 75%, transparent 100%);
+  border-left: 2px solid #FBBF24;
+  padding-left: 0.5rem;
 }
 
 .vnav-item.vnav-active .vnav-dot {
-  transform: scale(1.5);
+  transform: scale(1.45);
   background-color: #FBBF24 !important;
   border-color: #FFFFFF !important;
-  box-shadow: 0 0 14px #FBBF24, 0 0 28px rgba(251, 191, 36, 0.65) !important;
+  box-shadow: 0 0 14px #FBBF24, 0 0 28px rgba(251, 191, 36, 0.75) !important;
 }
 
-.vnav-item.vnav-active .vnav-label {
-  border-color: rgba(251, 191, 36, 0.5);
-  color: #FEF08A;
+.vnav-item.vnav-active .vnav-text {
+  color: #FDE047 !important; /* Luz dorada celestial */
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  transform: translateX(3px) scale(1.03);
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.85), 0 0 20px rgba(251, 191, 36, 0.45) !important;
 }

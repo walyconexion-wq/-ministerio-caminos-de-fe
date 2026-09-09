@@ -309,7 +309,7 @@
       }
       if (badge) {
         badge.textContent = 'ON';
-        badge.className = 'text-[8px] sm:text-[9px] font-mono px-1 py-0.2 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold';
+        badge.className = 'hidden sm:inline-block text-[8px] sm:text-[9px] font-mono px-1 py-0.2 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold';
       }
       if (isSpeaking) {
         if (waves) waves.classList.remove('hidden');
@@ -329,7 +329,7 @@
       }
       if (badge) {
         badge.textContent = 'OFF';
-        badge.className = 'text-[8px] sm:text-[9px] font-mono px-1 py-0.2 rounded bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold';
+        badge.className = 'hidden sm:inline-block text-[8px] sm:text-[9px] font-mono px-1 py-0.2 rounded bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold';
       }
       if (waves) waves.classList.add('hidden');
       if (icon) icon.classList.remove('hidden');
