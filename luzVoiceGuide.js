@@ -60,10 +60,28 @@
     lastSpokenTime: {},    // Control de cooldown para no repetir (timestamp)
     synth: window.speechSynthesis || null,
     currentUtterance: null,
-    preferredVoice: null
+    preferredVoice: null,
+    currentAudio: null,    // Instancia HTML5 Audio para voz neural natural
+    audioCache: {}         // Pre-calentamiento de audios
   };
 
-  // Buscar mejor voz en español (Prioridad: Argentina, Latina, España)
+  // Precalentar audios neurales en caché del navegador (Vercel Edge /api/tts)
+  function prewarmAudioCache() {
+    try {
+      Object.keys(SECTIONS_SCRIPTS).forEach(key => {
+        const text = SECTIONS_SCRIPTS[key].text;
+        const url = `/api/tts?voice=es-AR-ElenaNeural&text=${encodeURIComponent(text)}`;
+        const audio = new Audio();
+        audio.preload = 'auto';
+        audio.src = url;
+        state.audioCache[key] = audio;
+      });
+    } catch(e) {
+      console.warn('Error en prewarmAudioCache:', e);
+    }
+  }
+
+  // Buscar mejor voz en español para fallback en SpeechSynthesis si no hay red
   function resolveBestVoice() {
     if (!state.synth) return null;
     const voices = state.synth.getVoices();
@@ -83,12 +101,65 @@
     };
   }
 
-  // Hablar frase de sección
+  // Hablar frase de sección usando Voz Neural Humana Argentina (es-AR-ElenaNeural)
   function speakScript(text, onComplete) {
+    if (!state.isActive || state.isMuted) return;
+
+    // Detener cualquier audio previo
+    stopSpeaking();
+
+    // 1. INTENTO PRINCIPAL: Audio Neural de Microsoft Edge Elena Argentina vía API Vercel
+    try {
+      const ttsUrl = `/api/tts?voice=es-AR-ElenaNeural&text=${encodeURIComponent(text)}`;
+      const audio = new Audio(ttsUrl);
+      state.currentAudio = audio;
+      audio.volume = 1.0;
+
+      audio.onplay = () => {
+        state.isSpeaking = true;
+        updatePlayerUI(true);
+        updateNavbarVoiceButton(true, true);
+      };
+
+      audio.onended = () => {
+        state.isSpeaking = false;
+        state.currentAudio = null;
+        updatePlayerUI(false);
+        updateNavbarVoiceButton(true, false);
+        if (onComplete) onComplete();
+      };
+
+      audio.onerror = (err) => {
+        console.warn('Error en streaming neural, recurriendo a SpeechSynthesis local:', err);
+        state.isSpeaking = false;
+        state.currentAudio = null;
+        updatePlayerUI(false);
+        updateNavbarVoiceButton(true, false);
+        speakWithSpeechSynthesis(text, onComplete);
+      };
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.warn('Interrupción o política de autoplay del navegador:', err);
+          state.isSpeaking = false;
+          updatePlayerUI(false);
+          updateNavbarVoiceButton(true, false);
+        });
+      }
+      return;
+    } catch (e) {
+      console.warn('Fallo en reproductor Audio neural:', e);
+      speakWithSpeechSynthesis(text, onComplete);
+    }
+  }
+
+  // Fallback secundario con Web Speech API
+  function speakWithSpeechSynthesis(text, onComplete) {
     if (!state.synth || !state.isActive || state.isMuted) return;
 
     try {
-      state.synth.cancel(); // Detener cualquier audio previo
+      state.synth.cancel();
     } catch(e) {}
 
     const utterance = new SpeechSynthesisUtterance(text);
@@ -99,24 +170,27 @@
       utterance.voice = state.preferredVoice;
     }
     utterance.lang = state.preferredVoice ? state.preferredVoice.lang : 'es-AR';
-    utterance.pitch = 1.04; // Tono ligeramente cálido y sereno
-    utterance.rate = 0.94;  // Cadencia pausada y clara
+    utterance.pitch = 1.04;
+    utterance.rate = 0.94;
     utterance.volume = 0.95;
 
     utterance.onstart = () => {
       state.isSpeaking = true;
       updatePlayerUI(true);
+      updateNavbarVoiceButton(true, true);
     };
 
     utterance.onend = () => {
       state.isSpeaking = false;
       updatePlayerUI(false);
+      updateNavbarVoiceButton(true, false);
       if (onComplete) onComplete();
     };
 
     utterance.onerror = () => {
       state.isSpeaking = false;
       updatePlayerUI(false);
+      updateNavbarVoiceButton(true, false);
     };
 
     state.currentUtterance = utterance;
@@ -125,6 +199,13 @@
 
   // Detener la voz suavemente
   function stopSpeaking() {
+    if (state.currentAudio) {
+      try {
+        state.currentAudio.pause();
+        state.currentAudio.currentTime = 0;
+      } catch(e) {}
+      state.currentAudio = null;
+    }
     if (state.synth) {
       try {
         state.synth.cancel();
@@ -132,6 +213,7 @@
     }
     state.isSpeaking = false;
     updatePlayerUI(false);
+    updateNavbarVoiceButton(state.isActive, false);
   }
 
   // Intersección de secciones al escrolear
@@ -286,7 +368,7 @@
     updateNavbarVoiceButton(state.isActive, speaking);
   }
 
-  // Sincronizar apariencia del botón en la barra superior (Navbar)
+  // Sincronizar apariencia del botón 3D en la barra superior (Navbar)
   function updateNavbarVoiceButton(isActive, isSpeaking) {
     const btn = document.getElementById('navbar-voice-toggle-btn');
     if (!btn) return;
@@ -299,28 +381,32 @@
     const label = document.getElementById('nav-voice-label');
 
     if (isActive) {
-      btn.classList.add('bg-amber-500/25', 'border-amber-400', 'shadow-[0_0_15px_rgba(251,191,36,0.35)]');
-      btn.classList.remove('bg-amber-500/10', 'border-amber-400/40');
+      btn.classList.add('voice-active');
       if (dot) {
-        dot.className = 'relative inline-flex rounded-full h-2 w-2 bg-emerald-400';
+        dot.className = 'relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#34d399]';
       }
       if (pulse) {
-        pulse.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75';
+        pulse.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80';
       }
       if (badge) {
         badge.textContent = 'ON';
-        badge.className = 'hidden sm:inline-block text-[8px] sm:text-[9px] font-mono px-1 py-0.2 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold';
+        badge.className = 'hidden sm:inline-block text-[8px] sm:text-[9px] font-mono px-1.5 py-0.5 rounded-md bg-emerald-500/30 border border-emerald-400/50 text-emerald-200 font-bold tracking-wider';
       }
       if (isSpeaking) {
-        if (waves) waves.classList.remove('hidden');
+        if (waves) {
+          waves.classList.remove('hidden');
+          waves.classList.add('flex');
+        }
         if (icon) icon.classList.add('hidden');
       } else {
-        if (waves) waves.classList.add('hidden');
+        if (waves) {
+          waves.classList.add('hidden');
+          waves.classList.remove('flex');
+        }
         if (icon) icon.classList.remove('hidden');
       }
     } else {
-      btn.classList.remove('bg-amber-500/25', 'border-amber-400', 'shadow-[0_0_15px_rgba(251,191,36,0.35)]');
-      btn.classList.add('bg-amber-500/10', 'border-amber-400/40');
+      btn.classList.remove('voice-active');
       if (dot) {
         dot.className = 'relative inline-flex rounded-full h-2 w-2 bg-amber-500';
       }
@@ -329,9 +415,12 @@
       }
       if (badge) {
         badge.textContent = 'OFF';
-        badge.className = 'hidden sm:inline-block text-[8px] sm:text-[9px] font-mono px-1 py-0.2 rounded bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold';
+        badge.className = 'hidden sm:inline-block text-[8px] sm:text-[9px] font-mono px-1.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold tracking-wider';
       }
-      if (waves) waves.classList.add('hidden');
+      if (waves) {
+        waves.classList.add('hidden');
+        waves.classList.remove('flex');
+      }
       if (icon) icon.classList.remove('hidden');
     }
   }
@@ -341,6 +430,9 @@
     state.isActive = true;
     state.isMuted = false;
     
+    // Precalentar audios neurales en caché para transiciones instantáneas
+    prewarmAudioCache();
+
     const panelActive = document.getElementById('panel-voice-guide-active');
     const btnActivate = document.getElementById('btn-activate-voice-guide');
     if (btnActivate) btnActivate.classList.add('hidden');
@@ -369,8 +461,11 @@
     updateNavbarVoiceButton(false, false);
   }
 
-  // Alternar Guía (Toggle)
+  // Alternar Guía (Toggle) con Feedback Háptico
   function toggle() {
+    if (typeof window.playHapticPop === 'function') {
+      try { window.playHapticPop(); } catch(e) {}
+    }
     if (state.isActive) {
       deactivate();
     } else {

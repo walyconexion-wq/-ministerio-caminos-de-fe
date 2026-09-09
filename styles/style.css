@@ -164,3 +164,69 @@ section {
   transform: translateX(3px) scale(1.03);
   text-shadow: 0 0 10px rgba(251, 191, 36, 0.85), 0 0 20px rgba(251, 191, 36, 0.45) !important;
 }
+
+/* ==========================================================================
+   BOTÓN 3D TÁCTIL E INTUITIVO PARA GUÍA DE VOZ (SNC 2.0)
+   ========================================================================== */
+.btn-voice-3d {
+  position: relative;
+  background: linear-gradient(180deg, #2b2013 0%, #140e07 100%) !important;
+  border: 1px solid rgba(251, 191, 36, 0.5) !important;
+  border-top-color: rgba(254, 240, 138, 0.75) !important;
+  box-shadow: 
+    0 3px 0 #78350f,
+    0 5px 12px rgba(0, 0, 0, 0.65),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn-voice-3d:hover {
+  background: linear-gradient(180deg, #382a19 0%, #1a1209 100%) !important;
+  border-color: rgba(251, 191, 36, 0.85) !important;
+  border-top-color: #fef08a !important;
+  box-shadow: 
+    0 4px 0 #78350f,
+    0 6px 16px rgba(251, 191, 36, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.45) !important;
+  transform: translateY(-1px);
+}
+
+.btn-voice-3d:active {
+  transform: translateY(2px) !important;
+  box-shadow: 
+    0 1px 0 #78350f,
+    0 2px 5px rgba(0, 0, 0, 0.6),
+    inset 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ESTADO ACTIVO (GUÍA DE VOZ ENCENDIDA: VERDE ESMERALDA / CELESTIAL) */
+.btn-voice-3d.voice-active {
+  background: linear-gradient(180deg, #064e3b 0%, #022c22 100%) !important;
+  border: 1px solid #34d399 !important;
+  border-top-color: #a7f3d0 !important;
+  box-shadow: 
+    0 3px 0 #065f46,
+    0 0 18px rgba(52, 211, 153, 0.45),
+    0 5px 12px rgba(0, 0, 0, 0.65),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+  color: #ecfdf5 !important;
+}
+
+.btn-voice-3d.voice-active:hover {
+  background: linear-gradient(180deg, #047857 0%, #064e3b 100%) !important;
+  box-shadow: 
+    0 4px 0 #065f46,
+    0 0 22px rgba(52, 211, 153, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+  transform: translateY(-1px);
+}
+
+.btn-voice-3d.voice-active:active {
+  transform: translateY(2px) !important;
+  box-shadow: 
+    0 1px 0 #065f46,
+    0 2px 6px rgba(0, 0, 0, 0.6),
+    inset 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
