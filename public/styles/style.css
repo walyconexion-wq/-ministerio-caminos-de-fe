@@ -1,4 +1,4 @@
-﻿@layer utilities {
+@layer utilities {
   .drop-shadow-glow {
     filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.40));
   }
@@ -104,4 +104,42 @@ section {
   background: #FBBF24;
   border-radius: 9999px;
   box-shadow: 0 0 8px #FBBF24;
+}
+
+/* ============================================================
+   NAVEGACIÓN VERTICAL LATERAL (PUNTOS Y LÍNEA SCROLLSPY)
+   ============================================================ */
+.vnav-item {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vnav-dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background-color: rgba(30, 41, 59, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vnav-item:hover .vnav-dot {
+  transform: scale(1.35);
+  border-color: #FBBF24;
+  background-color: rgba(251, 191, 36, 0.6);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.7);
+}
+
+.vnav-item.vnav-active .vnav-dot {
+  transform: scale(1.5);
+  background-color: #FBBF24 !important;
+  border-color: #FFFFFF !important;
+  box-shadow: 0 0 14px #FBBF24, 0 0 28px rgba(251, 191, 36, 0.65) !important;
+}
+
+.vnav-item.vnav-active .vnav-label {
+  border-color: rgba(251, 191, 36, 0.5);
+  color: #FEF08A;
 }
