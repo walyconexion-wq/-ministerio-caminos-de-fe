@@ -1,4 +1,4 @@
-﻿/**
+/**
  * COMUNIDAD FARO DE LUZ - MOTOR MAESTRO DE SCROLLYTELLING Y EXPERIENCIA INTERACTIVA
  * Sincronizado con Supabase Cloud, Reloj Digital, Asistente Asistente Luz y Galería Multimedia
  */
@@ -723,18 +723,38 @@
   window.addEventListener('scroll', onScroll, { passive: true });
 
   
-  // 7. SCROLLSPY Y EFECTO ACTIVO EN MENÚ DE NAVEGACIÓN
+  // 7. SCROLLSPY Y EFECTO ACTIVO EN MENÚ DE NAVEGACIÓN VERTICAL Y HORIZONTAL
   function initScrollSpy() {
+    const vnavItems = document.querySelectorAll('#vertical-scrollspy-nav .vnav-item');
     const navLinks = document.querySelectorAll('#navbar-links .nav-link');
-    if (!navLinks || navLinks.length === 0) return;
+    
+    // Configurar scroll suave y click en los puntos verticales
+    if (vnavItems && vnavItems.length > 0) {
+      vnavItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          const hash = item.getAttribute('href');
+          if (hash && hash.startsWith('#')) {
+            const target = document.querySelector(hash);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth' });
+              try { history.replaceState(null, null, hash); } catch(err) {}
+            }
+          }
+        });
+      });
+    }
+
+    const itemsToWatch = vnavItems.length > 0 ? Array.from(vnavItems) : Array.from(navLinks);
+    if (itemsToWatch.length === 0) return;
 
     const sections = [];
-    navLinks.forEach(link => {
-      const hash = link.getAttribute('href');
+    itemsToWatch.forEach(item => {
+      const hash = item.getAttribute('href');
       if (hash && hash.startsWith('#')) {
         const sec = document.querySelector(hash);
         if (sec) {
-          sections.push({ hash, element: sec, link });
+          sections.push({ hash, element: sec, item });
         }
       }
     });
@@ -743,33 +763,35 @@
 
     function onScrollSpy() {
       const scrollPos = window.scrollY + window.innerHeight * 0.35;
-      let activeIndex = -1;
+      let activeIndex = 0;
 
-      for (let i = 0; i < sections.length; i++) {
-        const top = sections[i].element.offsetTop;
-        const height = sections[i].element.offsetHeight;
-        if (scrollPos >= top && scrollPos < top + height) {
-          activeIndex = i;
-          break;
-        }
-      }
-
-      if (window.scrollY < window.innerHeight * 0.35) {
-        activeIndex = -1;
-      } else if (activeIndex === -1) {
-        for (let i = sections.length - 1; i >= 0; i--) {
-          if (scrollPos >= sections[i].element.offsetTop) {
+      if (window.scrollY < 120) {
+        activeIndex = 0;
+      } else {
+        for (let i = 0; i < sections.length; i++) {
+          const top = sections[i].element.offsetTop;
+          const height = sections[i].element.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
             activeIndex = i;
             break;
           }
         }
+
+        if (activeIndex === -1) {
+          for (let i = sections.length - 1; i >= 0; i--) {
+            if (scrollPos >= sections[i].element.offsetTop) {
+              activeIndex = i;
+              break;
+            }
+          }
+        }
       }
 
-      navLinks.forEach((l, idx) => {
+      itemsToWatch.forEach((it, idx) => {
         if (idx === activeIndex) {
-          l.classList.add('nav-link-active');
+          it.classList.add('vnav-active', 'nav-link-active');
         } else {
-          l.classList.remove('nav-link-active');
+          it.classList.remove('vnav-active', 'nav-link-active');
         }
       });
     }
