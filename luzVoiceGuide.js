@@ -15,7 +15,7 @@
   const SECTIONS_SCRIPTS = {
     'hero': {
       title: 'Bienvenida',
-      text: 'Bienvenido a Caminos de Fe. Te acompaño en este recorrido de fe, oración y comunidad en las sierras.'
+      text: 'Bienvenido a Caminos de Fe. Soy ARI, tu asistente en este recorrido de fe, oración y comunidad en las sierras.'
     },
     'mision-vision': {
       title: 'Nuestra Misión',
@@ -23,7 +23,7 @@
     },
     'ecosistema': {
       title: 'Ecosistema de Luz',
-      text: 'Conocé nuestro ecosistema: el Ministerio, la Fundación Valle de Luz y la Comunidad Faro de Luz.'
+      text: 'Conocé nuestro ecosistema de Luz: el Ministerio, la Fundación Valle de Luz, la Comunidad Faro de Luz y el comercio autónomo de ShopDigital.'
     },
     'regla-tiempo': {
       title: 'Tiempos de Fe',
@@ -289,10 +289,10 @@
     if (isActive) {
       btn.classList.add('voice-active');
       if (dot) {
-        dot.className = 'relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#34d399]';
+        dot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 shadow-[0_0_10px_#34d399]';
       }
       if (pulse) {
-        pulse.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80';
+        pulse.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-90';
       }
       if (badge) {
         badge.textContent = 'ON';
@@ -314,10 +314,10 @@
     } else {
       btn.classList.remove('voice-active');
       if (dot) {
-        dot.className = 'relative inline-flex rounded-full h-2 w-2 bg-amber-500';
+        dot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_#10b981]';
       }
       if (pulse) {
-        pulse.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75';
+        pulse.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75';
       }
       if (badge) {
         badge.textContent = 'OFF';
@@ -331,11 +331,6 @@
     }
   }
 
-  function updateCurrentLabel(title) {
-    // Interfaz simplificada: sin widget inferior
-  }
-
-  // Activar Guía
   function activate() {
     state.isActive = true;
     state.isMuted = false;

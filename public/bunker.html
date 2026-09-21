@@ -211,6 +211,14 @@
             <span class="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">ARCHIFY</span>
           </button>
 
+          <button data-tab="tab-streaming" class="bunker-tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-white/5 transition-all text-left flex justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-base">📡</span>
+              <span>10. Sala Control Streaming</span>
+            </div>
+            <span id="badge-bunker-stream-status" class="px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono text-[10px]">OFF AIR</span>
+          </button>
+
 
           <button data-tab="tab-secops" class="bunker-tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-white/5 transition-all text-left">
             <span class="text-base">🛡️</span>
@@ -1027,6 +1035,149 @@ El Scanner OBD-II aún no ha detectado anomalías. Presione 'INICIAR ESCANEO OBD
                   <div class="font-bold text-cyan-300">Vercel Edge (IAD1) + Supabase RLS</div>
                 </li>
               </ul>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- TAB 10: SALA DE CONTROL DE STREAMING & BROADCAST -->
+        <div id="tab-streaming" class="bunker-view hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between pb-4 border-b border-white/10 gap-4">
+            <div>
+              <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <span>📡</span> Sala de Control Broadcast & Transmisión en Vivo
+              </h3>
+              <p class="text-xs text-slate-400">
+                Control central de la señal para streaming.html · Enlace móvil Moto g04s, cámaras PC y plataformas masivas.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="bunker-stream-badge" class="px-3 py-1 rounded-full bg-slate-800 border border-white/10 text-slate-400 font-mono text-xs flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+                <span>FUERA DEL AIRE</span>
+              </span>
+              <a href="streaming.html" target="_blank" class="px-3 py-1 rounded-xl bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 border border-purple-500/30 text-xs font-mono transition-all flex items-center gap-1.5">
+                <span>Abrir Player</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- PANEL DE CONTROL RÁPIDO ON/OFF AIR -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- TARJETA 1: INTERRUPTOR MAESTRO DE EMISIÓN -->
+            <div class="lg:col-span-2 bg-bunker-card border border-bunker-border rounded-2xl p-6 space-y-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-bold text-white text-base">Interruptor Maestro de Señal</h4>
+                  <p class="text-xs text-slate-400">Activa o suspende inmediatamente la transmisión en el portal público.</p>
+                </div>
+                <button id="btn-toggle-live-broadcast" class="px-6 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2 bg-rose-600 hover:bg-rose-500 text-white shadow-rose-600/30">
+                  <span>🔴 ACTIVAR SEÑAL EN VIVO</span>
+                </button>
+              </div>
+
+              <!-- CONFIGURACIÓN DE ORIGEN / FUENTE -->
+              <div class="p-4 rounded-xl bg-slate-900/80 border border-white/5 space-y-4">
+                <div class="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
+                  <span>⚙️</span> Fuente de Video / Motor
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-slate-300 text-xs font-medium mb-1">Tipo de Emisión</label>
+                    <select id="bunker-stream-type" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-400">
+                      <option value="webrtc">📱 Motor Propio P2P (Móvil Moto g04s / PC Webcam)</option>
+                      <option value="youtube">📺 YouTube Live Broadcast</option>
+                      <option value="custom">🌐 URL Externa / Embed Personalizado</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="block text-slate-300 text-xs font-medium mb-1">Sala P2P / ID Canal</label>
+                    <input type="text" id="bunker-stream-room" value="caminosdefe-live-altar" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-purple-400">
+                  </div>
+                </div>
+
+                <!-- CAMPO DINÁMICO YOUTUBE -->
+                <div id="bunker-yt-group" class="hidden">
+                  <label class="block text-slate-300 text-xs font-medium mb-1">YouTube Video ID o URL completa</label>
+                  <input type="text" id="bunker-stream-ytid" placeholder="ej: jfKfPfyJRdk o https://www.youtube.com/watch?v=..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-purple-400">
+                </div>
+
+                <!-- METADATOS DEL CULTO -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-white/5">
+                  <div>
+                    <label class="block text-slate-300 text-xs font-medium mb-1">Título del Culto / Transmisión</label>
+                    <input type="text" id="bunker-stream-title" value="Culto Dominical & Ministración de Gracia" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-400">
+                  </div>
+                  <div>
+                    <label class="block text-slate-300 text-xs font-medium mb-1">Ubicación / Predicador</label>
+                    <input type="text" id="bunker-stream-location" value="Altar Central Mina Clavero · Equipo Pastoral MCF" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-400">
+                  </div>
+                </div>
+
+                <div class="flex justify-end pt-2">
+                  <button id="btn-save-broadcast-config" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold transition-all flex items-center gap-1.5 shadow">
+                    <span>Guardar Parámetros de Emisión</span>
+                    <span>💾</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- GUÍA RÁPIDA DE TRANSMISIÓN CON MOTO G04S -->
+              <div class="p-4 rounded-xl bg-purple-950/20 border border-purple-500/20 space-y-3">
+                <div class="flex items-center gap-2 text-purple-300 font-bold text-xs">
+                  <span>📱</span> ¿Cómo transmitir en vivo desde el celular (Moto g04s) al Altar?
+                </div>
+                <ol class="text-xs text-slate-300 list-decimal list-inside space-y-1.5 leading-relaxed font-sans">
+                  <li>Abrí en el navegador de tu celular el enlace de emisión directa:</li>
+                  <div class="p-2 rounded-lg bg-black/60 border border-white/10 font-mono text-[11px] text-amber-300 break-all select-all flex items-center justify-between">
+                    <span id="bunker-mobile-push-link">https://vdo.ninja/?push=caminosdefe-live-altar&webcam&autostart</span>
+                    <button id="btn-copy-mobile-link" class="text-xs bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-white ml-2 shrink-0">Copiar</button>
+                  </div>
+                  <li>Otorgá permiso de cámara y micrófono al celular.</li>
+                  <li>¡Listo! Tu teléfono emitirá instantáneamente a <a href="streaming.html" target="_blank" class="text-cyan-300 underline font-mono">streaming.html</a> con latencia cero a todo el pueblo.</li>
+                </ol>
+              </div>
+
+            </div>
+
+            <!-- TARJETA 2: MONITOR DE RETORNO / AUDITORÍA EN TIEMPO REAL -->
+            <div class="bg-bunker-card border border-bunker-border rounded-2xl p-6 flex flex-col justify-between space-y-4">
+              <div>
+                <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+                  <h4 class="font-bold text-white text-xs font-mono uppercase tracking-wider flex items-center gap-2">
+                    <span>📺</span> Monitor de Retorno
+                  </h4>
+                  <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">DIRECT FEED</span>
+                </div>
+                <div id="bunker-stream-preview" class="w-full aspect-video rounded-xl bg-black border border-white/10 overflow-hidden flex items-center justify-center text-center p-4">
+                  <span class="text-xs text-slate-500 font-mono">La vista previa se activará al encender la emisión.</span>
+                </div>
+              </div>
+
+              <!-- TELEMETRÍA TÉCNICA -->
+              <div class="space-y-2 pt-3 border-t border-white/5 font-mono text-[11px]">
+                <div class="flex justify-between text-slate-400">
+                  <span>Enlace Terrenal:</span>
+                  <span class="text-emerald-300">Starlink 185 Mbps</span>
+                </div>
+                <div class="flex justify-between text-slate-400">
+                  <span>Codificación:</span>
+                  <span class="text-white">VP9 / H.264 WebRTC</span>
+                </div>
+                <div class="flex justify-between text-slate-400">
+                  <span>Latencia Estimada:</span>
+                  <span class="text-cyan-300">~150 ms (P2P Mesh)</span>
+                </div>
+                <div class="flex justify-between text-slate-400">
+                  <span>Costo de Infraestructura:</span>
+                  <span class="text-emerald-400 font-bold">$0.00 / Libre</span>
+                </div>
+              </div>
             </div>
 
           </div>

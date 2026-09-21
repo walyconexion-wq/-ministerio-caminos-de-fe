@@ -95,7 +95,7 @@
   <header class="fixed top-2 sm:top-3 left-1/2 -translate-x-1/2 z-40 w-[96%] max-w-6xl">
     <nav class="backdrop-blur-xl bg-[#0B0F17]/90 border border-white/10 rounded-xl sm:rounded-2xl px-2.5 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between shadow-2xl shadow-black/60">
       <!-- LOGO + RELOJ EN VIVO (Ultra compacto y sin superposición en móviles) -->
-      <a href="#hero" id="header-logo-cross" title="Ministerio Caminos de Fe" class="flex items-center gap-1.5 sm:gap-2.5 group select-none cursor-pointer flex-shrink-0 min-w-0">
+      <a href="#hero" id="header-logo-cross" title="Ministerio Caminos de Fe (Acceso Búnker: Doble Clic)" class="flex items-center gap-1.5 sm:gap-2.5 group select-none cursor-pointer flex-shrink-0 min-w-0">
         <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-amber-400/40 shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform flex items-center justify-center bg-black/50 flex-shrink-0">
           <img src="/favicon-mcf.svg" alt="Faro de Luz" class="w-full h-full object-cover">
         </div>
@@ -1143,13 +1143,13 @@
         <div class="flex items-center gap-3">
           <div class="relative">
             <div class="w-10 h-10 rounded-2xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1.5">
-              <img src="/favicon-mcf.svg" alt="Cruz Ministerio" class="w-full h-full object-contain">
+              <img src="/ari-avatar.png" alt="Asistente ARI" class="w-full h-full object-cover">
             </div>
             <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#0B101A] animate-pulse"></span>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h4 class="font-serif text-sm font-bold text-white">Asistente Luz</h4>
+              <h4 class="font-serif text-sm font-bold text-white">Asistente ARI</h4>
               <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[9px]">EN LÍNEA</span>
             </div>
             <p class="text-[10px] text-emerald-400 font-mono">Asistencia 24/7 · Ministerio Caminos de Fe</p>
@@ -1164,10 +1164,10 @@
       <div id="luz-chat-body" class="p-4 overflow-y-auto h-[380px] max-h-[420px] space-y-3 text-xs leading-relaxed">
         <div class="flex gap-2.5 items-start">
           <div class="w-7 h-7 rounded-lg overflow-hidden border border-amber-500/40 p-1 bg-black/50 shadow-sm flex items-center justify-center shrink-0 mt-0.5">
-            <img src="/favicon-mcf.svg" alt="Cruz" class="w-full h-full object-contain">
+            <img src="/ari-avatar.png" alt="Asistente ARI" class="w-full h-full object-cover">
           </div>
           <div class="p-3 rounded-2xl rounded-tl-sm bg-white/5 border border-white/5 text-slate-200">
-            ¡Hola! Soy <strong>Asistente Luz</strong>, del equipo de sistemas de culto y sonido del Ministerio Caminos de Fe. ¿En qué puedo orientarte hoy?
+            ¡Hola! Soy <strong>Asistente ARI</strong>, del equipo de sistemas de culto y sonido del Ministerio Caminos de Fe. ¿En qué puedo orientarte hoy?
           </div>
         </div>
 
@@ -1175,7 +1175,7 @@
 
       <!-- INPUT Y ENVIAR -->
       <form id="luz-chat-form" class="p-3 bg-[#080C14] border-t border-white/10 flex items-center gap-2">
-        <input type="text" id="luz-chat-input" placeholder="Escribí tu consulta al Asistente Luz..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition-all">
+        <input type="text" id="luz-chat-input" placeholder="Escribí tu consulta a Asistente ARI..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition-all">
         <button type="submit" class="w-9 h-9 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 flex items-center justify-center shadow-md shadow-amber-500/20 transition-all transform hover:scale-105 active:scale-95 shrink-0">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
         </button>
@@ -1183,16 +1183,16 @@
 
     </div>
 
-    <!-- BOTÓN DISPARADOR FLOTANTE COMPACTO -->
-    <button type="button" id="btn-toggle-luz-chat" class="group flex items-center gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#0F172A]/90 to-[#1E1B18]/90 hover:from-[#1E293B] hover:to-[#2A241F] border border-amber-500/40 shadow-xl shadow-black/80 backdrop-blur-md transition-all transform hover:scale-105 active:scale-95">
-      <div class="relative">
-        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl overflow-hidden border border-amber-400/50 shadow-md shadow-amber-500/20 flex items-center justify-center bg-black/60 p-1">
-          <img src="/favicon-mcf.svg" alt="Cruz Ministerio" class="w-full h-full object-contain">
+    <!-- BOTÓN DISPARADOR FLOTANTE COMPACTO: ASISTENTE ARI -->
+    <button type="button" id="btn-toggle-luz-chat" class="group flex items-center gap-2.5 px-3 py-1.5 sm:py-2 rounded-2xl bg-gradient-to-r from-[#0F172A]/90 to-[#1E1B18]/90 hover:from-[#1E293B] hover:to-[#2A241F] border border-amber-500/50 shadow-xl shadow-black/80 backdrop-blur-md transition-all transform hover:scale-105 active:scale-95 cursor-pointer">
+      <div class="relative flex-shrink-0">
+        <div class="w-8 h-8 rounded-full overflow-hidden border border-amber-400/60 shadow-md shadow-amber-500/30 flex items-center justify-center bg-slate-950">
+          <img src="/ari-avatar.png" alt="Asistente ARI" class="w-full h-full object-cover">
         </div>
-        <span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-[#0B101A] animate-pulse"></span>
       </div>
       <div class="text-left hidden sm:block">
-        <div class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors leading-tight">Asistente Luz</div>
+        <div class="text-xs font-bold text-white group-hover:text-amber-300 transition-colors leading-tight">Asistente ARI</div>
         <div class="text-[9px] text-emerald-400 font-mono leading-tight flex items-center gap-1">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Asistencia 24/7
         </div>
@@ -1206,23 +1206,60 @@
 
 
 
+    <!-- ACCESO ULTRA SEGURO AL BÚNKER (Doble Clic / Triple Clic / Doble Toque en Logo) -->
   <script>
-    // Detector de 3 clics en la cruz del header para acceso confidencial al Búnker
     (function() {
       let clicks = 0;
       let timer = null;
-      const logo = document.getElementById('header-logo-cross');
+      let lastTap = 0;
+      const logo = document.getElementById('header-bunker-trigger') || document.getElementById('header-logo-cross');
       if (!logo) return;
+
+      function goToBunker(e) {
+        if (e) {
+          try { e.preventDefault(); } catch(err) {}
+          try { e.stopPropagation(); } catch(err) {}
+        }
+        try {
+          if (window.soundFX && typeof window.soundFX.teleport === 'function') {
+            window.soundFX.teleport();
+          } else if (window.soundFX && typeof window.soundFX.click === 'function') {
+            window.soundFX.click();
+          }
+        } catch(err) {}
+
+        logo.style.transition = 'transform 0.2s ease, filter 0.2s ease';
+        logo.style.transform = 'scale(0.92)';
+        logo.style.filter = 'brightness(1.6) drop-shadow(0 0 14px #38bdf8)';
+
+        setTimeout(function() {
+          window.location.href = 'bunker.html';
+        }, 120);
+      }
+
+      // 1. Doble clic nativo (PC de escritorio)
+      logo.addEventListener('dblclick', goToBunker);
+
+      // 2. Acumulador de clics rápidos (2 o 3 clics dentro de 1200ms)
       logo.addEventListener('click', function(e) {
         clicks++;
         if (timer) clearTimeout(timer);
-        if (clicks >= 3) {
-          e.preventDefault();
+        if (clicks >= 2) {
           clicks = 0;
-          window.location.href = 'bunker.html';
+          goToBunker(e);
           return;
         }
-        timer = setTimeout(() => { clicks = 0; }, 1200);
+        timer = setTimeout(function() { clicks = 0; }, 1200);
+      });
+
+      // 3. Soporte táctil móvil (doble toque en menos de 500ms)
+      logo.addEventListener('touchend', function(e) {
+        const now = new Date().getTime();
+        const diff = now - lastTap;
+        if (diff > 0 && diff < 500) {
+          goToBunker(e);
+        }
+        lastTap = now;
       });
     })();
   </script>

@@ -1,6 +1,6 @@
 /**
  * COMUNIDAD FARO DE LUZ - MOTOR MAESTRO DE SCROLLYTELLING Y EXPERIENCIA INTERACTIVA
- * Sincronizado con Supabase Cloud, Reloj Digital, Asistente Asistente Luz y Galería Multimedia
+ * Sincronizado con Supabase Cloud, Reloj Digital, Asistente Asistente ARI y Galería Multimedia
  */
 
 (function () {
@@ -338,7 +338,7 @@
 
       const indicator = document.createElement('div');
       indicator.className = 'flex gap-2 items-center text-[10px] text-amber-300 font-mono italic p-2';
-      indicator.innerHTML = '<span class="animate-spin text-xs">⚡</span> Asistente Luz está pensando...';
+      indicator.innerHTML = '<span class="animate-spin text-xs">⚡</span> Asistente ARI está pensando...';
       chatBody.appendChild(indicator);
       chatBody.scrollTop = chatBody.scrollHeight;
 
@@ -354,13 +354,13 @@
 
         const reply = data.reply || getLocalFallback(text);
         chatHistory.push({ role: 'assistant', content: reply });
-        appendChatMessage('Asistente Luz', reply, 'assistant');
+        appendChatMessage('Asistente ARI', reply, 'assistant');
         reproducirVozHumana(reply);
       } catch (err) {
         indicator.remove();
         const reply = getLocalFallback(text);
         chatHistory.push({ role: 'assistant', content: reply });
-        appendChatMessage('Asistente Luz', reply, 'assistant');
+        appendChatMessage('Asistente ARI', reply, 'assistant');
         reproducirVozHumana(reply);
       }
     }
@@ -405,7 +405,7 @@
       if (q.includes('shopdigital') || q.includes('sustento') || q.includes('70/20')) {
         return 'Aplicamos la regla 70/20/10: 70% trabajo remoto en ShopDigital (garantiza el fondo común), 20% tareas comunitarias y 10% servicio social y espiritual.';
       }
-      return '¡Hola! Soy el Asistente Luz, de sistemas de culto y sonido del Ministerio Caminos de Fe. Te invito a explorar nuestra web o registrarte en el formulario de contacto para recibir tu Credencial Digital de Miembro.';
+      return '¡Hola! Soy el Asistente ARI, de sistemas de culto y sonido del Ministerio Caminos de Fe. Te invito a explorar nuestra web o registrarte en el formulario de contacto para recibir tu Credencial Digital de Miembro.';
     }
   }
 

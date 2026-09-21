@@ -105,6 +105,7 @@
         if (view.id === targetTab) {
           view.classList.remove('hidden');
           if (targetTab === 'tab-postulantes') loadSupabaseData();
+          if (targetTab === 'tab-streaming') syncBunkerStreamingView();
           if (targetTab === 'tab-arquitectura') {
             const iframe = document.getElementById('iframe-archify-blueprint');
             if (iframe && (!iframe.getAttribute('src') || iframe.getAttribute('src') === '')) {
@@ -1232,11 +1233,202 @@ Directiva para Luz-01: La plataforma se encuentra en estado excelente (${totalSc
     }
   }
 
-  // Inicializar Device Lab
+  // ==============================================================================
+  // MÓDULO 10: SALA DE CONTROL DE STREAMING & BROADCAST EN VIVO
+  // ==============================================================================
+  const STREAMING_STORAGE_KEY = 'mcf_streaming_broadcast_state';
+
+  function getStreamingState() {
+    try {
+      const saved = localStorage.getItem(STREAMING_STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.error('Error leyendo estado de streaming:', e);
+    }
+    return {
+      isLive: false,
+      streamType: 'webrtc',
+      roomName: 'caminosdefe-live-altar',
+      youtubeId: '',
+      streamTitle: 'Culto Dominical & Ministración de Gracia',
+      preacher: 'Equipo Pastoral MCF & Misioneros',
+      location: 'Altar Central Mina Clavero',
+      viewersCount: 42
+    };
+  }
+
+  function setStreamingState(newState) {
+    const current = getStreamingState();
+    const updated = { ...current, ...newState, updatedAt: new Date().toISOString() };
+    localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(updated));
+    syncBunkerStreamingView();
+    return updated;
+  }
+
+  function syncBunkerStreamingView() {
+    const state = getStreamingState();
+    const btnToggle = document.getElementById('btn-toggle-live-broadcast');
+    const badgeSidebar = document.getElementById('badge-bunker-stream-status');
+    const badgeTop = document.getElementById('bunker-stream-badge');
+    const selectType = document.getElementById('bunker-stream-type');
+    const inputRoom = document.getElementById('bunker-stream-room');
+    const inputYt = document.getElementById('bunker-stream-ytid');
+    const groupYt = document.getElementById('bunker-yt-group');
+    const inputTitle = document.getElementById('bunker-stream-title');
+    const inputLocation = document.getElementById('bunker-stream-location');
+    const pushLink = document.getElementById('bunker-mobile-push-link');
+    const previewContainer = document.getElementById('bunker-stream-preview');
+
+    if (selectType) selectType.value = state.streamType || 'webrtc';
+    if (inputRoom) inputRoom.value = state.roomName || 'caminosdefe-live-altar';
+    if (inputYt) inputYt.value = state.youtubeId || '';
+    if (inputTitle) inputTitle.value = state.streamTitle || '';
+    if (inputLocation) inputLocation.value = state.location || '';
+
+    if (groupYt) {
+      if (state.streamType === 'youtube') groupYt.classList.remove('hidden');
+      else groupYt.classList.add('hidden');
+    }
+
+    const room = state.roomName || 'caminosdefe-live-altar';
+    if (pushLink) {
+      pushLink.textContent = `https://vdo.ninja/?push=${encodeURIComponent(room)}&webcam&autostart`;
+    }
+
+    if (state.isLive) {
+      if (btnToggle) {
+        btnToggle.className = 'px-6 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/20';
+        btnToggle.innerHTML = '<span>⚪ PASAR A STANDBY (APAGAR)</span>';
+      }
+      if (badgeSidebar) {
+        badgeSidebar.className = 'px-1.5 py-0.5 rounded-full bg-rose-600/30 text-rose-300 font-mono text-[10px] animate-pulse';
+        badgeSidebar.textContent = 'LIVE NOW';
+      }
+      if (badgeTop) {
+        badgeTop.className = 'px-3 py-1 rounded-full bg-rose-600/20 border border-rose-500/40 text-rose-300 font-mono text-xs flex items-center gap-1.5 shadow-lg shadow-rose-600/30';
+        badgeTop.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span><span>🔴 EN VIVO AL AIRE</span>';
+      }
+
+      if (previewContainer) {
+        if (state.streamType === 'webrtc') {
+          previewContainer.innerHTML = `
+            <iframe 
+              src="https://vdo.ninja/?room=${encodeURIComponent(room)}&view=${encodeURIComponent(room)}&cleanoutput&transparent=0&novideo=0&noaudio=1&autoplay=1"
+              class="w-full h-full border-0"
+              allow="autoplay; camera; microphone; fullscreen">
+            </iframe>
+          `;
+        } else if (state.streamType === 'youtube') {
+          previewContainer.innerHTML = `
+            <iframe 
+              src="https://www.youtube.com/embed/${encodeURIComponent(state.youtubeId || '')}?autoplay=1&mute=1"
+              class="w-full h-full border-0"
+              allow="autoplay; fullscreen">
+            </iframe>
+          `;
+        } else {
+          previewContainer.innerHTML = `<span class="text-xs text-emerald-400 font-mono">Emisión personalizada en curso.</span>`;
+        }
+      }
+    } else {
+      if (btnToggle) {
+        btnToggle.className = 'px-6 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2 bg-rose-600 hover:bg-rose-500 text-white shadow-rose-600/30';
+        btnToggle.innerHTML = '<span>🔴 ACTIVAR SEÑAL EN VIVO</span>';
+      }
+      if (badgeSidebar) {
+        badgeSidebar.className = 'px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono text-[10px]';
+        badgeSidebar.textContent = 'OFF AIR';
+      }
+      if (badgeTop) {
+        badgeTop.className = 'px-3 py-1 rounded-full bg-slate-800 border border-white/10 text-slate-400 font-mono text-xs flex items-center gap-1.5';
+        badgeTop.innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-500"></span><span>FUERA DEL AIRE</span>';
+      }
+      if (previewContainer) {
+        previewContainer.innerHTML = `<span class="text-xs text-slate-500 font-mono">La vista previa se activará al encender la emisión.</span>`;
+      }
+    }
+  }
+
+  function initStreamingBunkerControls() {
+    const btnToggle = document.getElementById('btn-toggle-live-broadcast');
+    const selectType = document.getElementById('bunker-stream-type');
+    const inputRoom = document.getElementById('bunker-stream-room');
+    const inputYt = document.getElementById('bunker-stream-ytid');
+    const groupYt = document.getElementById('bunker-yt-group');
+    const inputTitle = document.getElementById('bunker-stream-title');
+    const inputLocation = document.getElementById('bunker-stream-location');
+    const btnSave = document.getElementById('btn-save-broadcast-config');
+    const btnCopy = document.getElementById('btn-copy-mobile-link');
+
+    if (btnToggle) {
+      btnToggle.addEventListener('click', () => {
+        const current = getStreamingState();
+        const updated = setStreamingState({ isLive: !current.isLive });
+        if (window.soundFX && typeof window.soundFX.playToggle === 'function') {
+          window.soundFX.playToggle();
+        }
+        alert(updated.isLive 
+          ? '🔴 ¡SEÑAL AL AIRE! streaming.html ahora transmite la señal en directo.' 
+          : '⚪ Señal en STANDBY. streaming.html muestra el mensaje de próxima transmisión.');
+      });
+    }
+
+    if (selectType) {
+      selectType.addEventListener('change', () => {
+        if (groupYt) {
+          if (selectType.value === 'youtube') groupYt.classList.remove('hidden');
+          else groupYt.classList.add('hidden');
+        }
+      });
+    }
+
+    if (btnSave) {
+      btnSave.addEventListener('click', () => {
+        let ytId = inputYt ? inputYt.value.trim() : '';
+        if (ytId.includes('v=')) {
+          ytId = ytId.split('v=')[1].split('&')[0];
+        } else if (ytId.includes('youtu.be/')) {
+          ytId = ytId.split('youtu.be/')[1].split('?')[0];
+        }
+
+        setStreamingState({
+          streamType: selectType ? selectType.value : 'webrtc',
+          roomName: inputRoom ? inputRoom.value.trim() || 'caminosdefe-live-altar' : 'caminosdefe-live-altar',
+          youtubeId: ytId,
+          streamTitle: inputTitle ? inputTitle.value.trim() : 'Culto en Vivo',
+          location: inputLocation ? inputLocation.value.trim() : 'Altar Central Mina Clavero'
+        });
+
+        if (window.soundFX && typeof window.soundFX.playClick === 'function') {
+          window.soundFX.playClick();
+        }
+        alert('💾 Parámetros de emisión actualizados con éxito.');
+      });
+    }
+
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        const link = document.getElementById('bunker-mobile-push-link');
+        if (link) {
+          navigator.clipboard.writeText(link.textContent.trim()).then(() => {
+            alert('✓ Enlace de transmisión copiado al portapapeles. Abrilo en el Moto g04s.');
+          });
+        }
+      });
+    }
+
+    syncBunkerStreamingView();
+  }
+
+  // Inicializar Device Lab y Streaming Controls
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDeviceLab);
+    document.addEventListener('DOMContentLoaded', () => {
+      initDeviceLab();
+      initStreamingBunkerControls();
+    });
   } else {
     initDeviceLab();
+    initStreamingBunkerControls();
   }
 
 })();
