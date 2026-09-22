@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-[#0d0b14]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fábrica de Misiles ARI · Sistema de Producción Viral</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Syne:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            syne: ['Syne', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            dark: '#0d0b14',
+            neon: '#22c55e',
+            accent: '#f43f5e',
+            purplemcf: '#a855f7'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,0.5); }
+  </style>
+
+  <!-- Motores de Persistencia, FFmpeg y Cerebro AI -->
+  <script src="src/fabrica-db.js"></script>
+  <script src="src/fabrica-ffmpeg.js"></script>
+  <script src="src/fabrica-ai.js"></script>
+</head>
+<body class="h-full bg-[#0d0b14] text-white font-sans overflow-hidden select-none flex flex-col justify-between">
+
+  <!-- TOP BAR GLOBAL -->
+  <header class="border-b border-white/5 bg-[#0d0b14]/90 backdrop-blur px-6 py-3.5 flex items-center justify-between z-30 shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-purple-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+        <span class="material-symbols-outlined text-black text-sm">rocket_launch</span>
+      </div>
+      <div>
+        <h1 class="font-syne font-black text-sm uppercase tracking-wider text-white flex items-center gap-2">
+          Fábrica de Misiles ARI
+          <span class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">v2.5 PRO</span>
+        </h1>
+        <p class="text-[9px] text-white/40 font-mono">Sistema de Producción Viral · 3x10s = 30s Master</p>
+      </div>
+    </div>
+
+    <!-- Navegación y Enlaces al Ecosistema -->
+    <div class="flex items-center gap-2">
+      <button onclick="app.showCajaNegraModal()" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-mono text-xs border border-white/10 flex items-center gap-1.5 transition-all">
+        <span class="material-symbols-outlined text-xs text-purple-400">inventory_2</span>
+        <span class="hidden sm:inline">Caja Negra</span>
+      </button>
+      <button onclick="app.setStep('arsenal')" class="px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-mono text-xs border border-purple-500/30 flex items-center gap-1.5 transition-all">
+        <span class="material-symbols-outlined text-xs">grid_view</span>
+        <span class="hidden sm:inline">Arsenal</span>
+      </button>
+      <a href="bunker.html" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs border border-white/10 flex items-center gap-1.5 transition-all">
+        <span class="material-symbols-outlined text-xs text-amber-300">security</span>
+        <span class="hidden sm:inline">Búnker</span>
+      </a>
+      <a href="streaming.html" class="px-3 py-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 font-mono text-xs border border-rose-500/30 flex items-center gap-1.5 transition-all">
+        <span class="material-symbols-outlined text-xs">live_tv</span>
+        <span class="hidden sm:inline">Altar Vivo</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL DE PANTALLAS (SPA REACTIVO) -->
+  <main id="app-view-container" class="flex-1 overflow-hidden relative">
+    <!-- Renderizado dinámico por fabricaApp -->
+  </main>
+
+  <!-- SCRIPT DE LA APLICACIÓN -->
+  <script>
+    // CONSTANTES EXACTAS DEL SISTEMA ARI
+    const SCENARIOS = [
+      {
+        id: 'ecommerce',
+        title: 'ARI OFERTAS',
+        description: 'Tienda digital inteligente y cazadora de liquidaciones. Radar de oportunidades.',
+        camouflage: 'Traje sastre corporativo azul/gris, auricular headset ejecutivo. ADN: Teo North.',
+        background: 'Estudio de e-commerce moderno, limpio, con gráficos de precios y stock.',
+        icon: 'shopping_cart',
+        previewColor: 'bg-blue-600'
+      },
+      {
+        id: 'ministerio_fe',
+        title: 'Ministerio Caminos de Fe',
+        description: 'Edificación espiritual y oración desde el Valle de Traslasierra.',
+        camouflage: 'Vestimenta fraterna, cálida, luminosa y elegante pero cercana.',
+        background: 'Estudio pastoral luminoso o paisajes del Valle de Traslasierra con luz suave.',
+        icon: 'church',
+        previewColor: 'bg-purple-700'
+      },
+      {
+        id: 'faro',
+        title: 'Comunidad Faro de Luz',
+        description: 'Encuentro, hermandad y acompañamiento. Un faro en la soledad.',
+        camouflage: 'Ropa de confianza (tipo hermana/amiga), tonos pasteles y cálidos.',
+        background: 'Ambiente hogareño, cálido, con luz de hogar y un "faro" simbólico de fondo.',
+        icon: 'flare',
+        previewColor: 'bg-amber-500'
+      },
+      {
+        id: 'ministerio_valle',
+        title: 'Fundación Valle de Luz',
+        description: 'Brazo social y solidaridad activa. Transformación real en el territorio.',
+        camouflage: 'Ropa práctica de voluntario, chaleco de la fundación o tonos naturales.',
+        background: 'Escenarios de ayuda social, comedores o naturaleza del valle con transparencia.',
+        icon: 'volunteer_activism',
+        previewColor: 'bg-emerald-600'
+      },
+      {
+        id: 'bazar',
+        title: 'SHOPDIGITAL',
+        description: 'Infraestructura fractal y catálogos interactivos para emprendedores.',
+        camouflage: 'Estilo tecnológico moderno, casual digital, muy dinámico.',
+        background: 'Interfaz de usuario flotante, entorno de oficina tech futurista.',
+        icon: 'dashboard_customize',
+        previewColor: 'bg-orange-500'
+      }
+    ];
+
+    const MISSIONS = [
+      {
+        id: 'funny',
+        category: 'presentation',
+        title: 'Cercanía Fraterna',
+        description: 'Tono amigable y hermano (Ideal para Faro y Ministerio).',
+        promptFocus: 'Warm smile, inviting gestures, brotherly love, soft lighting, direct eye contact.'
+      },
+      {
+        id: 'suspense',
+        category: 'presentation',
+        title: 'Radar de Oportunidad',
+        description: 'Tono ejecutivo y analítico (Ideal para Ofertas).',
+        promptFocus: 'Executive posture, analytical gestures, pointing at deals, confident business tone.'
+      },
+      {
+        id: 'explosive',
+        category: 'presentation',
+        title: 'Impacto Social',
+        description: 'Tono movilizador y comprometido (Ideal para Fundación).',
+        promptFocus: 'Passionate and mobilizing, hands in action, transparent background, bright and active.'
+      },
+      {
+        id: 'dynamic',
+        category: 'promotion',
+        title: 'Persuasivo Comercial',
+        description: 'Tono Teo North: Persuasivo, ágil y de alto impacto.',
+        promptFocus: 'Fast-paced hand movements, showing social proof, dynamic editing cues, executive persuasive tone.'
+      },
+      {
+        id: 'urgent',
+        category: 'cta',
+        title: 'Urgencia de Stock',
+        description: 'Llamado a la acción directo y por tiempo limitado.',
+        promptFocus: 'Urgent pointing, commanding but professional tone, limited time expression.'
+      },
+      {
+        id: 'friendly',
+        category: 'cta',
+        title: 'Invitación Apasionada',
+        description: 'Llamado espiritual efusivo y cálido.',
+        promptFocus: 'Passionate inviting arms, wide open gestures, warm welcoming smile, bright aura.'
+      }
+    ];
+
+    const CTA_OPTIONS = [
+      { id: 'link', label: 'Link en Bio', icon: 'link', text: 'Tocá el link en bio y asegurá tu stock con cuotas sin interés' },
+      { id: 'phone', label: 'Mensaje Directo', icon: 'send', text: 'Escribinos por mensaje directo y oramos por vos' },
+      { id: 'subscribe', label: 'Unirse', icon: 'group_add', text: 'Unite a nuestra comunidad o vení a compartir este domingo' },
+      { id: 'form', label: 'Colaborar', icon: 'volunteer_activism', text: 'Sumate como voluntario o hacé tu aporte solidario' },
+      { id: 'like', label: 'Digitalizar', icon: 'bolt', text: 'Pedí tu catálogo interactivo hoy mismo y empezá a vender' }
+    ];
+
+    const DURATIONS = [
+      { label: '5s', value: 5 },
+      { label: '8s', value: 8 },
+      { label: '10s', value: 10 }
+    ];
+
+    const ASPECT_RATIOS = [
+      { label: 'Vertical 9:16', value: '9:16', icon: 'smartphone', desc: 'TikTok/Reels' },
+      { label: 'Horizontal 16:9', value: '16:9', icon: 'laptop', desc: 'YouTube/Web' }
+    ];
+
+    // ESTADO PRINCIPAL DE LA APLICACIÓN
+    class FabricaApp {
+      constructor() {
+        this.state = {
+          step: 'intro', // intro | scenario | template | objective | config | generating | result | arsenal | assembler
+          profiles: [],
+          activeProfile: null,
+          selectedScenario: null,
+          missionType: 'presentation',
+          objectiveDetails: '',
+          productMediaItems: [],
+          ctaAction: 'link',
+          duration: 10,
+          aspectRatio: '9:16',
+          selectedMission: null,
+          finalAdjustment: '',
+          resultVideo: null,
+          history: [],
+          // Para ensamblador
+          assemblerSelectedIds: [],
+          assemblerProgress: 0,
+          assemblerStatus: '',
+          assemblerPreview: null,
+          // Para generación
+          genTimer: 0,
+          genInterval: null,
+          aiScriptResult: null
+        };
+
+        this.init();
+      }
+
+      async init() {
+        try {
+          this.state.profiles = await window.fabricaDB.getAllProfiles();
+          this.state.history = await window.fabricaDB.getAllHistory();
+        } catch (e) {
+          console.warn('Error inicializando DB:', e);
+        }
+        this.render();
+      }
+
+      setStep(step) {
+        this.state.step = step;
+        this.render();
+      }
+
+      getScenario(id) {
+        return SCENARIOS.find(s => s.id === (id || this.state.selectedScenario)) || SCENARIOS[0];
+      }
+
+      // ==========================================
+      // RENDERIZADOR MAESTRO DE VISTAS
+      // ==========================================
+      render() {
+        const container = document.getElementById('app-view-container');
+        if (!container) return;
+
+        switch (this.state.step) {
+          case 'intro':
+            container.innerHTML = this.renderIntro();
+            break;
+          case 'scenario':
+            container.innerHTML = this.renderScenario();
+            break;
+          case 'template':
+            container.innerHTML = this.renderTemplate();
+            break;
+          case 'objective':
+            container.innerHTML = this.renderObjective();
+            break;
+          case 'config':
+            container.innerHTML = this.renderConfig();
+            break;
+          case 'generating':
+            container.innerHTML = this.renderGenerating();
+            break;
+          case 'result':
+            container.innerHTML = this.renderResult();
+            break;
+          case 'arsenal':
+            container.innerHTML = this.renderArsenal();
+            break;
+          case 'assembler':
+            container.innerHTML = this.renderAssembler();
+            break;
+          default:
+            container.innerHTML = this.renderIntro();
+        }
+      }
+
+      // 1. PANTALLA INICIAL (INTRO / HUB DE PRODUCCIÓN)
+      renderIntro() {
+        return `
+          <div class="h-full flex flex-col items-center justify-center p-6 overflow-y-auto custom-scrollbar">
+            <div class="max-w-md w-full text-center space-y-6">
+              
+              <!-- TÍTULO PRINCIPAL -->
+              <div>
+                <div class="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] font-mono text-purple-300 uppercase tracking-widest mb-3">
+                  DNA Calibrado 1.0 · Motor Multilínea
+                </div>
+                <h2 class="font-syne font-black text-3xl sm:text-4xl text-white tracking-tight uppercase">
+                  Fábrica de <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-lime-300">Misiles ARI</span>
+                </h2>
+                <p class="text-xs text-slate-400 font-mono uppercase tracking-widest mt-1">
+                  Sistema de Producción Viral
+                </p>
+              </div>
+
+              <!-- BOTÓN PRINCIPAL: NUEVA OPERACIÓN -->
+              <div class="pt-2">
+                <button onclick="app.setStep('scenario')" class="w-full py-10 rounded-3xl bg-gradient-to-br from-rose-500 via-pink-600 to-purple-600 hover:from-rose-400 hover:to-purple-500 text-white font-syne font-black text-2xl uppercase tracking-wider shadow-2xl shadow-rose-600/40 border border-white/20 flex flex-col items-center justify-center gap-2 transform active:scale-95 transition-all group">
+                  <span class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-3xl group-hover:rotate-90 transition-transform">
+                    +
+                  </span>
+                  <span>NUEVA OPERACIÓN</span>
+                  <span class="text-[10px] font-mono font-normal tracking-normal text-white/70">
+                    Lanzar misil de 10s para ensamble
+                  </span>
+                </button>
+              </div>
+
+              <!-- LÍNEAS DE PRODUCCIÓN / ARSENALES -->
+              <div class="space-y-2 pt-4">
+                <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase tracking-wider px-2">
+                  <span class="flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-xs text-purple-400">deployed_code</span>
+                    Líneas de Producción
+                  </span>
+                  <span>${this.state.history.length} Misiles en Arsenal</span>
+                </div>
+
+                <div class="space-y-2">
+                  ${SCENARIOS.map(s => {
+                    const count = this.state.history.filter(h => h.config?.selectedScenario === s.id).length;
+                    return `
+                      <button onclick="app.selectScenarioAndGoToArsenal('${s.id}')" class="w-full p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 flex items-center justify-between transition-all group text-left">
+                        <div class="flex items-center gap-3">
+                          <div class="w-9 h-9 rounded-xl ${s.previewColor} flex items-center justify-center text-white shadow">
+                            <span class="material-symbols-outlined text-base">${s.icon}</span>
+                          </div>
+                          <div>
+                            <div class="font-bold text-xs text-white uppercase group-hover:text-purple-300 transition-colors">${s.title}</div>
+                            <div class="text-[10px] text-slate-400 font-mono">Arsenal: ${count} creados</div>
+                          </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-500 group-hover:text-white transition-colors">chevron_right</span>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+
+              <!-- CAJA NEGRA DE ARI (MEMORIA INDEXEDDB) -->
+              <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-left space-y-3 pt-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-xs">shield</span>
+                    Caja Negra de Ari [Memoria Ilimitada]
+                  </span>
+                  <span class="text-[9px] font-mono text-slate-400">IndexedDB Activa</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <button onclick="app.exportCajaNegra()" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 transition-all">
+                    <span class="material-symbols-outlined text-xs text-purple-400">download</span>
+                    Respaldar Carpetas
+                  </button>
+                  <label class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-all">
+                    <span class="material-symbols-outlined text-xs text-emerald-400">upload</span>
+                    Restaurar Datos
+                    <input type="file" accept=".json" onchange="app.importCajaNegra(event)" class="hidden">
+                  </label>
+                </div>
+                <p class="text-[9px] text-slate-500 font-mono text-center">
+                  Tus carpetas, avatares y videos están seguros localmente sin límite de 5MB.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. SELECCIÓN DE CAMUFLAJE / ESCENARIO
+      renderScenario() {
+        return `
+          <div class="h-full flex flex-col p-6 max-w-2xl mx-auto overflow-y-auto custom-scrollbar">
+            <div class="mb-6">
+              <button onclick="app.setStep('intro')" class="text-purple-400 hover:text-white flex items-center gap-1.5 text-xs font-mono font-bold uppercase mb-3 transition-colors">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Regresar
+              </button>
+              <h2 class="font-syne font-black text-2xl text-white uppercase tracking-tight">
+                0. Camuflaje de ARI
+              </h2>
+              <p class="text-xs text-slate-400">Seleccioná la identidad visual y el ADN para tu video.</p>
+            </div>
+
+            <div class="space-y-3 flex-1 pb-24">
+              ${SCENARIOS.map(s => {
+                const isSelected = this.state.selectedScenario === s.id;
+                return `
+                  <div onclick="app.selectScenario('${s.id}')" class="p-4 rounded-2xl border transition-all cursor-pointer ${
+                    isSelected ? 'bg-white/10 border-emerald-400 ring-2 ring-emerald-500/20 shadow-lg' : 'bg-white/5 border-white/10 hover:border-white/20'
+                  }">
+                    <div class="flex items-start gap-4">
+                      <div class="w-10 h-10 rounded-xl ${s.previewColor} flex items-center justify-center text-white shrink-0 shadow">
+                        <span class="material-symbols-outlined text-xl">${s.icon}</span>
+                      </div>
+                      <div class="flex-1">
+                        <div class="flex items-center justify-between">
+                          <h3 class="font-bold text-sm text-white uppercase">${s.title}</h3>
+                          ${isSelected ? '<span class="material-symbols-outlined text-emerald-400 text-sm">check_circle</span>' : ''}
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mt-1">${s.description}</p>
+                        <div class="mt-2 text-[10px] font-mono text-purple-300 bg-purple-950/30 p-2 rounded-lg border border-purple-500/10">
+                          <strong>ADN:</strong> ${s.camouflage}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+
+            <div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#0d0b14] via-[#0d0b14] to-transparent z-20">
+              <div class="max-w-2xl mx-auto">
+                <button onclick="app.setStep('template')" ${!this.state.selectedScenario ? 'disabled' : ''} class="w-full py-4 rounded-2xl bg-white disabled:bg-white/10 disabled:text-white/20 text-black font-syne font-black uppercase tracking-wider transition-all active:scale-95 shadow-xl flex items-center justify-center gap-2">
+                  <span>Siguiente Paso</span>
+                  <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 3. SELECCIÓN DE PLANTILLA / CARPETAS
+      renderTemplate() {
+        const scenario = this.getScenario();
+        const profilesForScenario = this.state.profiles.filter(p => p.scenarioId === scenario.id);
+
+        return `
+          <div class="h-full flex flex-col p-6 max-w-2xl mx-auto overflow-y-auto custom-scrollbar">
+            <div class="mb-6">
+              <button onclick="app.setStep('scenario')" class="text-purple-400 hover:text-white flex items-center gap-1.5 text-xs font-mono font-bold uppercase mb-3 transition-colors">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Regresar a Selección de Línea
+              </button>
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl ${scenario.previewColor} flex items-center justify-center text-white shadow">
+                  <span class="material-symbols-outlined text-base">${scenario.icon}</span>
+                </div>
+                <div>
+                  <h2 class="font-syne font-black text-xl text-white uppercase tracking-tight">
+                    Base: ${scenario.title}
+                  </h2>
+                  <p class="text-[10px] font-mono text-emerald-400 uppercase tracking-widest">Calibración Exclusiva de Sector</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARPETAS EXISTENTES O NUEVA CARPETA -->
+            <div class="space-y-4 flex-1 pb-32">
+              <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                <span class="text-xs font-mono text-slate-400 uppercase font-bold">
+                  Carpetas de ${scenario.title} [${profilesForScenario.length}]
+                </span>
+                <button onclick="app.createNewProfile()" class="px-3 py-1 rounded-xl bg-white text-black font-bold text-xs uppercase hover:bg-slate-200 transition-all flex items-center gap-1 shadow">
+                  <span>+ Nueva Carpeta</span>
+                </button>
+              </div>
+
+              <!-- FORMULARIO DE CARPETA ACTIVA -->
+              <div class="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+                <div>
+                  <label class="text-[10px] font-mono uppercase font-bold text-purple-400 tracking-wider block mb-1">
+                    Nombre de Carpeta en ${scenario.title}
+                  </label>
+                  <input type="text" id="profile-name-input" value="${this.state.activeProfile?.name || 'Perfil Maestro / Default'}" onchange="app.updateActiveProfileName(this.value)" placeholder="Ej: Campaña Solidaria / Chaleco Azul" class="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-400 font-mono">
+                </div>
+
+                <!-- SLOTS DE ACTIVOS DE SECTOR -->
+                <div>
+                  <label class="text-[10px] font-mono uppercase font-bold text-slate-400 tracking-wider block mb-2">
+                    Activos de Sector (Referencias de consistencia visual)
+                  </label>
+                  <div class="grid grid-cols-3 gap-3 text-center">
+                    
+                    <!-- FOTO AVATAR -->
+                    <label class="p-3 rounded-xl border border-dashed border-white/20 hover:border-purple-400 bg-white/5 flex flex-col items-center justify-center cursor-pointer transition-all aspect-square">
+                      ${this.state.activeProfile?.avatarRef ? `
+                        <img src="${this.state.activeProfile.avatarRef.base64}" class="w-full h-full object-cover rounded-lg">
+                      ` : `
+                        <span class="material-symbols-outlined text-2xl text-slate-400 mb-1">face</span>
+                        <span class="text-[9px] font-mono text-slate-400 uppercase">Foto Avatar</span>
+                      `}
+                      <input type="file" accept="image/*" onchange="app.handleUploadAsset('avatarRef', event)" class="hidden">
+                    </label>
+
+                    <!-- VIDEO FONDO -->
+                    <label class="p-3 rounded-xl border border-dashed border-white/20 hover:border-purple-400 bg-white/5 flex flex-col items-center justify-center cursor-pointer transition-all aspect-square">
+                      ${this.state.activeProfile?.bgVideoRef ? `
+                        <span class="material-symbols-outlined text-2xl text-emerald-400 mb-1">check_circle</span>
+                        <span class="text-[9px] font-mono text-emerald-400 uppercase">Video Cargado</span>
+                      ` : `
+                        <span class="material-symbols-outlined text-2xl text-slate-400 mb-1">movie</span>
+                        <span class="text-[9px] font-mono text-slate-400 uppercase">Video Fondo</span>
+                      `}
+                      <input type="file" accept="video/*" onchange="app.handleUploadAsset('bgVideoRef', event)" class="hidden">
+                    </label>
+
+                    <!-- FOTO FONDO -->
+                    <label class="p-3 rounded-xl border border-dashed border-white/20 hover:border-purple-400 bg-white/5 flex flex-col items-center justify-center cursor-pointer transition-all aspect-square">
+                      ${this.state.activeProfile?.bgImageRef ? `
+                        <img src="${this.state.activeProfile.bgImageRef.base64}" class="w-full h-full object-cover rounded-lg">
+                      ` : `
+                        <span class="material-symbols-outlined text-2xl text-slate-400 mb-1">image</span>
+                        <span class="text-[9px] font-mono text-slate-400 uppercase">Foto Fondo</span>
+                      `}
+                      <input type="file" accept="image/*" onchange="app.handleUploadAsset('bgImageRef', event)" class="hidden">
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="text-[10px] font-mono uppercase font-bold text-purple-400 tracking-wider block mb-1">
+                    Prompt Base de Estilo
+                  </label>
+                  <input type="text" id="profile-prompt-input" value="${this.state.activeProfile?.basePrompt || scenario.camouflage}" onchange="app.updateActiveProfilePrompt(this.value)" class="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-400 font-mono">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#0d0b14] via-[#0d0b14] to-transparent z-20">
+              <div class="max-w-2xl mx-auto">
+                <button onclick="app.setStep('objective')" class="w-full py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 text-white font-syne font-black uppercase tracking-wider transition-all active:scale-95 shadow-xl flex items-center justify-center gap-2">
+                  <span>Calibrar con Carpeta Seleccionada</span>
+                  <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 4. OBJETIVO DE LA MISIÓN (PRESENTACIÓN / PROMOCIÓN / CTA)
+      renderObjective() {
+        const scenario = this.getScenario();
+
+        return `
+          <div class="h-full flex flex-col p-6 max-w-2xl mx-auto overflow-y-auto custom-scrollbar">
+            <div class="mb-6">
+              <button onclick="app.setStep('template')" class="text-purple-400 hover:text-white flex items-center gap-1.5 text-xs font-mono font-bold uppercase mb-3 transition-colors">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Volver a Base
+              </button>
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl ${scenario.previewColor} flex items-center justify-center text-white shadow">
+                  <span class="material-symbols-outlined text-base">${scenario.icon}</span>
+                </div>
+                <div>
+                  <h2 class="font-syne font-black text-xl text-white uppercase tracking-tight">
+                    ${scenario.title}
+                  </h2>
+                  <p class="text-[10px] font-mono text-purple-300/60 uppercase tracking-widest">Paso 2: Calibración del Misil</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- SELECTOR DE TIPO DE MISIÓN -->
+            <div class="space-y-6 flex-1 pb-32">
+              <div class="grid grid-cols-3 gap-2">
+                ${[
+                  { id: 'presentation', label: 'Presentación', icon: 'person_pin', sub: 'Gancho inicial' },
+                  { id: 'promotion', label: 'Promoción', icon: 'shopping_bag', sub: 'Desarrollo oferta' },
+                  { id: 'cta', label: 'Call to Action', icon: 'campaign', sub: 'Cierre imperativo' }
+                ].map(btn => {
+                  const isSelected = this.state.missionType === btn.id;
+                  return `
+                    <button onclick="app.setMissionType('${btn.id}')" class="flex flex-col items-center gap-2 p-3.5 rounded-2xl border transition-all ${
+                      isSelected ? 'bg-purple-600 border-purple-400 text-white shadow-lg shadow-purple-500/20 scale-[1.02]' : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10'
+                    }">
+                      <span class="material-symbols-outlined text-2xl">${btn.icon}</span>
+                      <span class="text-[10px] font-black uppercase text-center leading-tight">${btn.label}</span>
+                      <span class="text-[8px] font-mono text-white/40">${btn.sub}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+
+              <!-- CONTENIDO CONDICIONAL POR TIPO -->
+              ${this.state.missionType === 'presentation' ? `
+                <div class="space-y-3">
+                  <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">storefront</span>
+                    ¿Qué va a presentar ${scenario.title}?
+                  </label>
+                  <textarea id="details-input" onchange="app.state.objectiveDetails = this.value" placeholder="Ej: Mi nueva oferta en ${scenario.title}, servicios exclusivos de Traslasierra, o bienvenida fraterna..." class="w-full h-32 bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-purple-500 outline-none transition-all placeholder:text-white/20 resize-none font-sans">${this.state.objectiveDetails}</textarea>
+                </div>
+              ` : ''}
+
+              ${this.state.missionType === 'promotion' ? `
+                <div class="space-y-4">
+                  <div>
+                    <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest flex items-center gap-2 mb-2">
+                      <span class="material-symbols-outlined text-sm">add_a_photo</span>
+                      Producto para ${scenario.title}
+                    </label>
+                    <label class="w-full aspect-square max-w-[200px] mx-auto rounded-3xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all ${
+                      this.state.productMediaItems.length > 0 ? 'border-emerald-500 bg-emerald-500/10' : 'border-white/10 hover:border-purple-500/50 hover:bg-white/5'
+                    }">
+                      ${this.state.productMediaItems.length > 0 ? `
+                        <div class="relative w-full h-full p-2">
+                          <img src="${this.state.productMediaItems[0].base64}" class="w-full h-full object-cover rounded-2xl">
+                          <button onclick="event.preventDefault(); event.stopPropagation(); app.removeProductMedia();" class="absolute top-4 right-4 w-8 h-8 bg-black/80 text-white rounded-full flex items-center justify-center hover:bg-red-500">
+                            <span class="material-symbols-outlined text-sm">close</span>
+                          </button>
+                        </div>
+                      ` : `
+                        <span class="material-symbols-outlined text-4xl text-white/30 mb-2">add_photo_alternate</span>
+                        <span class="text-[10px] text-white/50 uppercase font-bold">Subir Producto</span>
+                      `}
+                      <input type="file" accept="image/*" onchange="app.handleUploadProduct(event)" class="hidden">
+                    </label>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest flex items-center gap-2">
+                      <span class="material-symbols-outlined text-sm">description</span>
+                      Descripción de la Oferta
+                    </label>
+                    <textarea id="details-input" onchange="app.state.objectiveDetails = this.value" placeholder="Describe beneficios, precio o características clave de la liquidación..." class="w-full h-28 bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-purple-500 outline-none transition-all placeholder:text-white/20 resize-none font-sans">${this.state.objectiveDetails}</textarea>
+                  </div>
+                </div>
+              ` : ''}
+
+              ${this.state.missionType === 'cta' ? `
+                <div class="space-y-4">
+                  <div>
+                    <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest block mb-2">
+                      Acción en ${scenario.title}
+                    </label>
+                    <div class="grid grid-cols-1 gap-2">
+                      ${CTA_OPTIONS.map(opt => {
+                        const isSelected = this.state.ctaAction === opt.id;
+                        return `
+                          <button onclick="app.setCTAAction('${opt.id}')" class="flex items-center gap-3 p-3.5 rounded-xl border transition-all text-left ${
+                            isSelected ? 'bg-purple-900/40 border-purple-500 text-white' : 'bg-white/5 border-white/10 text-white/40 hover:bg-white/10'
+                          }">
+                            <span class="material-symbols-outlined text-xl">${opt.icon}</span>
+                            <div class="flex-1">
+                              <div class="text-xs font-bold">${opt.label}</div>
+                              <div class="text-[10px] text-white/50 font-mono">${opt.text}</div>
+                            </div>
+                            ${isSelected ? '<span class="material-symbols-outlined text-purple-400 text-sm">check_circle</span>' : ''}
+                          </button>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest flex items-center gap-2">
+                      <span class="material-symbols-outlined text-sm">edit_note</span>
+                      Cierre de Misión
+                    </label>
+                    <textarea id="details-input" onchange="app.state.objectiveDetails = this.value" placeholder="Ej: 'Haz clic en el enlace para entrar a Shopdigital y ver más'..." class="w-full h-24 bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-purple-500 outline-none transition-all placeholder:text-white/20 resize-none font-sans">${this.state.objectiveDetails}</textarea>
+                  </div>
+                </div>
+              ` : ''}
+
+            </div>
+
+            <div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#0d0b14] via-[#0d0b14] to-transparent z-20">
+              <div class="max-w-2xl mx-auto">
+                <button onclick="app.validateAndGoToConfig()" class="w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-syne font-black uppercase tracking-wider transition-all active:scale-95 shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2">
+                  <span>Confirmar Calibración</span>
+                  <span class="material-symbols-outlined text-sm">rocket</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 5. PANEL DE CONFIGURACIÓN & LANZAMIENTO
+      renderConfig() {
+        const scenario = this.getScenario();
+        const filteredTones = MISSIONS.filter(m => m.category === this.state.missionType);
+
+        return `
+          <div class="h-full flex flex-col p-6 max-w-2xl mx-auto overflow-y-auto custom-scrollbar">
+            <div class="mb-6">
+              <button onclick="app.setStep('objective')" class="text-purple-400 hover:text-white flex items-center gap-1.5 text-xs font-mono font-bold uppercase mb-3 transition-colors">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Volver al Objetivo
+              </button>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-xl ${scenario.previewColor} flex items-center justify-center text-white shadow">
+                    <span class="material-symbols-outlined text-base">${scenario.icon}</span>
+                  </div>
+                  <div>
+                    <h2 class="font-syne font-black text-xl text-white uppercase tracking-tight">
+                      ${scenario.title}
+                    </h2>
+                    <p class="text-[10px] font-mono text-purple-300/60 uppercase tracking-widest">Paso 3: Parámetros de Lanzamiento</p>
+                  </div>
+                </div>
+                <div class="bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg flex items-center gap-1">
+                  <span class="material-symbols-outlined text-emerald-400 text-xs">bolt</span>
+                  <span class="text-emerald-400 text-[10px] font-mono font-bold uppercase">Listo</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-6 flex-1 pb-32">
+              <!-- TONO PARA EL MISIL -->
+              <div>
+                <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest block mb-3">
+                  Tono para ${scenario.title} (${this.state.missionType.toUpperCase()})
+                </label>
+                <div class="space-y-2">
+                  ${filteredTones.map(m => {
+                    const isSelected = this.state.selectedMission === m.id;
+                    return `
+                      <button onclick="app.state.selectedMission = '${m.id}'; app.render();" class="w-full text-left p-4 rounded-2xl border transition-all ${
+                        isSelected ? 'bg-white/10 border-rose-500 text-white ring-2 ring-rose-500/20' : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10'
+                      }">
+                        <div class="flex items-center justify-between mb-1">
+                          <h4 class="text-xs font-black uppercase ${isSelected ? 'text-rose-400' : 'text-white'}">
+                            ${m.title}
+                          </h4>
+                          ${isSelected ? '<span class="material-symbols-outlined text-xs text-rose-400">check_circle</span>' : ''}
+                        </div>
+                        <p class="text-[11px] opacity-70 leading-relaxed">${m.description}</p>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+
+              <!-- TIEMPO DE OPERACIÓN (10s para ensamble) -->
+              <div>
+                <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest block mb-2">
+                  Tiempo de Operación (Sugerido 10s para unión en 30s)
+                </label>
+                <div class="grid grid-cols-3 gap-2">
+                  ${DURATIONS.map(d => {
+                    const isSelected = this.state.duration === d.value;
+                    return `
+                      <button onclick="app.state.duration = ${d.value}; app.render();" class="p-3 rounded-xl border text-xs font-black font-mono transition-all ${
+                        isSelected ? 'bg-purple-600 border-purple-400 text-white shadow-lg shadow-purple-500/20 scale-[1.02]' : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
+                      }">
+                        ${d.label}
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+
+              <!-- FORMATO DE SALIDA (9:16 vertical o 16:9 horizontal) -->
+              <div>
+                <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest block mb-2">
+                  Formato de Salida
+                </label>
+                <div class="grid grid-cols-2 gap-3">
+                  ${ASPECT_RATIOS.map(ar => {
+                    const isSelected = this.state.aspectRatio === ar.value;
+                    return `
+                      <button onclick="app.state.aspectRatio = '${ar.value}'; app.render();" class="flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all ${
+                        isSelected ? 'bg-white/10 border-emerald-400 text-white ring-2 ring-emerald-500/20' : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10'
+                      }">
+                        <span class="material-symbols-outlined text-3xl ${isSelected ? 'text-emerald-400' : 'text-white/20'}">${ar.icon}</span>
+                        <div class="text-center">
+                          <div class="text-xs font-black uppercase tracking-tight">${ar.label}</div>
+                          <div class="text-[9px] font-mono text-slate-400">${ar.desc}</div>
+                        </div>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+
+              <!-- AJUSTES FINALES -->
+              <div class="space-y-2">
+                <label class="text-[10px] uppercase font-bold text-purple-400 tracking-widest flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-xs">tune</span>
+                  Ajustes Finales de ${scenario.title}
+                </label>
+                <textarea onchange="app.state.finalAdjustment = this.value" placeholder="Ej: Voz enérgica argentina, fondo con destellos dorados, énfasis en 'últimos cupos'..." class="w-full h-20 bg-white/5 border border-white/10 rounded-2xl p-3 text-white text-xs focus:border-rose-500 outline-none transition-all placeholder:text-white/10 resize-none font-sans">${this.state.finalAdjustment}</textarea>
+              </div>
+
+            </div>
+
+            <div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#0d0b14] via-[#0d0b14] to-transparent z-20">
+              <div class="max-w-2xl mx-auto">
+                <button onclick="app.launchMissile()" ${!this.state.selectedMission ? 'disabled' : ''} class="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 disabled:bg-white/10 disabled:text-white/20 text-white font-syne font-black uppercase tracking-wider transition-all active:scale-95 shadow-2xl shadow-rose-600/40 flex items-center justify-center gap-2 border-b-4 border-rose-800">
+                  <span>Lanzar Misil ${scenario.title}</span>
+                  <span class="material-symbols-outlined text-lg">rocket_launch</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 6. GENERANDO (RADAR & CEREBRO IA EN ACCIÓN)
+      renderGenerating() {
+        const scenario = this.getScenario();
+        return `
+          <div class="h-full flex flex-col items-center justify-center p-8 text-center bg-[#0d0b14] z-50">
+            <div class="relative mb-8">
+              <span class="material-symbols-outlined text-emerald-400 text-7xl animate-pulse">rocket_launch</span>
+              <div class="absolute inset-0 bg-emerald-500/20 blur-3xl rounded-full animate-pulse"></div>
+            </div>
+            <h2 class="text-2xl font-syne font-black uppercase tracking-tight mb-2 text-white">
+              Calibrando y Lanzando Misil en ${scenario.title}...
+            </h2>
+            <div id="gen-timer-display" class="text-emerald-400 font-mono text-sm mb-6 animate-pulse">
+              Tiempo transcurrido: ${this.state.genTimer}s
+            </div>
+            <div class="w-64 h-2 bg-white/5 rounded-full overflow-hidden border border-white/10">
+              <div class="h-full bg-gradient-to-r from-emerald-500 to-lime-400 animate-[shimmer_2s_infinite]"></div>
+            </div>
+            <p class="mt-8 text-[11px] text-white/40 uppercase font-mono tracking-widest leading-relaxed max-w-xs">
+              Generando guion con IA, sintetizando voz de Ari y renderizando pieza de 10s...
+            </p>
+          </div>
+        `;
+      }
+
+      // 7. RESULTADO DEL MISIL
+      renderResult() {
+        const scenario = this.getScenario();
+        const video = this.state.resultVideo;
+
+        return `
+          <div class="h-full flex flex-col p-6 max-w-2xl mx-auto overflow-y-auto custom-scrollbar">
+            <div class="mb-4 flex items-center justify-between">
+              <button onclick="app.setStep('intro')" class="text-purple-400 hover:text-white flex items-center gap-1 text-xs font-mono font-bold uppercase transition-colors">
+                <span class="material-symbols-outlined text-sm">home</span>
+                Inicio
+              </button>
+              <div class="flex items-center gap-2">
+                <button onclick="app.setStep('assembler')" class="px-3 py-1.5 rounded-xl bg-emerald-500 text-black font-syne font-black text-xs uppercase flex items-center gap-1 shadow">
+                  <span class="material-symbols-outlined text-sm">video_settings</span>
+                  Ir al Ensamblador (30s)
+                </button>
+              </div>
+            </div>
+
+            <div class="flex-1 flex flex-col items-center justify-center space-y-4 pb-20">
+              <div class="p-1 rounded-3xl bg-gradient-to-b from-emerald-500/40 via-purple-500/20 to-transparent shadow-2xl">
+                <div class="aspect-[9/16] max-w-[260px] rounded-2xl overflow-hidden bg-black relative">
+                  ${video?.url ? `
+                    <video src="${video.url}" class="w-full h-full object-cover" controls autoplay loop></video>
+                  ` : `
+                    <div class="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                      <span class="material-symbols-outlined text-4xl text-emerald-400 mb-2">task_alt</span>
+                      <p class="text-xs text-white font-bold uppercase">Misil Calibrado con Éxito</p>
+                      <p class="text-[10px] text-slate-400 font-mono mt-1">Guardado en IndexedDB</p>
+                    </div>
+                  `}
+                </div>
+              </div>
+
+              <!-- GUION GENERADO POR LA IA DE ARI -->
+              ${this.state.aiScriptResult ? `
+                <div class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 text-left space-y-2 font-mono text-xs">
+                  <div class="text-[10px] text-emerald-400 font-bold uppercase flex items-center gap-1">
+                    <span class="material-symbols-outlined text-xs">auto_fix_high</span>
+                    Guion & Titular de Impacto (IA)
+                  </div>
+                  <div class="text-white font-bold">"${this.state.aiScriptResult.headline}"</div>
+                  <p class="text-slate-300 text-[11px] italic">"${this.state.aiScriptResult.script_voice}"</p>
+                </div>
+              ` : ''}
+
+              <!-- BOTONERA DE ACCIÓN -->
+              <div class="w-full grid grid-cols-2 gap-3 pt-2">
+                <button onclick="app.downloadCurrentVideo()" class="py-3.5 rounded-xl bg-white text-black font-syne font-black text-xs uppercase flex items-center justify-center gap-2 shadow">
+                  <span class="material-symbols-outlined text-sm">download</span>
+                  Descargar Pieza
+                </button>
+                <button onclick="app.setStep('config')" class="py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-syne font-black text-xs uppercase flex items-center justify-center gap-2 border border-white/10">
+                  <span class="material-symbols-outlined text-sm">refresh</span>
+                  Reintentar
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 8. ARSENAL (HISTORIAL DE MISILES POR LÍNEA)
+      renderArsenal() {
+        const scenario = this.getScenario();
+        const filtered = this.state.history.filter(h => !this.state.selectedScenario || h.config?.selectedScenario === this.state.selectedScenario);
+
+        return `
+          <div class="h-full flex flex-col p-6 max-w-3xl mx-auto overflow-y-auto custom-scrollbar">
+            <div class="mb-6 flex items-center justify-between">
+              <div>
+                <button onclick="app.setStep('intro')" class="text-purple-400 hover:text-white flex items-center gap-1.5 text-xs font-mono font-bold uppercase mb-2 transition-colors">
+                  <span class="material-symbols-outlined text-sm">arrow_back</span>
+                  Volver al Menú
+                </button>
+                <h2 class="font-syne font-black text-2xl text-white uppercase tracking-tight">
+                  Arsenal de Misiles
+                </h2>
+                <p class="text-xs text-slate-400 font-mono">${filtered.length} piezas listas para ensamblar</p>
+              </div>
+              <button onclick="app.setStep('assembler')" class="px-4 py-2 rounded-xl bg-emerald-500 text-black font-syne font-black text-xs uppercase flex items-center gap-1.5 shadow">
+                <span class="material-symbols-outlined text-sm">combine_emails</span>
+                Abrir Ensamblador
+              </button>
+            </div>
+
+            <!-- FILTRO DE ESCENARIO -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-4 custom-scrollbar mb-4">
+              <button onclick="app.state.selectedScenario = null; app.render();" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold shrink-0 transition-all ${
+                !this.state.selectedScenario ? 'bg-white text-black' : 'bg-white/5 text-slate-400 border border-white/10'
+              }">Todos</button>
+              ${SCENARIOS.map(s => `
+                <button onclick="app.state.selectedScenario = '${s.id}'; app.render();" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold shrink-0 transition-all ${
+                  this.state.selectedScenario === s.id ? 'bg-purple-600 text-white' : 'bg-white/5 text-slate-400 border border-white/10'
+                }">${s.title}</button>
+              `).join('')}
+            </div>
+
+            <!-- LISTADO DE MISILES EN ARSENAL -->
+            ${filtered.length === 0 ? `
+              <div class="p-12 text-center text-slate-500 font-mono text-xs border border-dashed border-white/10 rounded-2xl">
+                Aún no has generado misiles en este sector.<br>
+                Hacé clic en "+ NUEVA OPERACIÓN" para fabricar el primero.
+              </div>
+            ` : `
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pb-20">
+                ${filtered.map(item => `
+                  <div class="group relative rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex flex-col">
+                    <div class="aspect-[9/16] bg-black relative">
+                      ${item.video?.url ? `
+                        <video src="${item.video.url}" class="w-full h-full object-cover" muted loop onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;"></video>
+                      ` : `
+                        <div class="w-full h-full flex items-center justify-center text-slate-500">
+                          <span class="material-symbols-outlined text-3xl">movie</span>
+                        </div>
+                      `}
+                      <button onclick="app.deleteHistoryItem('${item.id}')" class="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/70 hover:bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="material-symbols-outlined text-xs">delete</span>
+                      </button>
+                    </div>
+                    <div class="p-3 border-t border-white/5 text-[11px] font-mono">
+                      <div class="font-bold text-white uppercase truncate">${item.config?.objectiveDetails || item.config?.missionType}</div>
+                      <div class="text-[9px] text-slate-400 flex items-center justify-between mt-1">
+                        <span>${new Date(item.timestamp).toLocaleDateString()}</span>
+                        <span class="text-purple-300 font-bold">${item.config?.duration || 10}s</span>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+        `;
+      }
+
+      // 9. ENSAMBLADOR DE MISILES (EL REACTOR FFMPEG WASM DE WALTER)
+      renderAssembler() {
+        const history = this.state.history;
+        const selectedIds = this.state.assemblerSelectedIds;
+        const preview = this.state.assemblerPreview;
+
+        return `
+          <div class="flex flex-col h-full bg-[#0d0b14] overflow-hidden">
+            <!-- Header Ensamblador -->
+            <div class="p-6 border-b border-white/5 flex items-center justify-between bg-[#0d0b14] z-10 shrink-0">
+              <button onclick="app.setStep('intro')" class="text-purple-400 hover:text-white flex items-center gap-2 text-xs font-bold uppercase tracking-widest transition-colors font-mono">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Regresar
+              </button>
+              <h2 class="text-lg font-syne font-black text-white uppercase tracking-tight flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-400">combine_emails</span>
+                Ensamblador de Misiles de 30s
+              </h2>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6 pb-40 custom-scrollbar max-w-3xl mx-auto w-full">
+              
+              <!-- VISTA PREVIA DEL VIDEO ENSAMBLADO FINAL -->
+              ${preview ? `
+                <div class="mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+                  <div class="bg-emerald-500/5 border border-emerald-500/20 rounded-3xl p-6 overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                      <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-emerald-400">visibility</span>
+                        <h3 class="text-sm font-syne font-black text-white uppercase tracking-widest">Misil de 30s Ensamblado</h3>
+                      </div>
+                      <button onclick="app.state.assemblerPreview = null; app.render();" class="text-[10px] font-bold text-white/40 hover:text-white transition-colors uppercase font-mono">
+                        Cerrar
+                      </button>
+                    </div>
+
+                    <div class="aspect-[9/16] max-w-[260px] mx-auto rounded-2xl overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
+                      <video src="${preview.url}" class="w-full h-full object-contain" controls autoplay loop></video>
+                    </div>
+
+                    <p class="text-center text-[10px] text-white/40 mt-4 uppercase font-mono font-bold tracking-widest">
+                      ✓ Gancho (10s) + Oferta (10s) + CTA (10s) fundidos en 1 solo archivo MP4
+                    </p>
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- INSTRUCCIÓN TÁCTICA -->
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4 mb-6 flex items-start gap-4">
+                <span class="material-symbols-outlined text-purple-400">info</span>
+                <p class="text-[11px] text-purple-200/80 font-mono font-bold uppercase leading-relaxed">
+                  ${preview ? 'Podés cambiar la selección para ensamblar otra variante.' : 'Seleccioná en orden los 3 clips para unirlos: 1️⃣ Gancho (0-10s) → 2️⃣ Oferta (10-20s) → 3️⃣ Llamado a la Acción (20-30s).'}
+                </p>
+              </div>
+
+              <!-- GRILLA DE SELECCIÓN DE CLIPS DISPONIBLES -->
+              ${history.length === 0 ? `
+                <div class="p-12 text-center text-slate-500 font-mono text-xs border border-dashed border-white/10 rounded-2xl">
+                  No hay clips grabados aún en el Arsenal.<br>
+                  Fabricá al menos 2 clips para poder ensamblarlos aquí.
+                </div>
+              ` : `
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  ${history.map(item => {
+                    const index = selectedIds.indexOf(item.id);
+                    const isSelected = index !== -1;
+                    return `
+                      <button onclick="app.toggleAssemblerSelect('${item.id}')" class="relative group rounded-2xl border transition-all overflow-hidden text-left ${
+                        isSelected ? 'border-emerald-400 ring-2 ring-emerald-500/20 shadow-lg shadow-emerald-500/10' : 'border-white/10 hover:border-white/20'
+                      }">
+                        <div class="aspect-[9/16] bg-black">
+                          ${item.video?.url ? `
+                            <video src="${item.video.url}" class="w-full h-full object-cover transition-opacity ${isSelected ? 'opacity-100' : 'opacity-40'}" muted loop onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;"></video>
+                          ` : `
+                            <div class="w-full h-full flex items-center justify-center text-slate-500">
+                              <span class="material-symbols-outlined text-3xl">movie</span>
+                            </div>
+                          `}
+                        </div>
+
+                        ${isSelected ? `
+                          <div class="absolute top-2 left-2 w-7 h-7 bg-emerald-400 text-black rounded-full flex items-center justify-center font-black font-mono text-xs shadow-lg">
+                            ${index + 1}
+                          </div>
+                        ` : ''}
+
+                        <div class="absolute bottom-0 left-0 right-0 p-2 bg-black/70 backdrop-blur-sm border-t border-white/5">
+                          <p class="text-[9px] font-mono font-black uppercase text-white/90 truncate">
+                            ${item.config?.missionType?.toUpperCase() || 'MISIL'}
+                          </p>
+                          <p class="text-[8px] font-mono text-slate-400 truncate">
+                            ${item.config?.objectiveDetails || ''}
+                          </p>
+                        </div>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+              `}
+
+            </div>
+
+            <!-- BARRA INFERIOR DE ACCIÓN -->
+            <div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#0d0b14] via-[#0d0b14] to-transparent flex flex-col gap-3 z-20">
+              <div class="max-w-3xl mx-auto w-full">
+                ${preview ? `
+                  <button onclick="app.downloadAssembledMissile()" class="w-full py-4 bg-emerald-500 text-black font-syne font-black uppercase tracking-widest rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-3 shadow-xl shadow-emerald-500/20">
+                    <span class="material-symbols-outlined">download</span>
+                    Descargar Misil Master de 30s
+                  </button>
+                ` : `
+                  <button onclick="app.executeAssembly()" ${selectedIds.length < 2 || this.state.isProcessing ? 'disabled' : ''} class="w-full py-4 bg-white disabled:bg-white/10 disabled:text-white/20 text-black font-syne font-black uppercase tracking-widest rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-3 shadow-xl">
+                    ${this.state.isProcessing ? `
+                      <span class="material-symbols-outlined animate-spin text-sm">sync</span>
+                      ${this.state.assemblerStatus} (${this.state.assemblerProgress}%)
+                    ` : `
+                      <span class="material-symbols-outlined text-sm">combine_emails</span>
+                      Ensamblar ${selectedIds.length} Piezas Seleccionadas
+                    `}
+                  </button>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // ==========================================
+      // CONTROLADORES DE ACCIÓN Y LÓGICA
+      // ==========================================
+      selectScenario(id) {
+        this.state.selectedScenario = id;
+        this.render();
+      }
+
+      selectScenarioAndGoToArsenal(id) {
+        this.state.selectedScenario = id;
+        this.setStep('arsenal');
+      }
+
+      createNewProfile() {
+        const scenario = this.getScenario();
+        const newProfile = {
+          id: 'prof_' + Date.now(),
+          scenarioId: scenario.id,
+          name: 'Carpeta ' + (this.state.profiles.length + 1),
+          avatarRef: null,
+          bgVideoRef: null,
+          bgImageRef: null,
+          basePrompt: scenario.camouflage,
+          timestamp: Date.now()
+        };
+        this.state.profiles.push(newProfile);
+        this.state.activeProfile = newProfile;
+        window.fabricaDB.saveProfile(newProfile);
+        this.render();
+      }
+
+      updateActiveProfileName(name) {
+        if (!this.state.activeProfile) this.createNewProfile();
+        this.state.activeProfile.name = name;
+        window.fabricaDB.saveProfile(this.state.activeProfile);
+      }
+
+      updateActiveProfilePrompt(prompt) {
+        if (!this.state.activeProfile) this.createNewProfile();
+        this.state.activeProfile.basePrompt = prompt;
+        window.fabricaDB.saveProfile(this.state.activeProfile);
+      }
+
+      handleUploadAsset(field, e) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (!this.state.activeProfile) this.createNewProfile();
+          this.state.activeProfile[field] = {
+            mediaId: 'media_' + Date.now(),
+            base64: reader.result,
+            mimeType: file.type,
+            name: file.name
+          };
+          window.fabricaDB.saveProfile(this.state.activeProfile);
+          this.render();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      setMissionType(type) {
+        this.state.missionType = type;
+        this.state.selectedMission = null;
+        this.render();
+      }
+
+      setCTAAction(action) {
+        this.state.ctaAction = action;
+        this.render();
+      }
+
+      handleUploadProduct(e) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.state.productMediaItems = [{
+            mediaId: 'prod_' + Date.now(),
+            base64: reader.result,
+            mimeType: file.type,
+            name: file.name
+          }];
+          this.render();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      removeProductMedia() {
+        this.state.productMediaItems = [];
+        this.render();
+      }
+
+      validateAndGoToConfig() {
+        if (!this.state.objectiveDetails.trim() && this.state.productMediaItems.length === 0) {
+          alert('Por favor describe tu objetivo o sube una foto de producto para continuar.');
+          return;
+        }
+        this.setStep('config');
+      }
+
+      // ==========================================
+      // LANZAMIENTO Y GENERACIÓN DEL MISIL
+      // ==========================================
+      async launchMissile() {
+        this.setStep('generating');
+        this.state.genTimer = 0;
+        clearInterval(this.state.genInterval);
+        this.state.genInterval = setInterval(() => {
+          this.state.genTimer++;
+          const timerEl = document.getElementById('gen-timer-display');
+          if (timerEl) timerEl.textContent = `Tiempo transcurrido: ${this.state.genTimer}s`;
+        }, 1000);
+
+        try {
+          const scenario = this.getScenario();
+          const missionTone = MISSIONS.find(m => m.id === this.state.selectedMission);
+          const ctaItem = CTA_OPTIONS.find(c => c.id === this.state.ctaAction);
+
+          // 1. Generar guion y prompts con IA (DeepSeek / MiniMax)
+          const aiScript = await window.fabricaAI.generateScript({
+            scenario,
+            missionType: this.state.missionType,
+            missionTone,
+            details: this.state.objectiveDetails,
+            ctaItem,
+            profile: this.state.activeProfile
+          });
+          this.state.aiScriptResult = aiScript;
+
+          // 2. Generar el video de 10s (Animación de producto o síntesis de video)
+          let videoBlob;
+          if (this.state.productMediaItems.length > 0) {
+            videoBlob = await window.fabricaAI.createVideoFromProductImage(
+              this.state.productMediaItems[0].base64,
+              this.state.duration,
+              aiScript.headline
+            );
+          } else {
+            // Generar clip con fondo del escenario o avatar
+            const avatarImg = this.state.activeProfile?.avatarRef?.base64 || 'ari-avatar.png';
+            videoBlob = await window.fabricaAI.createVideoFromProductImage(
+              avatarImg,
+              this.state.duration,
+              aiScript.headline
+            );
+          }
+
+          // 3. Convertir a ArrayBuffer para almacenamiento
+          const arrayBuffer = await videoBlob.arrayBuffer();
+          const uint8 = new Uint8Array(arrayBuffer);
+          const url = URL.createObjectURL(videoBlob);
+
+          const resultItem = {
+            id: 'missile_' + Date.now(),
+            video: {
+              mediaId: 'vid_' + Date.now(),
+              url,
+              bytes: uint8,
+              mimeType: 'video/mp4'
+            },
+            timestamp: Date.now(),
+            config: {
+              activeProfile: this.state.activeProfile,
+              selectedScenario: this.state.selectedScenario,
+              missionType: this.state.missionType,
+              objectiveDetails: this.state.objectiveDetails,
+              productMediaItems: this.state.productMediaItems,
+              ctaAction: this.state.ctaAction,
+              duration: this.state.duration,
+              aspectRatio: this.state.aspectRatio,
+              selectedMission: this.state.selectedMission,
+              finalAdjustment: this.state.finalAdjustment
+            }
+          };
+
+          // Guardar en IndexedDB
+          await window.fabricaDB.saveHistoryItem(resultItem);
+          this.state.history.unshift(resultItem);
+          this.state.resultVideo = resultItem.video;
+
+          clearInterval(this.state.genInterval);
+          this.setStep('result');
+
+        } catch (err) {
+          clearInterval(this.state.genInterval);
+          console.error('Error lanzando misil:', err);
+          alert('Hubo un inconveniente al generar la pieza. Por favor reintenta.');
+          this.setStep('config');
+        }
+      }
+
+      downloadCurrentVideo() {
+        if (!this.state.resultVideo?.url) return;
+        const a = document.createElement('a');
+        a.href = this.state.resultVideo.url;
+        a.download = `ARI_Misil_${this.state.selectedScenario}_${Date.now()}.mp4`;
+        a.click();
+      }
+
+      async deleteHistoryItem(id) {
+        if (!confirm('¿Deseas eliminar este misil del arsenal?')) return;
+        await window.fabricaDB.deleteHistoryItem(id);
+        this.state.history = this.state.history.filter(h => h.id !== id);
+        this.render();
+      }
+
+      // ==========================================
+      // ENSAMBLADOR DE MISILES (3x10s = 30s MASTER)
+      // ==========================================
+      toggleAssemblerSelect(id) {
+        const idx = this.state.assemblerSelectedIds.indexOf(id);
+        if (idx !== -1) {
+          this.state.assemblerSelectedIds.splice(idx, 1);
+        } else {
+          this.state.assemblerSelectedIds.push(id);
+        }
+        this.render();
+      }
+
+      async executeAssembly() {
+        if (this.state.assemblerSelectedIds.length < 2) return;
+        this.state.isProcessing = true;
+        this.state.assemblerStatus = 'Iniciando reactor FFmpeg...';
+        this.state.assemblerProgress = 10;
+        this.render();
+
+        try {
+          const clips = this.state.assemblerSelectedIds
+            .map(id => this.state.history.find(h => h.id === id))
+            .filter(Boolean)
+            .map(h => ({ bytes: h.video.bytes }));
+
+          const finalBlob = await window.fabricaFFmpeg.assembleClips(clips, (status, progress) => {
+            this.state.assemblerStatus = status;
+            this.state.assemblerProgress = progress;
+            this.render();
+          });
+
+          const url = URL.createObjectURL(finalBlob);
+          this.state.assemblerPreview = { url, blob: finalBlob };
+          this.state.isProcessing = false;
+          this.render();
+
+        } catch (err) {
+          console.error('Error ensamblando:', err);
+          alert('Error en el ensamblaje. Verifica que los clips tengan video activo.');
+          this.state.isProcessing = false;
+          this.render();
+        }
+      }
+
+      downloadAssembledMissile() {
+        if (!this.state.assemblerPreview?.url) return;
+        const a = document.createElement('a');
+        a.href = this.state.assemblerPreview.url;
+        a.download = `ARI_MISIL_MASTER_30S_${Date.now()}.mp4`;
+        a.click();
+      }
+
+      // ==========================================
+      // CAJA NEGRA (RESPALDO / RESTAURACIÓN)
+      // ==========================================
+      showCajaNegraModal() {
+        this.setStep('intro');
+      }
+
+      async exportCajaNegra() {
+        await window.fabricaDB.exportCajaNegra();
+      }
+
+      async importCajaNegra(e) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        try {
+          const res = await window.fabricaDB.importCajaNegra(file);
+          this.state.profiles = await window.fabricaDB.getAllProfiles();
+          this.state.history = await window.fabricaDB.getAllHistory();
+          alert(`¡Caja Negra restaurada! Se cargaron ${res.profilesCount} carpetas y ${res.historyCount} misiles del arsenal.`);
+          this.render();
+        } catch (err) {
+          alert('Error al leer archivo de respaldo.');
+        }
+        e.target.value = '';
+      }
+    }
+
+    // Instancia global
+    window.app = new FabricaApp();
+  </script>
+</body>
+</html>
