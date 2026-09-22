@@ -87,7 +87,30 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPlayer();
   renderPrayers();
 
-  // Escuchar eventos de cambio desde el Búnker o pestañas concurrentes
+  // 1. Sincronización remota instantánea desde /api/broadcast (Nube / Celulares / PC)
+  async function fetchRemoteBroadcastState() {
+    try {
+      const res = await fetch('/api/broadcast?t=' + Date.now());
+      if (res.ok) {
+        const remoteState = await res.json();
+        const localState = getBroadcastState();
+        if (JSON.stringify(remoteState.isLive) !== JSON.stringify(localState.isLive) ||
+            remoteState.streamType !== localState.streamType ||
+            remoteState.roomName !== localState.roomName ||
+            remoteState.youtubeId !== localState.youtubeId) {
+          localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remoteState));
+          renderPlayer();
+        }
+      }
+    } catch (e) {
+      // Ignorar errores de red temporales
+    }
+  }
+
+  fetchRemoteBroadcastState();
+  setInterval(fetchRemoteBroadcastState, 4000);
+
+  // 2. Escuchar eventos de cambio desde el Búnker en la misma máquina
   window.addEventListener('storage', (e) => {
     if (e.key === STREAMING_STORAGE_KEY) {
       renderPlayer();

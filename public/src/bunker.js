@@ -1262,6 +1262,14 @@ Directiva para Luz-01: La plataforma se encuentra en estado excelente (${totalSc
     const updated = { ...current, ...newState, updatedAt: new Date().toISOString() };
     localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(updated));
     syncBunkerStreamingView();
+
+    // Sincronizar instantáneamente con el backend en la nube
+    fetch('/api/broadcast', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated)
+    }).catch(err => console.warn('Sync cloud error:', err));
+
     return updated;
   }
 
@@ -1416,6 +1424,17 @@ Directiva para Luz-01: La plataforma se encuentra en estado excelente (${totalSc
         }
       });
     }
+
+    // Sincronizar desde la nube al cargar
+    fetch('/api/broadcast?t=' + Date.now())
+      .then(res => res.json())
+      .then(remoteState => {
+        if (remoteState && typeof remoteState.isLive !== 'undefined') {
+          localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remoteState));
+          syncBunkerStreamingView();
+        }
+      })
+      .catch(() => {});
 
     syncBunkerStreamingView();
   }
