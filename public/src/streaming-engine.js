@@ -195,26 +195,24 @@ function renderPlayer() {
     if (!playerContainer) return;
 
     if (state.streamType === 'webrtc') {
-      // VDO.Ninja P2P Room (Zero cost, Zero config, Ultra low latency)
-      const room = state.roomName || 'caminosdefe-live-altar';
+      // VDO.Ninja P2P Broadcast Mode (Spectator / Viewer Only)
+      const streamId = state.roomName || 'caminosdefe-live-altar';
       playerContainer.innerHTML = `
         <div class="relative w-full h-full bg-black">
           <iframe 
-            src="https://vdo.ninja/?room=${encodeURIComponent(room)}&view=${encodeURIComponent(room)}&cleanoutput&transparent=0&novideo=0&noaudio=0&autoplay=1"
+            src="https://vdo.ninja/?view=${encodeURIComponent(streamId)}&cleanoutput=1&transparent=0&autoplay=1&autostart=1"
             class="w-full h-full border-0 absolute inset-0"
-            allow="autoplay; camera; microphone; fullscreen; display-capture; picture-in-picture"
+            allow="autoplay; fullscreen; picture-in-picture"
             allowfullscreen>
           </iframe>
           <div class="absolute top-3 left-3 pointer-events-none z-10 flex items-center gap-2">
-            <span class="px-2.5 py-1 rounded-md bg-rose-600/90 text-white font-mono text-[11px] font-bold tracking-wider shadow">
-              ● SEÑAL MÓVIL / P2P DIRECTA
+            <span class="px-2.5 py-1 rounded-md bg-rose-600/90 text-white font-mono text-[11px] font-bold tracking-wider shadow flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+              ● SEÑAL EN DIRECTO
             </span>
             <span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur text-[10px] text-emerald-400 font-mono border border-white/10">
               WebRTC Ultrabaja Latencia
             </span>
-          </div>
-        </div>
-      `;
     } else if (state.streamType === 'youtube') {
       const ytId = state.youtubeId || 'jfKfPfyJRdk';
       playerContainer.innerHTML = `

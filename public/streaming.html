@@ -109,16 +109,39 @@
           <!-- Renderizado dinámicamente por streaming-engine.js -->
         </div>
 
-        <!-- Info bajo el reproductor -->
-        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs text-slate-300">
-          <div class="flex items-center gap-2">
-            <span id="live-stream-title" class="font-bold text-white">Altar Central Mina Clavero</span>
-            <span class="text-slate-500">·</span>
-            <span id="live-stream-sub" class="text-slate-400">Mensaje: "La Gracia que Rompe Ataduras"</span>
+        <!-- Info y Botonera Social para Compartir el Vivo -->
+        <div class="space-y-3 pt-3 border-t border-white/5">
+          <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300">
+            <div class="flex items-center gap-2">
+              <span id="live-stream-title" class="font-bold text-white">Altar Central Mina Clavero</span>
+              <span class="text-slate-500">·</span>
+              <span id="live-stream-sub" class="text-slate-400">Mensaje: "La Gracia que Rompe Ataduras"</span>
+            </div>
+            <a href="donaciones.html" class="text-amber-300 hover:text-amber-200 underline font-mono text-[11px]">
+              Conocé el sustento de la obra →
+            </a>
           </div>
-          <a href="donaciones.html" class="text-amber-300 hover:text-amber-200 underline font-mono text-[11px]">
-            Conocé el sustento de la obra →
-          </a>
+
+          <!-- BOTONES PARA COMPARTIR EN REDES -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2 bg-white/5 px-4 py-2.5 rounded-2xl border border-white/10">
+            <span class="text-xs font-mono text-purple-300 flex items-center gap-1.5 font-bold">
+              <span>📢</span> Compartir transmisión:
+            </span>
+            <div class="flex items-center gap-2 font-mono text-xs">
+              <a href="https://api.whatsapp.com/send?text=%C2%A1Estamos%20en%20vivo%20en%20el%20Ministerio%20Caminos%20de%20Fe!%20Sumate%20a%20la%20transmisi%C3%B3n%20en%20directo%20aqu%C3%AD:%20https://ministerio-caminos-de-fe.vercel.app/streaming.html" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5 transition-all">
+                <span>💬 WhatsApp</span>
+              </a>
+              <a href="https://www.facebook.com/sharer/sharer.php?u=https://ministerio-caminos-de-fe.vercel.app/streaming.html" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/30 flex items-center gap-1.5 transition-all">
+                <span>📘 Facebook</span>
+              </a>
+              <a href="https://t.me/share/url?url=https://ministerio-caminos-de-fe.vercel.app/streaming.html&text=%C2%A1Culto%20en%20Vivo%20-%20Ministerio%20Caminos%20de%20Fe!" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 transition-all">
+                <span>✈️ Telegram</span>
+              </a>
+              <button id="btn-copy-stream-share" onclick="navigator.clipboard.writeText('https://ministerio-caminos-de-fe.vercel.app/streaming.html'); alert('✓ ¡Enlace copiado! Compartilo con tu familia y amigos.');" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 border border-white/10 flex items-center gap-1.5 transition-all">
+                <span>🔗 Copiar Enlace</span>
+              </button>
+            </div>
+          </div>
         </div>
 
       </div>

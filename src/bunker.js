@@ -1321,9 +1321,9 @@ Directiva para Luz-01: La plataforma se encuentra en estado excelente (${totalSc
         if (state.streamType === 'webrtc') {
           previewContainer.innerHTML = `
             <iframe 
-              src="https://vdo.ninja/?room=${encodeURIComponent(room)}&view=${encodeURIComponent(room)}&cleanoutput&transparent=0&novideo=0&noaudio=1&autoplay=1"
+              src="https://vdo.ninja/?view=${encodeURIComponent(room)}&cleanoutput=1&transparent=0&noaudio=1&autoplay=1&autostart=1"
               class="w-full h-full border-0"
-              allow="autoplay; camera; microphone; fullscreen">
+              allow="autoplay; fullscreen">
             </iframe>
           `;
         } else if (state.streamType === 'youtube') {
