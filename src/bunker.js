@@ -1425,11 +1425,20 @@ Directiva para Luz-01: La plataforma se encuentra en estado excelente (${totalSc
       });
     }
 
-    // Sincronizar desde la nube al cargar
+    // Sincronizar desde la nube al cargar (con escudo anti-cold-start)
     fetch('/api/broadcast?t=' + Date.now())
       .then(res => res.json())
       .then(remoteState => {
-        if (remoteState && typeof remoteState.isLive !== 'undefined') {
+        if (!remoteState) return;
+        // Si el servidor está en frío (no inicializado por un operador), no pisar el estado local
+        if (remoteState.isColdStart || remoteState.updatedAt === '1970-01-01T00:00:00.000Z') {
+          return;
+        }
+        const local = getStreamingState();
+        const remoteTime = new Date(remoteState.updatedAt || 0).getTime();
+        const localTime = new Date(local.updatedAt || 0).getTime();
+
+        if (remoteTime > localTime) {
           localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remoteState));
           syncBunkerStreamingView();
         }

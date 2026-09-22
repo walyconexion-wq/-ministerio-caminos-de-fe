@@ -6,17 +6,17 @@
 const STREAMING_STORAGE_KEY = 'mcf_streaming_broadcast_state';
 const PRAYERS_STORAGE_KEY = 'mcf_streaming_prayer_requests';
 
-// Estado por defecto
+// Estado base por defecto
 const DEFAULT_BROADCAST_STATE = {
   isLive: false,
   streamType: 'webrtc', // 'webrtc', 'youtube', 'custom'
   roomName: 'caminosdefe-live-altar',
-  youtubeId: '', // e.g. "jfKfPfyJRdk"
-  streamTitle: 'Culto de Alabanza & Ministración en Vivo',
+  youtubeId: '',
+  streamTitle: 'Culto Dominical & Ministración de Gracia',
   preacher: 'Equipo Pastoral MCF & Misioneros',
   location: 'Altar Central Mina Clavero / Parajes Traslasierra',
   viewersCount: 42,
-  updatedAt: new Date().toISOString()
+  updatedAt: '1970-01-01T00:00:00.000Z'
 };
 
 // Peticiones iniciales
@@ -54,13 +54,27 @@ function getBroadcastState() {
   } catch (e) {
     console.error('Error leyendo estado de streaming:', e);
   }
-  return DEFAULT_BROADCAST_STATE;
+  return { ...DEFAULT_BROADCAST_STATE };
+}
+
+function saveBroadcastState(newState) {
+  try {
+    const merged = { ...getBroadcastState(), ...newState, updatedAt: new Date().toISOString() };
+    localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(merged));
+    return merged;
+  } catch (e) {
+    console.error('Error guardando estado local:', e);
+    return newState;
+  }
 }
 
 function getPrayerRequests() {
   try {
     const saved = localStorage.getItem(PRAYERS_STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
   } catch (e) {
     console.error('Error leyendo peticiones:', e);
   }
@@ -71,8 +85,8 @@ function savePrayerRequest(name, location, text) {
   const prayers = getPrayerRequests();
   const newPrayer = {
     id: Date.now(),
-    name: name.trim(),
-    location: location.trim() || "Traslasierra",
+    name: (name || 'Hermano/a').trim(),
+    location: (location || 'Traslasierra').trim(),
     text: text.trim(),
     tag: "oracion",
     time: "Recién"
@@ -82,45 +96,91 @@ function savePrayerRequest(name, location, text) {
   return prayers;
 }
 
-// Inicializar y sincronizar reproductor en streaming.html
+// Inicialización general al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
+  // 1. EVALUAR PARÁMETROS URL DE ENLACE DIRECTO (?live=1, ?vivo=1, ?stream=..., ?yt=...)
+  // Esto garantiza que cualquier persona que abra un enlace desde WhatsApp/Facebook/Telegram
+  // se conecte AL INSTANTE a la señal en vivo sin depender de APIs externas.
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const forceLive = urlParams.has('live') || urlParams.has('vivo') || urlParams.has('stream');
+    
+    if (forceLive) {
+      const roomParam = urlParams.get('room') || urlParams.get('stream');
+      const ytParam = urlParams.get('yt') || urlParams.get('youtube');
+      const typeParam = urlParams.get('type') || (ytParam ? 'youtube' : 'webrtc');
+
+      const forcedState = {
+        isLive: true,
+        streamType: typeParam,
+        roomName: roomParam || 'caminosdefe-live-altar',
+        youtubeId: ytParam || '',
+        updatedAt: new Date().toISOString()
+      };
+      saveBroadcastState(forcedState);
+    }
+  } catch (err) {
+    console.warn('Error parseando query params:', err);
+  }
+
+  // 2. Render inicial
   renderPlayer();
   renderPrayers();
 
-  // 1. Sincronización remota instantánea desde /api/broadcast (Nube / Celulares / PC)
+  // 3. Sincronización remota desde /api/broadcast con escudo anti-cold-start
   async function fetchRemoteBroadcastState() {
     try {
       const res = await fetch('/api/broadcast?t=' + Date.now());
-      if (res.ok) {
-        const remoteState = await res.json();
-        const localState = getBroadcastState();
-        if (JSON.stringify(remoteState.isLive) !== JSON.stringify(localState.isLive) ||
-            remoteState.streamType !== localState.streamType ||
-            remoteState.roomName !== localState.roomName ||
-            remoteState.youtubeId !== localState.youtubeId) {
-          localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remoteState));
+      if (!res.ok) return;
+      const remote = await res.json();
+      const local = getBroadcastState();
+
+      // Si el servidor está en frío (isColdStart o updatedAt de 1970) y localmente estamos en vivo,
+      // no apagar la señal local.
+      if (remote.isColdStart || remote.updatedAt === '1970-01-01T00:00:00.000Z') {
+        return;
+      }
+
+      // Si el remoto dice EN VIVO (isLive === true), adoptarlo de inmediato
+      if (remote.isLive && !local.isLive) {
+        localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remote));
+        renderPlayer();
+        return;
+      }
+
+      // Si el remoto dice APAGADO (isLive === false), solo apagar si el timestamp remoto es más nuevo que el local
+      if (!remote.isLive && local.isLive) {
+        const remoteTime = new Date(remote.updatedAt).getTime();
+        const localTime = new Date(local.updatedAt).getTime();
+        if (remoteTime > localTime) {
+          localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remote));
           renderPlayer();
         }
+        return;
+      }
+
+      // Si cambiaron detalles del streaming (sala, youtubeId, título)
+      if (remote.streamType !== local.streamType ||
+          remote.roomName !== local.roomName ||
+          remote.youtubeId !== local.youtubeId) {
+        localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remote));
+        renderPlayer();
       }
     } catch (e) {
-      // Ignorar errores de red temporales
+      // Ignorar fallas de red momentáneas
     }
   }
 
   fetchRemoteBroadcastState();
   setInterval(fetchRemoteBroadcastState, 4000);
 
-  // 2. Escuchar eventos de cambio desde el Búnker en la misma máquina
+  // 4. Sincronización entre pestañas en el mismo navegador
   window.addEventListener('storage', (e) => {
-    if (e.key === STREAMING_STORAGE_KEY) {
-      renderPlayer();
-    }
-    if (e.key === PRAYERS_STORAGE_KEY) {
-      renderPrayers();
-    }
+    if (e.key === STREAMING_STORAGE_KEY) renderPlayer();
+    if (e.key === PRAYERS_STORAGE_KEY) renderPrayers();
   });
 
-  // Configurar envío de peticiones
+  // 5. Configurar formulario de peticiones
   const prayerForm = document.getElementById('form-peticion-envivo');
   if (prayerForm) {
     prayerForm.addEventListener('submit', (e) => {
@@ -146,11 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
       savePrayerRequest(author, loc, inputText.value);
       renderPrayers();
 
-      // Feedback visual y sonoro
       if (window.soundFX && typeof window.soundFX.playNotification === 'function') {
         window.soundFX.playNotification();
       }
-      
+
       const feedback = document.getElementById('peticion-feedback');
       if (feedback) {
         feedback.classList.remove('hidden');
@@ -172,7 +231,7 @@ function renderPlayer() {
   const viewersElem = document.getElementById('badge-viewers-count');
 
   if (viewersElem) {
-    viewersElem.textContent = `${state.isLive ? state.viewersCount : 0} Hermanos`;
+    viewersElem.textContent = `${state.isLive ? (state.viewersCount || 42) : 0} Hermanos`;
   }
 
   if (titleElem) {
@@ -180,11 +239,13 @@ function renderPlayer() {
   }
 
   if (subtitleElem) {
-    subtitleElem.textContent = `${state.location} · ${state.preacher}`;
+    subtitleElem.textContent = `${state.location || 'Altar Central Mina Clavero'} · ${state.preacher || 'Equipo Pastoral MCF'}`;
   }
 
   if (state.isLive) {
-    // EN VIVO
+    // ==========================================
+    // MODO: EN VIVO AHORA
+    // ==========================================
     if (badgeLive) {
       badgeLive.className = 'px-2.5 py-1 rounded-full bg-rose-600/20 border border-rose-500/40 text-rose-300 font-mono text-xs flex items-center gap-1.5 shadow-lg shadow-rose-600/30';
     }
@@ -195,24 +256,39 @@ function renderPlayer() {
     if (!playerContainer) return;
 
     if (state.streamType === 'webrtc') {
-      // VDO.Ninja P2P Broadcast Mode (Spectator / Viewer Only)
       const streamId = state.roomName || 'caminosdefe-live-altar';
       playerContainer.innerHTML = `
-        <div class="relative w-full h-full bg-black">
+        <div class="relative w-full h-full bg-black flex flex-col justify-between">
           <iframe 
+            id="vdo-player-iframe"
             src="https://vdo.ninja/?view=${encodeURIComponent(streamId)}&cleanoutput=1&transparent=0&autoplay=1&autostart=1"
             class="w-full h-full border-0 absolute inset-0"
-            allow="autoplay; fullscreen; picture-in-picture"
+            allow="autoplay; camera; microphone; fullscreen; picture-in-picture; display-capture"
             allowfullscreen>
           </iframe>
+
+          <!-- Badges superiores de transmisión -->
           <div class="absolute top-3 left-3 pointer-events-none z-10 flex items-center gap-2">
             <span class="px-2.5 py-1 rounded-md bg-rose-600/90 text-white font-mono text-[11px] font-bold tracking-wider shadow flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
               ● SEÑAL EN DIRECTO
             </span>
             <span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur text-[10px] text-emerald-400 font-mono border border-white/10">
-              WebRTC Ultrabaja Latencia
+              WebRTC P2P Ultrabaja Latencia
             </span>
+          </div>
+
+          <!-- Botonera de Asistencia Móvil (Audio / Reconectar) -->
+          <div class="absolute bottom-3 right-3 z-10 flex items-center gap-2">
+            <button onclick="reloadStreamIframe()" class="px-2.5 py-1 rounded-lg bg-black/70 hover:bg-black/90 backdrop-blur text-white font-mono text-[11px] border border-white/20 flex items-center gap-1 shadow transition-all">
+              <span>🔄 Reconectar</span>
+            </button>
+            <button onclick="toggleAudioHint()" class="px-2.5 py-1 rounded-lg bg-purple-600/80 hover:bg-purple-600 backdrop-blur text-white font-mono text-[11px] border border-purple-400/30 flex items-center gap-1 shadow transition-all">
+              <span>🔊 Activar Audio</span>
+            </button>
+          </div>
+        </div>
+      `;
     } else if (state.streamType === 'youtube') {
       const ytId = state.youtubeId || 'jfKfPfyJRdk';
       playerContainer.innerHTML = `
@@ -230,7 +306,7 @@ function renderPlayer() {
           </div>
         </div>
       `;
-    } else if (state.streamType === 'custom') {
+    } else {
       const customUrl = state.customUrl || '';
       playerContainer.innerHTML = `
         <div class="relative w-full h-full bg-black">
@@ -245,7 +321,9 @@ function renderPlayer() {
     }
 
   } else {
-    // MODO STANDBY / FUERA DEL AIRE
+    // ==========================================
+    // MODO: STANDBY / FUERA DEL AIRE
+    // ==========================================
     if (badgeLive) {
       badgeLive.className = 'px-2.5 py-1 rounded-full bg-slate-800/80 border border-white/10 text-slate-400 font-mono text-xs flex items-center gap-1.5';
     }
@@ -256,8 +334,8 @@ function renderPlayer() {
     if (!playerContainer) return;
     playerContainer.innerHTML = `
       <div class="relative w-full h-full flex flex-col items-center justify-center p-6 text-center group">
-        <!-- Fondo visual dinámico -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-purple-950/20 to-black pointer-events-none"></div>
+        <!-- Fondo visual degradado -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-purple-950/30 to-black pointer-events-none"></div>
         
         <div class="relative z-10 space-y-4 max-w-md">
           <div class="w-16 h-16 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mx-auto text-purple-300 text-3xl shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
@@ -270,6 +348,16 @@ function renderPlayer() {
           <p class="text-xs text-slate-400 leading-relaxed">
             La señal se activa automáticamente durante los cultos en el Altar Central y las campañas misioneras en los valles de Traslasierra.
           </p>
+
+          <!-- BOTÓN DIRECTO PARA SINTONIZAR EN CASO DE EMISIÓN EN CURSO -->
+          <div class="pt-2">
+            <button onclick="forceTuneInLive()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white font-mono font-bold text-xs tracking-wider uppercase shadow-lg shadow-rose-600/30 flex items-center gap-2 mx-auto transition-all transform hover:scale-105 active:scale-95">
+              <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+              <span>🔴 Sintonizar Señal en Directo</span>
+            </button>
+            <p class="text-[10px] text-slate-500 mt-2 font-mono">Hacé clic si el culto ya comenzó para abrir el altar ahora.</p>
+          </div>
+
           <div class="pt-2 flex items-center justify-center gap-3 text-[11px] font-mono text-slate-300">
             <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10">🎙️ Consola 32 Canales</span>
             <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10">📡 Móvil Moto g04s Ready</span>
@@ -288,6 +376,33 @@ function renderPlayer() {
     `;
   }
 }
+
+// Forzar sintonización en vivo con un clic
+window.forceTuneInLive = function() {
+  const current = getBroadcastState();
+  const forced = {
+    ...current,
+    isLive: true,
+    updatedAt: new Date().toISOString()
+  };
+  saveBroadcastState(forced);
+  renderPlayer();
+};
+
+// Reconectar el iframe de VDO.Ninja si se cortó el internet móvil
+window.reloadStreamIframe = function() {
+  const iframe = document.getElementById('vdo-player-iframe');
+  if (iframe) {
+    const src = iframe.src;
+    iframe.src = '';
+    setTimeout(() => { iframe.src = src; }, 150);
+  }
+};
+
+// Recordatorio y ayuda sonora para navegadores de celular que bloquean autoplay con audio
+window.toggleAudioHint = function() {
+  alert('💡 Para escuchar en celulares: Tocá sobre el video de la transmisión para permitir que tu teléfono reproduzca el sonido.');
+};
 
 function renderPrayers() {
   const container = document.getElementById('lista-peticiones-envivo');
@@ -321,9 +436,10 @@ function escapeHtml(text) {
     .replace(/'/g, '&#039;');
 }
 
-// Exportar globalmente para interactuar si es necesario
+// Exportar globalmente
 window.mcfStreaming = {
   getBroadcastState,
+  saveBroadcastState,
   getPrayerRequests,
   savePrayerRequest,
   renderPlayer,
