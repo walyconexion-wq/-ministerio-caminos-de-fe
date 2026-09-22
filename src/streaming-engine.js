@@ -91,16 +91,30 @@ document.addEventListener('DOMContentLoaded', () => {
   async function fetchRemoteBroadcastState() {
     try {
       const res = await fetch('/api/broadcast?t=' + Date.now());
-      if (res.ok) {
-        const remoteState = await res.json();
-        const localState = getBroadcastState();
-        if (JSON.stringify(remoteState.isLive) !== JSON.stringify(localState.isLive) ||
+      if (!res.ok) return;
+      const remoteState = await res.json();
+      const localState = getBroadcastState();
+
+      // PROTECCIÓN COLD-START: Si remoto dice "apagado" pero local dice "vivo",
+      // solo actualizamos si el estado remoto fue guardado hace menos de 5 minutos
+      // (apagado real desde Búnker). Si es más viejo, fue un cold-start → ignorar.
+      const remoteUpdatedAt = remoteState.updatedAt ? new Date(remoteState.updatedAt) : null;
+      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+      const isRemoteRecent = remoteUpdatedAt && remoteUpdatedAt > fiveMinutesAgo;
+
+      if (!remoteState.isLive && localState.isLive && !isRemoteRecent) {
+        // Cold-start detectado → mantener señal viva, no apagar
+        return;
+      }
+
+      const changed = remoteState.isLive !== localState.isLive ||
             remoteState.streamType !== localState.streamType ||
             remoteState.roomName !== localState.roomName ||
-            remoteState.youtubeId !== localState.youtubeId) {
-          localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remoteState));
-          renderPlayer();
-        }
+            remoteState.youtubeId !== localState.youtubeId;
+
+      if (changed) {
+        localStorage.setItem(STREAMING_STORAGE_KEY, JSON.stringify(remoteState));
+        renderPlayer();
       }
     } catch (e) {
       // Ignorar errores de red temporales
@@ -213,6 +227,9 @@ function renderPlayer() {
             <span class="px-2 py-0.5 rounded bg-black/60 backdrop-blur text-[10px] text-emerald-400 font-mono border border-white/10">
               WebRTC Ultrabaja Latencia
             </span>
+          </div>
+        </div>
+      `;
     } else if (state.streamType === 'youtube') {
       const ytId = state.youtubeId || 'jfKfPfyJRdk';
       playerContainer.innerHTML = `
