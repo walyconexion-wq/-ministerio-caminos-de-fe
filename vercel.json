@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/radar", "destination": "/radar-b2b.html" },
+    { "source": "/radar-b2b", "destination": "/radar-b2b.html" }
+  ]
+}
